@@ -45,7 +45,7 @@ namespace RealityShiftLearning
                     services.RegisterPostgresDbContext(Configuration.GetConnectionString("Postgres"));
                     break;
             }
-
+            services.AddAntDesign();
             services.AddWebAppConfigure()
                 .AddTransientConfigure<AutoMigration>(0);
         }
