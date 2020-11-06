@@ -1,0 +1,36 @@
+﻿@page "/sendpush"
+@inject RealityShiftLearning.Services.PushNotifyService pushService
+
+<Form Model="message"
+      OnFinish="SendNotify">
+    <FormItem Label="Title">
+        <Input @bind-Value="@context.Title" />
+    </FormItem>
+    <FormItem Label="Body">
+        <Input @bind-Value="@context.Body" />
+    </FormItem>
+    <FormItem>
+        <Button Type="@ButtonType.Primary" HtmlType="submit">
+            Send push to all
+        </Button>
+    </FormItem>
+</Form>
+
+@code
+{
+    private NotifyMessage message = new NotifyMessage();
+
+    private async Task SendNotify()
+    {
+        await pushService.SendNotifyToAll(message.Title, message.Body);
+        message = new NotifyMessage();
+    }
+
+    class NotifyMessage
+    {
+        [System.ComponentModel.DataAnnotations.Required]
+        public string Title { get; set; }
+        [System.ComponentModel.DataAnnotations.Required]
+        public string Body { get; set; }
+    }
+}
