@@ -85,7 +85,7 @@
     private async Task LoadItems()
     {
         isLoading = true;
-        await Task.Delay(TimeSpan.FromSeconds(2));
+        //await Task.Delay(TimeSpan.FromSeconds(2));
         sampleArr = await dbContext.ToDoItems.ToListAsync();
         isLoading = false;
     }
