@@ -1,0 +1,59 @@
+﻿@page "/todo"
+
+
+
+<h3>TODO List</h3>
+
+
+<div>
+    <Row>
+        <Col Span="24">
+
+        <EditForm Model="@FormModel" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <Search Placeholder="Write new TODO item here..." Size="@InputSize.Large" EnterButton="@("Add")" @bind-Value="@FormModel.ItemName" OnSearch="OnSearch" />
+        </EditForm>
+        </Col>
+    </Row>
+
+    <Row Class="todo-list-box">
+        <Col Span="24">
+            <AntList Bordered DataSource="@sampleArr" Size="large">
+                <Item Context="item">
+                    TODO: @item
+                </Item>
+            </AntList>
+        </Col>
+    </Row>
+
+</div>
+
+
+
+<style>
+
+    .todo-list-box {
+        margin-top: 15px;
+    }
+</style>
+
+
+@code {
+
+    private TODOForm FormModel = new TODOForm();
+
+    private List<String> sampleArr = new List<String> { "1", "123" };
+
+    private void HandleValidSubmit()
+    {
+
+    }
+
+    private void OnSearch()
+    {
+
+    }
+
+}
