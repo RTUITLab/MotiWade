@@ -17,3 +17,12 @@ cd RealityShiftLearning
 # or
 ./addMigration.sh <MigrationName>
 ```
+
+### Run in docker-compose environment
+
+```bash
+./build
+docker-compose up -d
+```
+
+Go to http://127.0.0.1:5501
