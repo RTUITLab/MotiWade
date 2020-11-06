@@ -5,10 +5,11 @@ using System.Text;
 
 namespace Models
 {
-    public class TODOForm
+    public class ToDoItem
     {
+        public int Id { get; set; }
         [Required]
-        public string ItemName { get; set; }
-
+        public string Title { get; set; }
+        public bool IsDone { get; set; }
     }
 }

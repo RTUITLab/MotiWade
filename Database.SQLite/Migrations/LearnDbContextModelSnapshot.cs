@@ -28,6 +28,23 @@ namespace Database.SQLite.Migrations
 
                     b.ToTable("SampleModels");
                 });
+
+            modelBuilder.Entity("Models.ToDoItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsDone")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ToDoItems");
+                });
 #pragma warning restore 612, 618
         }
     }

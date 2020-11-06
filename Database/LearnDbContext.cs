@@ -13,5 +13,6 @@ namespace Database
         {
         }
         public DbSet<SampleModel> SampleModels { get; set; }
+        public DbSet<ToDoItem> ToDoItems { get; set; }
     }
 }

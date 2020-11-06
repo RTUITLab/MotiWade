@@ -1,6 +1,5 @@
 ﻿@page "/todo"
-
-
+@inject LearnDbContext dbContext
 
 <h3>TODO List</h3>
 
@@ -13,20 +12,29 @@
             <DataAnnotationsValidator />
             <ValidationSummary />
 
-            <Search Placeholder="Write new TODO item here..." Size="@InputSize.Large" EnterButton="@("Add")" @bind-Value="@FormModel.ItemName" OnSearch="OnSearch" />
+            <Search Placeholder="Write new TODO item here..." Size="@InputSize.Large" EnterButton="@("Add")" @bind-Value="@FormModel.Title" OnSearch="OnSearch" />
         </EditForm>
         </Col>
     </Row>
 
     <Row Class="todo-list-box">
         <Col Span="24">
+        @if (sampleArr == null)
+        {
+            <p>Loading</p>
+        }
+        else
+        {
             <AntList Bordered DataSource="@sampleArr" Size="large">
                 <Item Context="item">
-                    TODO: @item
+                    TODO: @item.Title
+                    <Button @onclick="async () => { dbContext.ToDoItems.Remove(item); await dbContext.SaveChangesAsync(); await LoadItems(); }">Delete</Button>
                 </Item>
             </AntList>
+        }
         </Col>
     </Row>
+
 
 </div>
 
@@ -42,18 +50,31 @@
 
 @code {
 
-    private TODOForm FormModel = new TODOForm();
+    private ToDoItem FormModel = new ToDoItem();
 
-    private List<String> sampleArr = new List<String> { "1", "123" };
+    private List<ToDoItem> sampleArr;
 
     private void HandleValidSubmit()
     {
 
     }
 
-    private void OnSearch()
+    protected override async Task OnInitializedAsync()
     {
-
+        await base.OnInitializedAsync();
+        await LoadItems();
     }
 
+    private async Task OnSearch()
+    {
+        dbContext.ToDoItems.Add(FormModel);
+        FormModel = new ToDoItem();
+        await dbContext.SaveChangesAsync();
+        await LoadItems();
+    }
+
+    private async Task LoadItems()
+    {
+        sampleArr = await dbContext.ToDoItems.ToListAsync();
+    }
 }
