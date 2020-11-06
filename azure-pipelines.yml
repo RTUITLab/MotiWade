@@ -4,7 +4,6 @@ resources:
 variables:
   tag: '$(Build.BuildId)'
 
-
 stages:
 - stage: BuildNadPush
   displayName: Build and push image
@@ -16,6 +15,7 @@ stages:
     steps:
     - script: ./build.sh
     - task: Docker@2
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       displayName: Build an image
       inputs:
         containerRegistry: 'rtuitlab connection by admin'
@@ -27,3 +27,10 @@ stages:
           $(tag)
           latest
         addPipelineData: false
+    - task: SSH@0
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      inputs:
+        sshEndpoint: 'swarm manager'
+        runOptions: 'commands'
+        commands: 'docker service update --image rtuitlab/motiwade:$(tag) motiwade_app'
+        readyTimeout: '20000'
