@@ -1,0 +1,29 @@
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+
+stages:
+- stage: BuildNadPush
+  displayName: Build and push image
+  jobs:  
+  - job: Build
+    displayName: Build and push
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: ./build.sh
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        containerRegistry: 'rtuitlab connection by admin'
+        repository: 'rtuitlab/motiwade'
+        command: 'buildAndPush'
+        Dockerfile: '$(Build.SourcesDirectory)/deploy/Dockerfile'
+        buildContext: '$(Build.SourcesDirectory)/deploy'
+        tags: |
+          $(tag)
+          latest
+        addPipelineData: false
