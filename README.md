@@ -1,5 +1,9 @@
 # MotiWake
 
+[![Build Status](https://dev.azure.com/rtuitlab/RTU%20IT%20Lab/_apis/build/status/RTUITLab.MotiWade?branchName=master)](https://dev.azure.com/rtuitlab/RTU%20IT%20Lab/_build/latest?definitionId=137&branchName=master)
+
+[Demo](https://motiwade.rtuitlab.dev/)
+
 ## Development
 
 ### Run
