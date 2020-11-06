@@ -12,24 +12,31 @@
             <DataAnnotationsValidator />
             <ValidationSummary />
 
-            <Search Placeholder="Write new TODO item here..." Size="@InputSize.Large" EnterButton="@("Add")" @bind-Value="@FormModel.Title" OnSearch="OnSearch" />
+            <Search Placeholder="Write new TODO item here..." Size="@InputSize.Large" EnterButton="@("Add")" @bind-Value="@FormModel.Title" OnSearch="AddItem" />
         </EditForm>
         </Col>
     </Row>
 
     <Row Class="todo-list-box">
         <Col Span="24">
-        @if (sampleArr == null)
+        @if (sampleArr?.Count == 0)
         {
-            <p>Loading</p>
+            <Alert Type="@AlertType.Info"
+                   Message="No ToDos so far"
+                   Description="Write new ToDo in the form above and press Add button."
+                   ShowIcon />
         }
         else
         {
-            <AntList Bordered DataSource="@sampleArr" Size="large">
-                <Item Context="item">
-                    TODO: @item.Title
-                    <Button @onclick="async () => { dbContext.ToDoItems.Remove(item); await dbContext.SaveChangesAsync(); await LoadItems(); }">Delete</Button>
-                </Item>
+            <AntList Bordered DataSource="@sampleArr" Context="item" Size="large" Loading="isLoading">
+                <ListItem>
+                    <ChildContent>
+                        TODO: @item.Title
+                    </ChildContent>
+                    <Extra>
+                        <Button @onclick=" () => DeleteItem(item)">Delete</Button>
+                    </Extra>
+                </ListItem>
             </AntList>
         }
         </Col>
@@ -50,6 +57,8 @@
 
 @code {
 
+    private bool isLoading;
+
     private ToDoItem FormModel = new ToDoItem();
 
     private List<ToDoItem> sampleArr;
@@ -65,7 +74,7 @@
         await LoadItems();
     }
 
-    private async Task OnSearch()
+    private async Task AddItem()
     {
         dbContext.ToDoItems.Add(FormModel);
         FormModel = new ToDoItem();
@@ -75,6 +84,19 @@
 
     private async Task LoadItems()
     {
+        isLoading = true;
+        await Task.Delay(TimeSpan.FromSeconds(2));
         sampleArr = await dbContext.ToDoItems.ToListAsync();
+        isLoading = false;
     }
+
+    private async Task DeleteItem(ToDoItem item)
+    {
+
+        dbContext.ToDoItems.Remove(item);
+        await dbContext.SaveChangesAsync();
+        await LoadItems();
+    }
+
+
 }
