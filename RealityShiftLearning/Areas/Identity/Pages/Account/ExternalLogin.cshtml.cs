@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace RealityShiftLearning.Areas.Identity.Pages.Account
 {
+    [IgnoreAntiforgeryToken(Order = 2000)]
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel
     {
