@@ -1,0 +1,160 @@
+﻿@page "/emotion"
+@inject NavigationManager nav
+@layout EmptyLayout
+
+<div class="mw-containter ">
+    <div class="mw-bg-waves">
+        <img class="mw-bg-waves-img" />
+    </div>
+
+    <div class="mw-emotionPage-header">
+        How do you feel?
+    </div>
+
+
+    <div class="mw-emotionPage-emoticonsRow">
+        <img class="mw-emotionPage-emoticon happy" />
+        <img class="mw-emotionPage-emoticon sleepy" />
+    </div>
+    <div class="mw-emotionPage-emoticonsRow">
+        <img class="mw-emotionPage-emoticon exhausted" />
+        <img class="mw-emotionPage-emoticon crying" />
+    </div>
+
+    <div class="mw-text">
+        Remember, your emotions are the most important in your work
+    </div>
+
+
+    <div class="mw-emotionPage-footer">
+        <div class="mw-emotionPage-footer-item tr">
+            <Button Type="link" Size="large">Skip estimation</Button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+    .mw-containter {
+        position: relative;
+        width: 100%;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-image: linear-gradient(to bottom, #5a63ff, #5ec9cc);
+        overflow: hidden;
+    }
+
+
+    .mw-emotionPage-emoticonsRow {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 34px 0;
+        width: 320px;
+    }
+
+    .mw-emotionPage-emoticon {
+        width: 120px;
+        height: 120px;
+        z-index: 2;
+    }
+
+    .mw-emotionPage-emoticon.happy {
+        content: url(svg/happy.svg);
+    }
+    .mw-emotionPage-emoticon.exhausted {
+        content: url(svg/exhausted.svg);
+    }
+        .mw-emotionPage-emoticon.sleepy {
+            content: url(svg/sleepy.svg);
+        }
+        .mw-emotionPage-emoticon.crying {
+            content: url(svg/crying.svg);
+        }
+
+
+    .mw-emotionPage-header {
+        font-size: 28px;
+        font-weight: 700;
+        text-align: center;
+        color: #ffffff;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 15vh;
+    }
+
+
+    .mw-text {
+        width: 353px;
+        font-family: Helvetica;
+        font-size: 24px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #ffffff;
+        margin-top: 70px;
+    }
+
+
+
+    .mw-emotionPage-footer {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 65px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mw-emotionPage-footer-item {
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
+    }
+
+        .mw-emotionPage-footer-item > * {
+            color: white !important;
+        }
+
+    .mw-emotionPage-footer-item.tr > * {
+        color: white !important;
+        opacity: .7;
+    }
+
+    .mw-emotionPage-footer-item.big > * {
+        padding: 0px 40px;
+        font-size: 18px !important;
+        font-weight: 600;
+    }
+
+
+    .mw-bg-waves {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .mw-bg-waves-img {
+        content: url(svg/waves3.svg);
+        margin-right: 550px;
+        margin-top: -50px;
+        opacity: .5;
+    }
+</style>
+@code {
+
+}
