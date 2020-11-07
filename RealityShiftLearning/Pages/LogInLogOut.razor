@@ -1,0 +1,26 @@
+﻿@page "/loginlogout"
+<h3>LogInLogOut</h3>
+<AuthorizeView>
+    <Authorized>
+        <p>Authorized!</p>
+        <form method="post" action="controller/auth?returnUrl=%2Floginlogout">
+            <Button HtmlType="submit">Logout</Button>
+        </form>
+    </Authorized>
+    <NotAuthorized>
+        <p>Not authorized </p>
+
+
+        <form id="external-account" action="/Identity/Account/ExternalLogin?returnUrl=%2Floginlogout" method="post" class="form-horizontal">
+            <div>
+                <p>
+                    <button type="submit" class="btn btn-primary" name="provider" value="GitHub">Login via GitHub</button>
+                </p>
+            </div>
+        </form>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+}
