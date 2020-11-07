@@ -1,0 +1,85 @@
+﻿@page "/onboarding/1"
+
+<div class="mw-body-grad">
+    <div class="mv-body-waves">
+        <div class="mv-onboarding-header">
+            Take care of yourself
+        </div>
+
+        <img src="svg/onboarding_1.svg" class="mv-onboarding-image" />
+
+        <div class="mv-onboarding-bottom"></div>
+
+        <div class="mv-onboarding-text">This is your first step in journey to the world of productive education</div>
+
+        <div class="mv-onboarding-navigation">
+            <div class="mv-onboarding-circle mv-active"></div>
+            <div class="mv-onboarding-circle"></div>
+            <div class="mv-onboarding-circle"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .mw-body-grad {
+        height: 100vh;
+        z-index: 1;
+        background-image: linear-gradient(to bottom, #aa5aff, #6ea4ff);
+    }
+
+    .mv-body-waves {
+        height: 100vh;
+        z-index: 2;
+        background-position-x: center;
+        background-position-y: 80%;
+        background-image: url('svg/waves3.svg');
+    }
+
+    .mv-onboarding-header {
+        margin: 0 auto;
+        padding-top: 15vh;
+        font-size: 28px;
+        font-weight: 700;
+        text-align: center;
+        max-width: 285px;
+        color: #ffffff;
+    }
+
+    .mv-onboarding-image {
+        display: block;
+        margin: 5vh auto;
+        max-height: 40vh;
+    }
+
+    .mv-onboarding-text {
+        color: #ffffff;
+        max-width: 353px;
+        margin: 0 auto;
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .mv-onboarding-navigation {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        text-align: center;
+    }
+
+    .mv-onboarding-circle {
+        height: 15px;
+        width: 15px;
+        display: inline-block;
+        margin: 0 5px 20px;
+        border-radius: 50px;
+        background-color: #ffffff;
+    }
+
+    .mv-active {
+        background-color: #108ee9;
+    }
+</style>
+
+@code {
+
+}
