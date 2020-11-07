@@ -8,7 +8,7 @@
         </div>
 
         <div class="mv-test-checkboxgroup">
-            @foreach(var option in options.Select((option, index) => (option, index)))
+            @foreach (var option in options.Select((option, index) => (option, index)))
             {
                 <Row Class="@(option.index % 2 == 0 ? "covered" : null)">
                     <Checkbox Class="mv-test-ant-checkbox" Value="@result[option.option.Label]" CheckedChange="@(() => result[option.option.Label] = !result[option.option.Label])">@option.option.Value</Checkbox>
@@ -16,10 +16,20 @@
             }
         </div>
 
-        <div class="mw-bottom">
+        <div class="mw-test-footer">
+            <div class="mw-test-footer-item big">
+                <Button Type="primary" Size="large" @onclick="NextPart">Next</Button>
+            </div>
+            <div class="mw-test-footer-item tr">
+                <Button Type="link" Size="large">See more techniques</Button>
+            </div>
+
+        </div>
+
+        @*<div class="mw-bottom">
             <Button Type="primary" Size="large" class="mw-test-button" @onclick="NextPart">Next</Button>
             <div style="opacity: 0.66;">See more techniques</div>
-        </div>
+        </div>*@
     </div>
 </div>
 
@@ -91,6 +101,37 @@
     .mv-test-checkboxgroup span:first-child {
         margin-right: 30px;
     }
+
+    .mw-test-footer {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 65px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mw-test-footer-item {
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
+    }
+
+    .mw-test-footer-item > * {
+        color: white !important;
+    }
+
+    .mw-test-footer-item.tr > * {
+        color: white !important;
+        opacity: .7;
+    }
+
+    .mw-test-footer-item.big > * {
+        padding: 0px 40px;
+        font-size: 18px !important;
+        font-weight: 600;
+    }
+
 </style>
 
 @code {
