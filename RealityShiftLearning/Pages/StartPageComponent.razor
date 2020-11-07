@@ -1,0 +1,105 @@
+﻿@page "/"
+@layout EmptyLayout
+
+<div class="mw-containter">
+    <div class="mw-bg-waves">
+        <img class="mw-bg-waves-img" />
+    </div>
+    
+    <img class="mw-startPage-logo" />
+    <div class="mw-startPage-header">Motivates you to care</div>
+
+    <div class="mw-startPage-footer">
+        <div class="mw-startPage-footer-item">
+            <Button Type="primary" Size="large">Start Journey</Button>
+        </div>
+        <div class="mw-startPage-footer-item">
+            <Button Type="link" Size="large">Skip onboarding</Button>
+        </div>
+        
+    </div>
+
+</div>
+
+
+<style>
+    .mw-containter {
+        position: relative;
+        width: 100%;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-image: linear-gradient(to bottom, #4cffdd, #be4ce3);
+        overflow: hidden;
+    }
+
+    .mw-startPage-logo {
+        content: url(svg/logo.svg);
+        margin: 0 44px;
+    }
+
+    .mw-startPage-header {
+        font-family: Helvetica;
+        font-size: 24px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #ffffff;
+
+        margin-top: 15px;
+    }
+
+    .mw-startPage-footer {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 65px;
+
+        display: flex;
+        flex-direction: column;        
+        
+    }
+
+    .mw-startPage-footer-item {
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
+    }
+
+    .mw-startPage-footer-item > * {
+        color: white !important;
+    }
+
+    .mw-startPage-footer-item.tr > * {
+        color: white !important;
+        opacity: .7;
+    }
+
+    .mw-bg-waves {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .mw-bg-waves-img {
+        content: url(svg/waves3.svg);
+        margin-right: 550px;
+        margin-top: 250px;
+    }
+
+    
+
+</style>
+
+@code {
+
+}

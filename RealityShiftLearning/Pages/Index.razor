@@ -3,27 +3,5 @@
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
-<AuthorizeView>
-    <Authorized>
-        <p>Authorized!</p>
-        <form method="post" action="controller/auth">
-            <Button HtmlType="submit">Logout</Button>
-        </form>
-    </Authorized>
-    <NotAuthorized>
-        <p>Not authorized </p>
-
-
-        <form id="external-account" action="/Identity/Account/ExternalLogin?returnUrl=%2F" method="post" class="form-horizontal">
-            <div>
-                <p>
-                    <button type="submit" class="btn btn-primary" name="provider" value="GitHub">Login via GitHub</button>
-                </p>
-            </div>
-        </form>
-    </NotAuthorized>
-</AuthorizeView>
-
-
 
 <SurveyPrompt Title="How is Blazor working for you?" />
