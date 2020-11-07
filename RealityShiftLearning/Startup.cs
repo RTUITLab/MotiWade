@@ -112,6 +112,7 @@ namespace RealityShiftLearning
                 Credential = GoogleCredential.FromFile(Configuration.GetValue<string>("FireBaseAuthLocation"))
             });
             services.AddTransient<PushNotifyService>();
+            services.AddSingleton<GlobalTimerService>();
 
             services.AddAntDesign();
             services.AddWebAppConfigure()

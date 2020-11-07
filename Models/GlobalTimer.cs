@@ -9,6 +9,8 @@ namespace Models
         public int Id { get; set; }
         [Required]
         public DateTimeOffset EndTime { get; set; }
+
+        public bool expired { get; set; }
         public string Data { get; set; }
     }
 }

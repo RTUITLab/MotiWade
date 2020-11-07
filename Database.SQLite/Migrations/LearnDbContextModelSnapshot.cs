@@ -220,6 +220,9 @@ namespace Database.SQLite.Migrations
                     b.Property<DateTimeOffset>("EndTime")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("expired")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.ToTable("GlobalTimers");
