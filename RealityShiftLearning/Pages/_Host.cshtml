@@ -114,6 +114,16 @@
             yDown = null;
         };
     </script>
+    <script>
+        document.mobileAppInterop = {
+            setAuthState: function (isAuthenticated, userId) {
+                const obj = { isAuthenticated: isAuthenticated, userId: userId};
+                console.log(obj);
+                webkit.messageHandlers.auth.postMessage(obj)
+            }
+        }
+
+    </script>
     <style>
         app {
             width: 100%;

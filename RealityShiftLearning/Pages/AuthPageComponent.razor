@@ -1,4 +1,5 @@
 ﻿@page "/auth-page"
+@page "/auth-page/test1/{test1}/test2/{test2}/test3/{test3}"
 @inject NavigationManager nav
 @inject RealityShiftLearning.Services.TimerService Timer
 @layout EmptyLayout
@@ -20,11 +21,16 @@
 
 
 
-
-
     <div class="mw-tomatoPage-footer">
         <div class="mw-tomatoPage-footer-item big">
-            <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large"><Icon Class="mw-git-icon" Type="github" Theme="outline" /> Login With GitHub</Button>
+            <form id="external-account" action="@($"/Identity/Account/ExternalLogin?returnUrl=%2F{nav.ToBaseRelativePath(nav.Uri)}")" method="post" class="form-horizontal">
+                <div>
+                    <p>
+                        <input type="hidden"  name="provider" value="GitHub"/>
+                        <Button Type="primary" Size="large" HtmlType="submit"><Icon Class="mw-git-icon" Type="github" Theme="outline" /> Login With GitHub</Button>
+                    </p>
+                </div>
+            </form>
         </div>
         <div class="mw-tomatoPage-footer-item tr">
             <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="link" Size="large">Demo mode</Button>
@@ -276,6 +282,14 @@
 </style>
 
 @code {
+    [Parameter]
+    public string test1 { get; set; }
+
+    [Parameter]
+    public string test2 { get; set; }
+
+    [Parameter]
+    public string test3 { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {

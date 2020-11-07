@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-
+@inject IJSRuntime js
 <div class="mv-body">
     @Body
 </div>
@@ -10,3 +10,23 @@
         font-size: 18px;
     }
 </style>
+
+@code {
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        var auth = await authenticationStateTask;
+        if (auth.User.Identity.IsAuthenticated)
+        {
+            await js.InvokeVoidAsync("document.mobileAppInterop.setAuthState", true, auth.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier && c.Value.Contains("-")).Value);
+        } else
+        {
+            await js.InvokeVoidAsync("document.mobileAppInterop.setAuthState", false);
+        }
+    }
+}
