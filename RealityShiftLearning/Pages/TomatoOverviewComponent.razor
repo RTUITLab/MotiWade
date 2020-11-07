@@ -9,8 +9,8 @@
     </div>
 
     <div class="mw-tomatoPage-topper">
-        <img class="mw-backBtn" /> Task
-        <div class="mw-subheader">English Literature: Translation</div>
+        
+        <div class="mw-subheader"><img class="mw-backBtn" /> English Literature: Translation</div>
     </div>
 
     <div class="mw-tomatoPage-header">
@@ -92,8 +92,8 @@
             font-style: normal;
             line-height: normal;
             letter-spacing: normal;
-            text-align: center;
             color: #6b6b6b;
+            position: relative;
         }
 
     .mw-text {
@@ -237,13 +237,14 @@
             background-size: contain;
         }
 
-        .mw-backBtn {
-            height: 0.8em;
-            vertical-align: revert;
-            display: inline-block;
-            content: url(svg/back.svg);
-
-        }
+    .mw-backBtn {
+        position: absolute;
+        left: -20px;
+        height: 0.8em;
+        top: 0.15em;
+        display: block;
+        content: url(svg/back.svg);
+    }
 
     .mw-tomatoPage-copyLink {
         padding: 0 30px;
