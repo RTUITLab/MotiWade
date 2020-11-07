@@ -214,10 +214,7 @@ namespace Database.SQLite.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Data")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTimeOffset>("EndTime")
+                    b.Property<DateTimeOffset>("StartTime")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

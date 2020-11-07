@@ -1,5 +1,6 @@
 ﻿@page "/tomato"
 @inject NavigationManager nav
+@inject RealityShiftLearning.Services.TimerService Timer
 @layout EmptyLayout
 
 <div class="mw-containter mw-tomato-working">
@@ -7,7 +8,7 @@
         <img class="mw-bg-waves-img" />
     </div>
     <div class="mw-tomatoPage-timer">15:12:13
-        <div class="mw-tomatoPage-timer-secondary">15:12:13</div></div>
+        <div class="mw-tomatoPage-timer-secondary">@Timer.GetTimeLeft()</div></div>
     
 
     <img class="mw-tomatoPage-tomato" />
@@ -130,4 +131,9 @@
 
 @code {
 
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        //Timer.GetLastTimerAsync();
+    }
 }

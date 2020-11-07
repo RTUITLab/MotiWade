@@ -49,6 +49,7 @@ namespace RealityShiftLearning
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddScoped<TimerService>();
 
             switch (Configuration.GetValue<DBType>("DbType"))
             {
