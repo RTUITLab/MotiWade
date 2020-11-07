@@ -4,8 +4,16 @@
 @inject LearnDbContext dbContext
 
 <div class="mw-container">
+    <AuthorizeView>
 
-
+        <Modal Title="@context.User.Login()"
+               Visible="@userModelVisible"
+               OnOk="@(() => userModelVisible = false)">
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+        </Modal>
+    </AuthorizeView>
     <div class="mw-content-body">
 
         <div class="mw-bg-waves">
@@ -14,8 +22,8 @@
 
         <div class="mw-content-topbar">
             <AuthorizeView>
-            <div class="mw-content-topbar-header">Tasks</div>
-                    <div class="mw-content-topbar-avatar"><Avatar Class="mw-content-topbar-avatar-icon" Shape="square" Size="large" Src="@context.User.Avatar()" Icon="user" /></div>
+                <div class="mw-content-topbar-header">Tasks</div>
+                <div @onclick="@(() => userModelVisible = true)" class="mw-content-topbar-avatar"><Avatar Class="mw-content-topbar-avatar-icon" Shape="square" Size="large" Src="@context.User.Avatar()" Icon="user" /></div>
             </AuthorizeView>
         </div>
 
@@ -367,6 +375,7 @@
 
 @code {
 
+    private bool userModelVisible = false;
     private bool loading = true;
 
     private List<UserToExercise> works = new List<UserToExercise>();

@@ -1,9 +1,11 @@
 ﻿@page "/onboarding"
+@using RealityShiftLearning.Components.Onboarding
+
 @layout UnauthorizedUnboardingLayout
 <div>
     <Carousel @ref="carousel">
         <CarouselSlick>
-            <Onboarding1Component></Onboarding1Component>
+            <Onboarding1Component/>
         </CarouselSlick>
         <CarouselSlick>
             <Onboarding2Component></Onboarding2Component>
@@ -13,7 +15,7 @@
         </CarouselSlick>
     </Carousel>
 </div>
-<RealityShiftLearning.Components.GestureDetector OnLeft="() => Next()" OnRight="() => Previous()"/>
+<RealityShiftLearning.Components.GestureDetector OnLeft="() => Next()" OnRight="() => Previous()" />
 @code {
     private Carousel carousel;
     private int index = 0;
