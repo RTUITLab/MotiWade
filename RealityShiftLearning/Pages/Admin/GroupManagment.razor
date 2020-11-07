@@ -1,8 +1,33 @@
 ﻿@page "/admin/groupmanagment"
 @layout AdminLayout
+@inject LearnDbContext dbContext
 
 <h3>Users list</h3>
-@inject Microsoft.AspNetCore.Identity.UserManager<MotiWadeUser> userManager
+
+<Form Loading="saving"
+      Model="@creatingExercise"
+      LabelCol="new ColLayoutParam { Span = 8 }"
+      WrapperCol="new ColLayoutParam { Span = 16 }"
+      OnFinish="CreateExercise">
+    <FormItem Label="Title">
+        <Input @bind-Value="@context.Title" />
+    </FormItem>
+    <FormItem Label="Link">
+        <Input @bind-Value="@context.ResourceLink" />
+    </FormItem>
+    @*<FormItem Label="Tech">
+            <AutoComplete @bind-Value="@lolkek" Options="@autoCompleteOptions" Placeholder="Input here" />
+        </FormItem>*@
+    <FormItem Label="Iterations">
+        <AntDesign.InputNumber @bind-Value="context.Iterations" />
+    </FormItem>
+    <FormItem>
+        <Button Type="@ButtonType.Primary" HtmlType="submit">
+            Submit
+        </Button>
+    </FormItem>
+</Form>
+
 <Table DataSource="@users"
        Total="_total"
        @bind-PageIndex="_pageIndex"
@@ -12,13 +37,16 @@
     @*<Selection Key="@(context.Id.ToString())" />*@
     <Column @bind-Field="@context.Id" Sortable />
     <Column @bind-Field="@context.Email" Sortable />
-    <Column @bind-Field="@context.Email" Sortable />
+    <Column @bind-Field="@context.ExerciseName" Sortable />
+    <Column @bind-Field="@context.ExerciseProgress" Sortable />
 </Table>
 
 
 @code {
 
-    private List<MotiWadeUser> users;
+    private Exercise creatingExercise = new Exercise();
+
+    private List<TableRow> users;
     int _pageIndex = 1;
     int _pageSize = 10;
     int _total = 0;
@@ -31,7 +59,42 @@
 
     protected async Task FetchUsers(int index, int size)
     {
-        users = await userManager.Users.Skip(size * (index - 1)).Take(size).ToListAsync();
+        users = await dbContext.UserToExercises.Skip(size * (index - 1)).Take(size).Select(ute => new TableRow
+        {
+            Id = ute.UserId,
+            Email = ute.User.Email,
+            ExerciseName = ute.Exercise.Title,
+            ExerciseProgress = ute.ExerciseProgress
+        }).ToListAsync();
+    }
+    bool saving = false;
+    private async Task CreateExercise()
+    {
+        saving = true;
+        await Task.Delay(1000);
+        saving = false;
+        try
+        {
+            await dbContext.Exercises.AddAsync(creatingExercise);
+            var userIds = await dbContext.Users.Select(u => u.Id).ToListAsync();
+            var links = userIds.Select(id => new UserToExercise
+            {
+                Exercise = creatingExercise,
+                UserId = id
+            }).ToList();
+            dbContext.UserToExercises.AddRange(links);
+            await dbContext.SaveChangesAsync();
+        } finally
+        {
+            saving = false;
+        }
     }
 
+    class TableRow
+    {
+        public string Id { get; set; }
+        public string Email { get; set; }
+        public string ExerciseName { get; set; }
+        public ExerciseProgress ExerciseProgress { get; set; }
+    }
 }

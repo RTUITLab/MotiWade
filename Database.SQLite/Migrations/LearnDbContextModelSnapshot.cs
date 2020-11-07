@@ -150,7 +150,7 @@ namespace Database.SQLite.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Interations")
+                    b.Property<int>("Iterations")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ResourceLink")
