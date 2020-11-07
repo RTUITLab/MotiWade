@@ -1,0 +1,111 @@
+﻿@page "/test/page/3"
+
+<div class="mv-test-header">
+    Which time management techniques are you familiar with?
+</div>
+
+@if (options.Length > 0)
+{
+<div class="mv-test-checkboxgroup">
+    <Row>
+        <Checkbox Class="mv-test-ant-checkbox" Value="@result[options[0].Label]" CheckedChange="@(() => result[options[0].Label] = !result[options[0].Label])">@options[0].Value</Checkbox>
+    </Row>
+    <Row>
+        <Checkbox Class="mv-test-ant-checkbox" Value="@result[options[1].Label]" CheckedChange="@(() => result[options[1].Label] = !result[options[1].Label])">@options[1].Value</Checkbox>
+    </Row>
+    <Row>
+        <Checkbox Class="mv-test-ant-checkbox" Value="@result[options[2].Label]" CheckedChange="@(() => result[options[2].Label] = !result[options[2].Label])">@options[2].Value</Checkbox>
+    </Row>
+    <Row>
+        <Checkbox Class="mv-test-ant-checkbox" Value="@result[options[3].Label]" CheckedChange="@(() => result[options[3].Label] = !result[options[3].Label])">@options[3].Value</Checkbox>
+    </Row>
+    <Row>
+        <Checkbox Class="mv-test-ant-checkbox" Value="@result[options[4].Label]" CheckedChange="@(() => result[options[4].Label] = !result[options[4].Label])">@options[4].Value</Checkbox>
+    </Row>
+</div>
+}
+
+<div class="mw-bottom">
+    <Button Type="primary" Size="large" class="mw-test-button" @onclick="NextPart">Next</Button>
+    <div style="opacity: 0.66;">See more techniques</div>
+</div>
+
+<style>
+    .mv-test-header {
+        margin: 0 auto;
+        padding: 15vh 0 5vh;
+        font-size: 24px;
+        text-align: center;
+        max-width: 285px;
+    }
+
+    .mv-test-ant-checkbox {
+        width: 100%;
+        font-size: 18px !important;
+        font-weight: 600;
+        margin: 1vh 0 1vh 20%;
+        border-bottom: 1px solid #fff;
+        border-top: 1px solid #fff;
+    }
+
+    .ant-checkbox-wrapper + .ant-checkbox-wrapper {
+        margin-left: 0;
+    }
+
+    .mw-bottom {
+        position: absolute;
+        bottom: 0;
+        height: 120px;
+        width: 100vw;
+        text-align: center;
+    }
+
+    .mw-test-button {
+        padding: 0px 20px;
+        margin: 0 0 15px;
+        font-size: 18px !important;
+        font-weight: 600;
+    }
+
+    .mv-test-checkboxgroup {
+        display: grid
+    }
+
+    .mv-test-checkboxgroup span:first-child {
+        margin-right: 30px;
+    }
+</style>
+
+@code {
+    Dictionary<string, bool> result = new Dictionary<string, bool>();
+
+    CheckboxOption[] options = new CheckboxOption[]
+    {
+        new CheckboxOption { Label = "tomato", Value = "Tomato" },
+        new CheckboxOption { Label = "10min", Value = "10 minutes" },
+        new CheckboxOption { Label = "frog", Value = "Eat a frog" },
+        new CheckboxOption { Label = "getting_done", Value = "Getting Things Done" },
+        new CheckboxOption { Label = "none", Value = "None" }
+    };
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        result.Add("tomato", false);
+        result.Add("10min", false);
+        result.Add("frog", false);
+        result.Add("getting_done", false);
+        result.Add("none", false);
+    }
+
+    protected void NextPart()
+    {
+        foreach(var o in result)
+        {
+            if (o.Value)
+            {
+                Console.WriteLine(o.Key);
+            }
+        }
+    }
+}
