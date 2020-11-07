@@ -1,0 +1,53 @@
+﻿@inject IJSRuntime js
+@implements IDisposable
+
+@code {
+
+    [Parameter]
+    public EventCallback OnLeft { get; set; }
+
+    [Parameter]
+    public EventCallback OnRight { get; set; }
+
+
+    private DotNetObjectReference<JsHelper> helper;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (!firstRender) return;
+        helper = DotNetObjectReference.Create(new JsHelper(
+                async () => await OnLeft.InvokeAsync(null),
+                async () => await OnRight.InvokeAsync(null)));
+        await js.InvokeVoidAsync("document.gestureRecognition.subscribers.push", helper);
+    }
+
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("document.gestureRecognition.removeSubscriber", helper);
+    }
+
+    class JsHelper
+    {
+        private Func<Task> leftAction;
+        private Func<Task> rightAction;
+        public JsHelper(
+            Func<Task> leftAction,
+            Func<Task> rightAction
+            )
+        {
+            this.leftAction = leftAction;
+            this.rightAction = rightAction;
+        }
+        [JSInvokable]
+        public async Task TriggerLeft()
+        {
+            await leftAction();
+        }
+        [JSInvokable]
+        public async Task TriggerRight()
+        {
+            await rightAction();
+        }
+    }
+
+}
