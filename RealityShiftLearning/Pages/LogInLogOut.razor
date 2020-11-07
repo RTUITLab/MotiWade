@@ -1,11 +1,23 @@
 ﻿@page "/loginlogout"
+@using System.Security.Claims
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+
+
 <h3>LogInLogOut</h3>
+
 <AuthorizeView>
     <Authorized>
-        <p>Authorized!</p>
+
+        <h1>Hello, @context.User.Identity.Name!</h1>
         <form method="post" action="controller/auth?returnUrl=%2Floginlogout">
             <Button HtmlType="submit">Logout</Button>
         </form>
+        @foreach (var claim in context.User.Claims)
+        {
+            <p>@claim.Type : @claim.Value</p>
+        }
+        <Avatar Src="@context.User.Claims.FirstOrDefault(c => c.Type == "urn:github:avatar").Value"></Avatar>
     </Authorized>
     <NotAuthorized>
         <p>Not authorized </p>
@@ -20,7 +32,5 @@
         </form>
     </NotAuthorized>
 </AuthorizeView>
-
 @code {
-
 }
