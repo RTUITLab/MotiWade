@@ -5,12 +5,14 @@
     Which time management techniques are you familiar with?
 </div>
 
-@foreach(var option in options.Select((option, index) => (option, index)))
-{
-    <Row Class="@(option.index % 2 == 0 ? "covered" : null)">
-        <Checkbox Class="mv-test-ant-checkbox" Value="@result[option.option.Label]" CheckedChange="@(() => result[option.option.Label] = !result[option.option.Label])">@option.option.Value</Checkbox>
-    </Row>
-}
+<div class="mv-test-checkboxgroup">
+    @foreach(var option in options.Select((option, index) => (option, index)))
+    {
+        <Row Class="@(option.index % 2 == 0 ? "covered" : null)">
+            <Checkbox Class="mv-test-ant-checkbox" Value="@result[option.option.Label]" CheckedChange="@(() => result[option.option.Label] = !result[option.option.Label])">@option.option.Value</Checkbox>
+        </Row>
+    }
+</div>
 
 <div class="mw-bottom">
     <Button Type="primary" Size="large" class="mw-test-button" @onclick="NextPart">Next</Button>
