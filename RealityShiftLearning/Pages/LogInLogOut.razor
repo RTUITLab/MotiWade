@@ -13,10 +13,13 @@
         <form method="post" action="controller/auth?returnUrl=%2Floginlogout">
             <Button HtmlType="submit">Logout</Button>
         </form>
-        @*@foreach (var claim in (context?.User?.Claims ?? new Claim[0]))
+        <button @onclick="LogUsername">Log username</button>
+        <p>@_authMessage</p>
+
+        @foreach (var claim in (_claims ?? new Claim[0]))
         {
             <p>@claim.Type : @claim.Value</p>
-        }*@
+        }
         @*<Avatar Src="@context.User.Claims.FirstOrDefault(c => c.Type == "urn:github:avatar").Value"></Avatar>*@
     </Authorized>
     <NotAuthorized>
@@ -33,4 +36,25 @@
     </NotAuthorized>
 </AuthorizeView>
 @code {
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private string _authMessage;
+    private Claim[] _claims;
+    private async Task LogUsername()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            _authMessage = $"{user.Identity.Name} is authenticated.";
+            _claims = user.Claims.ToArray();
+        }
+        else
+        {
+            _authMessage = "The user is NOT authenticated.";
+        }
+    }
+
 }

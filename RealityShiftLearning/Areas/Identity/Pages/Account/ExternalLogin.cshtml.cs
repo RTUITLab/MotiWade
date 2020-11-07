@@ -44,11 +44,6 @@ namespace RealityShiftLearning.Areas.Identity.Pages.Account
             public string Email { get; set; }
         }
 
-        public IActionResult OnGetAsync()
-        {
-            return RedirectToPage("./Login");
-        }
-
         public IActionResult OnPost(string provider, string returnUrl = null)
         {
             // Request a redirect to the external login provider.
@@ -63,13 +58,13 @@ namespace RealityShiftLearning.Areas.Identity.Pages.Account
             if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
-                return RedirectToPage("./Login", new {ReturnUrl = returnUrl });
+                return LocalRedirect(returnUrl);
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
                 ErrorMessage = "Error loading external login information.";
-                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+                return LocalRedirect(returnUrl);
             }
 
             // Sign in the user with this external login provider if the user already has a login.
@@ -78,6 +73,10 @@ namespace RealityShiftLearning.Areas.Identity.Pages.Account
             {
                 var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
                 await _signInManager.SignInWithClaimsAsync(user, false, info.Principal.Claims);
+                var oldClaims = await _userManager.GetClaimsAsync(user);
+                await _userManager.RemoveClaimsAsync(user, oldClaims);
+                await _userManager.AddClaimsAsync(user, info.Principal.Claims);
+
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
@@ -109,7 +108,7 @@ namespace RealityShiftLearning.Areas.Identity.Pages.Account
             if (info == null)
             {
                 ErrorMessage = "Error loading external login information during confirmation.";
-                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+                return LocalRedirect(returnUrl);
             }
 
             if (ModelState.IsValid)
@@ -120,6 +119,7 @@ namespace RealityShiftLearning.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     result = await _userManager.AddLoginAsync(user, info);
+                    await _userManager.AddClaimsAsync(user, info.Principal.Claims);
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);

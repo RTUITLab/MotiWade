@@ -1,0 +1,37 @@
+﻿@page "/admin/groupmanagment"
+@layout AdminLayout
+
+<h3>Users list</h3>
+@inject Microsoft.AspNetCore.Identity.UserManager<Microsoft.AspNetCore.Identity.IdentityUser> userManager
+<Table DataSource="@users"
+       Total="_total"
+       @bind-PageIndex="_pageIndex"
+       @bind-PageSize="_pageSize"
+       OnPageIndexChange="async e=>await FetchUsers(e.PageIndex, e.PageSize)">
+
+    @*<Selection Key="@(context.Id.ToString())" />*@
+    <Column @bind-Field="@context.Id" Sortable />
+    <Column @bind-Field="@context.Email" Sortable />
+    <Column @bind-Field="@context.Email" Sortable />
+</Table>
+
+
+@code {
+
+    private List<Microsoft.AspNetCore.Identity.IdentityUser> users;
+    int _pageIndex = 1;
+    int _pageSize = 10;
+    int _total = 0;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        await FetchUsers(_pageIndex, _pageSize);
+    }
+
+    protected async Task FetchUsers(int index, int size)
+    {
+        users = await userManager.Users.Skip(size * (index - 1)).Take(size).ToListAsync();
+    }
+
+}
