@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="324px" height="134px" viewBox="0 0 324 134" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>MW</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="Phosphate-Inline, Phosphate" font-size="200" font-weight="normal">
+        <g id="Start-Page-MW" transform="translate(-50.000000, -350.000000)" fill="url(#linearGradient-1)" fill-rule="nonzero">
+            <text id="MW">
+                <tspan x="43" y="484">MW</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
