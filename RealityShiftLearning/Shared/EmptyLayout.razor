@@ -14,7 +14,7 @@
 @code {
 
     [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    protected Task<AuthenticationState> authenticationStateTask { get; set; }
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

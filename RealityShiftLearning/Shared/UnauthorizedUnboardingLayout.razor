@@ -1,0 +1,17 @@
+﻿@inherits EmptyLayout
+@inject NavigationManager nav
+
+
+@Body
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        var auth = await authenticationStateTask;
+        if (auth.User.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("/kanban");
+        }
+    }
+}

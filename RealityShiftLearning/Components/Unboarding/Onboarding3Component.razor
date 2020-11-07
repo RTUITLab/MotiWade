@@ -1,40 +1,34 @@
-﻿@page "/onboarding/2"
-
-<div class="mw-body-grad2">
-    
+﻿<div class="mw-body-grad3">
     <div class="mv-body-waves">
         <div class="mv-onboarding-header">
-            Become a magician
+            Nurture your habits
         </div>
 
-        <img src="svg/onboarding_2.svg" class="mv-onboarding-image" />
+        <img src="svg/onboarding_3.svg" class="mv-onboarding-image" />
 
         <div class="mv-onboarding-bottom"></div>
 
-        <div class="mv-onboarding-text">Learn some magic of time and space control with time management techniques</div>
+        <div class="mv-onboarding-text">Nurture habits transparently and communicate with friends</div>
+
+        <div style="text-align:center; margin-top: 3vh;">
+            <NavLink href="/test/page/1"><Button Size="large" Type="primary" Class="mv-onboarding-button">Test yourself</Button></NavLink>
+        </div>
 
     </div>
 </div>
 
 <style>
-    .mv-onboarding-cover {
-        position: fixed;
-        height: 100vh;
-        width: 100vw;
-        z-index: 5;
-    }
-
-    .mw-body-grad2 {
+    .mw-body-grad3 {
         height: 100vh;
         z-index: 1;
-        background-image: linear-gradient(to bottom, #ffa3d0 1%, #98b4d9 99%);
+        background-image: linear-gradient(to bottom, #09c5ca 1%, #ff876e 99%);
     }
 
     .mv-body-waves {
         height: 100vh;
         z-index: 2;
         background-position-x: center;
-        background-position-y: 80%;
+        background-position-y: 90%;
         background-image: url('svg/waves5.svg');
         
     }
@@ -51,8 +45,8 @@
 
     .mv-onboarding-image {
         display: block;
-        margin: 10vh auto;
-        max-height: 30vh;
+        margin: 8vh auto 2vh;
+        max-height: 40vh;
     }
 
     .mv-onboarding-text {
@@ -61,6 +55,12 @@
         margin: 0 auto;
         font-size: 24px;
         text-align: center;
+    }
+
+    .mv-onboarding-button {
+        padding: 0 30px;
+        font-size: 18px;
+        font-weight: 600;
     }
 
     .mv-onboarding-navigation {
