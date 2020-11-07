@@ -11,7 +11,7 @@
             @foreach (var option in options.Select((option, index) => (option, index)))
             {
                 <Row Class="@(option.index % 2 == 0 ? "covered" : null)">
-                    <Checkbox Class="mv-test-ant-checkbox" Value="@result[option.option.Label]" CheckedChange="@(() => result[option.option.Label] = !result[option.option.Label])">@option.option.Value</Checkbox>
+                    <Checkbox Class="mv-test-ant-checkbox" Value="@result[option.option.Label]" CheckedChange="@(() => Toggle(option.option.Label))">@option.option.Value</Checkbox>
                 </Row>
             }
         </div>
@@ -141,7 +141,34 @@
         new CheckboxOption { Label = "eye", Value = "Eye exercise" },
         new CheckboxOption { Label = "social", Value = "Reduce social networking" },
         new CheckboxOption { Label = "none", Value = "None" }
-            };
+    };
+
+    protected void Toggle(string label)
+    {
+        for (int i = 0; i < result.Count; i++)
+        {
+            if (label == "none")
+            {
+                result[result.ElementAt(i).Key] = false;
+            }
+            if (label == result.ElementAt(i).Key)
+            {
+                result["none"] = false;
+                if (result.ElementAt(i).Value)
+                {
+                    result[result.ElementAt(i).Key] = false;
+                }
+                else
+                {
+                    result[result.ElementAt(i).Key] = true;
+                }
+            }
+        }
+        if (result.FirstOrDefault(R => R.Value == true).Key == null)
+        {
+            result["none"] = true;
+        }
+    }
 
     protected override async Task OnParametersSetAsync()
     {
