@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Database.Postgres.Migrations
 {
     [DbContext(typeof(LearnDbContext))]
-    [Migration("20201107191246_ExerciseModel_Postgres")]
-    partial class ExerciseModel_Postgres
+    [Migration("20201107201915_Reinit_Postgres")]
+    partial class Reinit_Postgres
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -158,7 +158,7 @@ namespace Database.Postgres.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("Interations")
+                    b.Property<int>("Iterations")
                         .HasColumnType("integer");
 
                     b.Property<string>("ResourceLink")

@@ -2,31 +2,53 @@
 @layout AdminLayout
 @inject LearnDbContext dbContext
 
-<h3>Users list</h3>
+<div class="mw-current-group">Group 12-11-13</div>
 
-<Form Loading="saving"
-      Model="@creatingExercise"
-      LabelCol="new ColLayoutParam { Span = 8 }"
-      WrapperCol="new ColLayoutParam { Span = 16 }"
-      OnFinish="CreateExercise">
-    <FormItem Label="Title">
-        <Input @bind-Value="@context.Title" />
-    </FormItem>
-    <FormItem Label="Link">
-        <Input @bind-Value="@context.ResourceLink" />
-    </FormItem>
-    @*<FormItem Label="Tech">
-            <AutoComplete @bind-Value="@lolkek" Options="@autoCompleteOptions" Placeholder="Input here" />
-        </FormItem>*@
-    <FormItem Label="Iterations">
-        <AntDesign.InputNumber @bind-Value="context.Iterations" />
-    </FormItem>
-    <FormItem>
-        <Button Type="@ButtonType.Primary" HtmlType="submit">
-            Submit
-        </Button>
-    </FormItem>
-</Form>
+<Card Bordered="false" Style="margin: 20px 0;">
+    <Form Loading="saving"
+          Model="@creatingExercise"
+          LabelCol="new ColLayoutParam { Span = 5 }"
+          WrapperCol="new ColLayoutParam { Offset = 2 }"
+          OnFinish="CreateExercise">
+        <Row>
+            <Col Span="7">
+                <FormItem Label="Title">
+                    <Input @bind-Value="@context.Title" />
+                </FormItem>
+                <FormItem Label="Link">
+                    <Input @bind-Value="@context.ResourceLink" />
+                </FormItem>
+            </Col>
+
+            <Col Span="7" Offset="2">
+                <FormItem Label="Tech">
+                    @*<AutoComplete @bind-Value="@timeTechType" Options="@autoCompliteOptions" OnInput="OnInput" />*@
+                    <InputText Disabled @bind-Value="@timeTechType"></InputText> 
+                </FormItem>
+                <FormItem Label="Iterations">
+                    <AntDesign.InputNumber @bind-Value="context.Iterations" />
+                </FormItem>
+            </Col>
+
+            <Col Span="7" Offset="1">
+            <Row Justify="end">
+                <Col>
+                <FormItem Class="mw-inline-buttons">
+                    <Button @onclick="ClearForm">
+                        Clear
+                    </Button>
+                </FormItem>
+                <FormItem Class="mw-inline-buttons">
+                    <Button Type="@ButtonType.Primary" HtmlType="submit">
+                        Add
+                    </Button>
+                </FormItem>
+                </Col>
+            </Row>
+            </Col>
+        </Row>
+    </Form>
+</Card>
 
 <Table DataSource="@users"
        Total="_total"
@@ -35,14 +57,53 @@
        OnPageIndexChange="async e=>await FetchUsers(e.PageIndex, e.PageSize)">
 
     @*<Selection Key="@(context.Id.ToString())" />*@
-    <Column @bind-Field="@context.Id" Sortable />
+    <Column Title="StudentId" @bind-Field="@context.Id" Sortable />
     <Column @bind-Field="@context.Email" Sortable />
-    <Column @bind-Field="@context.ExerciseName" Sortable />
-    <Column @bind-Field="@context.ExerciseProgress" Sortable />
+    <Column Title="Exercise" @bind-Field="@context.ExerciseName" Sortable>
+        <div class="@($"mw-status-circle mv-status-{context.ExerciseProgress}")"></div>@context.ExerciseName
+    </Column>
 </Table>
 
+<style>
+    .mw-current-group {
+        font-size: 18px;
+    }
+
+    .mw-inline-buttons {
+        display: inline-block;
+    }
+
+    .mw-status-circle {
+        display: inline-block;
+        margin-right: 5px;
+        vertical-align: middle;
+        width: 5px;
+        height: 5px;
+        border-radius: 5px;
+        background-color: rgba(0, 0, 0, 0.25);
+    }
+
+    .mv-status-ToDo {
+        background-color: #f5222d;
+    }
+
+    .mv-status-InProgress {
+        background-color: #1890ff;
+    }
+
+    .mv-status-Done {
+        background-color: #52c41a;
+    }
+</style>
 
 @code {
+    Dictionary<string, TimeTechType> converter = new Dictionary<string, TimeTechType>
+    {
+        {"Tomato", TimeTechType.Tomato },
+        {"10 minutes", TimeTechType._10Minutes }
+    };
+    List<string> autoCompliteOptions = new List<string>() { "Tomato", "10 minutes" };
+    private string timeTechType = "Tomato";
 
     private Exercise creatingExercise = new Exercise();
 
@@ -51,10 +112,20 @@
     int _pageSize = 10;
     int _total = 0;
 
+    protected void ClearForm()
+    {
+        creatingExercise = new Exercise();
+    }
+
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
         await FetchUsers(_pageIndex, _pageSize);
+    }
+
+    void OnInput (ChangeEventArgs e)
+    {
+        creatingExercise.TimeTechType = converter[e.Value.ToString()];
     }
 
     protected async Task FetchUsers(int index, int size)
@@ -74,6 +145,7 @@
         saving = true;
         await Task.Delay(1000);
         saving = false;
+        creatingExercise.TimeTechType = TimeTechType.Tomato;
         try
         {
             await dbContext.Exercises.AddAsync(creatingExercise);
