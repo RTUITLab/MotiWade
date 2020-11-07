@@ -13,8 +13,10 @@
         </div>
 
         <div class="mw-content-topbar">
+            <AuthorizeView>
             <div class="mw-content-topbar-header">Tasks</div>
-            <div class="mw-content-topbar-avatar"><Avatar Class="mw-content-topbar-avatar-icon" Shape="square" Size="large" Icon="user" /></div>
+                    <div class="mw-content-topbar-avatar"><Avatar Class="mw-content-topbar-avatar-icon" Shape="square" Size="large" Src="@context.User.Avatar()" Icon="user" /></div>
+            </AuthorizeView>
         </div>
 
         <DatePicker TValue="DateTime?" Picker="@DatePickerType.Date" />
@@ -51,7 +53,7 @@
             </Body>
         </Card>
 
-        <Card Loading="loading" Class="mw-content-item" Bordered="false" Size="small">
+        <Card Loading="loading  " Class="mw-content-item" Bordered="false" Size="small">
             <TitleTemplate>
                 <div class="mw-content-item-iconSquare done"></div> <span class="mw-content-item-title">Done</span>
             </TitleTemplate>

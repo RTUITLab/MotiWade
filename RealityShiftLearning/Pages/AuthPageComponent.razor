@@ -19,11 +19,6 @@
 
     <img class="mw-tomatoPage-tomato" />
 
-    <AuthorizeView>
-        <Authorized>Authorized</Authorized>
-        <NotAuthorized>NotAuthorized</NotAuthorized>
-    </AuthorizeView>
-
     <div class="mw-tomatoPage-footer">
         <div class="mw-tomatoPage-footer-item big">
             <form id="external-account" action="@($"/Identity/Account/ExternalLogin?returnUrl=%2F{nav.ToBaseRelativePath(nav.Uri)}")" method="post" class="form-horizontal">

@@ -1,32 +1,34 @@
 ﻿@inherits LayoutComponentBase
 
 <Layout Class="mw-layout">
-   <Sider Class="mw-sider">
-       <div class="mw-admin-groups">
-           <div class="mw-group-header">Group management</div>
-           <div class="mw-admin-group">Group 12-11-13</div>
-           <div class="mw-admin-group">Group 12-11-13</div>
-       </div>
-   </Sider>
-   <Layout>
-       <Header Class="mw-header">
-           <Row Justify="end">
+    <Sider Class="mw-sider">
+        <div class="mw-admin-groups">
+            <div class="mw-group-header">Group management</div>
+            <div class="mw-admin-group">Group 12-11-13</div>
+            <div class="mw-admin-group">Group 12-11-13</div>
+        </div>
+    </Sider>
+    <Layout>
+        <Header Class="mw-header">
+            <Row Justify="end">
                 <Col>
-                    <Search></Search>
-               </Col>
-               <Col>
-                    <Icon Type="bell" Theme="outline" Class="mw-avatar" />
-               </Col>
-               <Col>
-                    <img class="mw-avatar" src="svg/Cleaning.svg" />
-               </Col>
-               <Col>
-                    <div class="">Avatar</div>
-               </Col>
-           </Row>
-       </Header>
-       <Content Class="mw-content">@Body</Content>
-   </Layout>
+                <Search></Search>
+                </Col>
+                <Col>
+                <Icon Type="bell" Theme="outline" Class="mw-avatar" />
+                </Col>
+                <AuthorizeView>
+                    <Col>
+                    <img class="mw-avatar" src="@context.User.Avatar()" />
+                    </Col>
+                    <Col>
+                    <div class="">@context.User.Login()</div>
+                    </Col>
+                </AuthorizeView>
+            </Row>
+        </Header>
+        <Content Class="mw-content">@Body</Content>
+    </Layout>
 </Layout>
 
 <style>
@@ -63,7 +65,7 @@
         width: 30px;
         margin: 0 10px;
     }
-    
+
     .mw-content {
         padding: 18px 40px;
         z-index: 4;

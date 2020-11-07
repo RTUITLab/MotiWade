@@ -13,5 +13,13 @@ namespace RealityShiftLearning.Extensions
         {
             return user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier && c.Value.Contains("-")).Value;
         }
+        public static string Avatar(this ClaimsPrincipal user)
+        {
+            return user.Claims.FirstOrDefault(c => c.Type == "urn:github:avatar")?.Value;
+        }
+        public static string Login(this ClaimsPrincipal user)
+        {
+            return user.Claims.FirstOrDefault(c => c.Type == "urn:github:login")?.Value;
+        }
     }
 }
