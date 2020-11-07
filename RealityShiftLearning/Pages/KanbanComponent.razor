@@ -1,7 +1,10 @@
 ﻿@page "/kanban"
+@attribute [Authorize]
+
+@inject LearnDbContext dbContext
 
 <div class="mw-container">
-    
+
 
     <div class="mw-content-body">
 
@@ -16,60 +19,49 @@
 
         <DatePicker TValue="DateTime?" Picker="@DatePickerType.Date" />
 
-        <Card Class="mw-content-item" Bordered="false" Size="small">
+        <Card Loading="loading" Class="mw-content-item" Bordered="false" Size="small">
             <TitleTemplate>
                 <div class="mw-content-item-iconSquare todo"></div> <span class="mw-content-item-title">To Do</span>
             </TitleTemplate>
             <Extra> <Icon Type="plus" Class="mw-content-item-iconBtn" Theme="outline" /> </Extra>
             <Body>
                 <div class="mw-content-item-cardBody">
-
-                    <div class="mw-content-item-cardItem">
-                        <div class="mw-content-item-iconSquare met-t"></div>
-                        English Literature: Translation
-                    </div>
-                    <div class="mw-content-item-cardItem">
-                        <div class="mw-content-item-iconSquare met-10"></div>
-                        Russian Literature: Essay
-                    </div>
+                    @foreach (var item in works.Where(w => w.ExerciseProgress == ExerciseProgress.ToDo))
+                    {
+                        <RealityShiftLearning.Components.UsersExerciseKanbanLine TimeTechType="item.Exercise.TimeTechType" Title="@item.Exercise.Title" />
+                    }
                 </div>
 
             </Body>
         </Card>
 
-        <Card Class="mw-content-item" Bordered="false" Size="small">
+        <Card Loading="loading" Class="mw-content-item" Bordered="false" Size="small">
             <TitleTemplate>
                 <div class="mw-content-item-iconSquare inProgress"></div> <span class="mw-content-item-title">In Progress</span>
             </TitleTemplate>
             <Extra> <Icon Type="plus" Class="mw-content-item-iconBtn" Theme="outline" /> </Extra>
             <Body>
                 <div class="mw-content-item-cardBody">
-
-                    <div class="mw-content-item-cardItem">
-                        <div class="mw-content-item-iconSquare met-t"></div>
-                        Data Science: Practice
-                    </div>
+                    @foreach (var item in works.Where(w => w.ExerciseProgress == ExerciseProgress.InProgress))
+                    {
+                        <RealityShiftLearning.Components.UsersExerciseKanbanLine TimeTechType="item.Exercise.TimeTechType" Title="@item.Exercise.Title" />
+                    }
                 </div>
 
             </Body>
         </Card>
 
-        <Card Class="mw-content-item" Bordered="false" Size="small">
+        <Card Loading="loading" Class="mw-content-item" Bordered="false" Size="small">
             <TitleTemplate>
                 <div class="mw-content-item-iconSquare done"></div> <span class="mw-content-item-title">Done</span>
             </TitleTemplate>
             <Extra> <Icon Type="plus" Class="mw-content-item-iconBtn" Theme="outline" /> </Extra>
             <Body>
                 <div class="mw-content-item-cardBody">
-
-                    <div class="mw-content-item-cardItem">
-                        <div class="mw-content-item-iconSquare met-e"></div>
-                        UX/UI Design: Moodboard
-                    </div>
-                    <div class="mw-content-item-cardItem">
-                        <div class="mw-content-item-iconSquare met-10"></div>
-                        Python Programming
-                    </div>
+                    @foreach (var item in works.Where(w => w.ExerciseProgress == ExerciseProgress.Done))
+                    {
+                        <RealityShiftLearning.Components.UsersExerciseKanbanLine TimeTechType="item.Exercise.TimeTechType" Title="@item.Exercise.Title" />
+                    }
                 </div>
 
             </Body>
@@ -128,7 +120,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        overflow:hidden;
+        overflow: hidden;
     }
 
     .mw-bg-waves-img {
@@ -154,7 +146,7 @@
         background-color: #f0f0f0;
     }
 
-   
+
     .mw-content-topbar {
         display: flex;
         flex-direction: row;
@@ -249,16 +241,19 @@
         .mw-content-item-iconSquare.habits {
             background-color: #ffbe5c;
         }
+
         .mw-content-item-iconSquare.met-10 {
             background-color: #ffbe5c;
             background-image: url(svg/metodics-icons/10.svg);
             background-size: contain;
         }
+
         .mw-content-item-iconSquare.met-e {
             background-color: #ffbe5c;
             background-image: url(svg/metodics-icons/e.svg);
             background-size: contain;
         }
+
         .mw-content-item-iconSquare.met-t {
             background-color: #ffbe5c;
             background-image: url(svg/metodics-icons/t.svg);
@@ -291,8 +286,7 @@
 
 
     .mw-content-navbar-item {
-        flex-grow:1;
-
+        flex-grow: 1;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -319,21 +313,27 @@
         width: 22px;
         height: 22px;
     }
-    .mw-content-navbar-item-icon.bell {
-        content: url(svg/navbar-icons/bell_grey.svg);
-    }
+
+        .mw-content-navbar-item-icon.bell {
+            content: url(svg/navbar-icons/bell_grey.svg);
+        }
+
     .mw-content-navbar-item.active .mw-content-navbar-item-icon.bell {
         content: url(svg/navbar-icons/bell_blue.svg);
     }
+
     .mw-content-navbar-item-icon.stat {
         content: url(svg/navbar-icons/statistics_grey.svg);
     }
+
     .mw-content-navbar-item.active .mw-content-navbar-item-icon.stat {
         content: url(svg/navbar-icons/statistics_blue.svg);
     }
+
     .mw-content-navbar-item-icon.clip {
         content: url(svg/navbar-icons/clipboard_grey.svg);
     }
+
     .mw-content-navbar-item.active .mw-content-navbar-item-icon.clip {
         content: url(svg/navbar-icons/clipboard_blue.svg);
     }
@@ -341,7 +341,6 @@
     .mw-content-item-cardIconBody {
         display: flex;
         flex-direction: row;
-
     }
 
     .mw-content-item-cardIcon:not(:last-child) {
@@ -353,16 +352,36 @@
         height: 32px;
         border-radius: 2px;
     }
+
     .mw-content-item-cardIcon.flower .mw-content-item-cardIcon-inner {
         content: url(svg/habits/flower.svg);
     }
+
     .mw-content-item-cardIcon.water .mw-content-item-cardIcon-inner {
         content: url(svg/habits/water.svg);
     }
-
 </style>
 
 
 @code {
 
+    private bool loading = true;
+
+    private List<UserToExercise> works = new List<UserToExercise>();
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        var auth = await authenticationStateTask;
+        works = await dbContext.UserToExercises
+            .Include(ute => ute.Exercise)
+            .Where(ute => ute.UserId == auth.User.UserId())
+            .ToListAsync();
+        loading = false;
+        StateHasChanged();
+    }
 }

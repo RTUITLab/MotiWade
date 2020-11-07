@@ -1,0 +1,16 @@
+﻿<div class="mw-content-item-cardItem">
+    <div class="mw-content-item-iconSquare @timeTeachClasses[TimeTechType]"></div>
+    @Title
+</div>
+@code {
+    private Dictionary<TimeTechType, string> timeTeachClasses = new Dictionary<TimeTechType, string>
+    {
+        { TimeTechType.Tomato, "met-t" },
+        { TimeTechType._10Minutes, "met-10" }
+    };
+    [Parameter]
+    public TimeTechType TimeTechType { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+}

@@ -19,7 +19,10 @@
 
     <img class="mw-tomatoPage-tomato" />
 
-
+    <AuthorizeView>
+        <Authorized>Authorized</Authorized>
+        <NotAuthorized>NotAuthorized</NotAuthorized>
+    </AuthorizeView>
 
     <div class="mw-tomatoPage-footer">
         <div class="mw-tomatoPage-footer-item big">
@@ -291,9 +294,16 @@
     [Parameter]
     public string test3 { get; set; }
 
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        //Timer.GetLastTimerAsync();
+        var auth = await authenticationStateTask;
+        if (auth.User.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("kanban");
+        }
     }
 }

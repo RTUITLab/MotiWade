@@ -116,10 +116,16 @@
     </script>
     <script>
         document.mobileAppInterop = {
+            isIosApp: false,
+            setIsIosApp: function () {
+                document.mobileAppInterop.isIosApp = true;
+            },
+
             setAuthState: function (isAuthenticated, userId) {
-                const obj = { isAuthenticated: isAuthenticated, userId: userId};
-                console.log(obj);
-                webkit.messageHandlers.auth.postMessage(obj)
+                const obj = { isAuthenticated: isAuthenticated, userId: userId };
+                if (document.mobileAppInterop.isIosApp) {
+                    webkit.messageHandlers.auth.postMessage(obj)
+                }
             }
         }
 

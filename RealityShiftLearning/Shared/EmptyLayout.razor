@@ -23,7 +23,7 @@
         var auth = await authenticationStateTask;
         if (auth.User.Identity.IsAuthenticated)
         {
-            await js.InvokeVoidAsync("document.mobileAppInterop.setAuthState", true, auth.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier && c.Value.Contains("-")).Value);
+            await js.InvokeVoidAsync("document.mobileAppInterop.setAuthState", true, auth.User.UserId());
         } else
         {
             await js.InvokeVoidAsync("document.mobileAppInterop.setAuthState", false);
