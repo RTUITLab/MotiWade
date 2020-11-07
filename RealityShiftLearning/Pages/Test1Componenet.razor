@@ -5,25 +5,11 @@
     Which time management techniques are you familiar with?
 </div>
 
-@if (options.Length > 0)
+@foreach(var option in options.Select((option, index) => (option, index)))
 {
-<div class="mv-test-checkboxgroup">
-    <Row Class="covered">
-        <Checkbox Class="mv-test-ant-checkbox" Value="@result[options[0].Label]" CheckedChange="@(() => result[options[0].Label] = !result[options[0].Label])">@options[0].Value</Checkbox>
+    <Row Class="@(option.index % 2 == 0 ? "covered" : null)">
+        <Checkbox Class="mv-test-ant-checkbox" Value="@result[option.option.Label]" CheckedChange="@(() => result[option.option.Label] = !result[option.option.Label])">@option.option.Value</Checkbox>
     </Row>
-    <Row>
-        <Checkbox Class="mv-test-ant-checkbox" Value="@result[options[1].Label]" CheckedChange="@(() => result[options[1].Label] = !result[options[1].Label])">@options[1].Value</Checkbox>
-    </Row>
-    <Row Class="covered">
-        <Checkbox Class="mv-test-ant-checkbox" Value="@result[options[2].Label]" CheckedChange="@(() => result[options[2].Label] = !result[options[2].Label])">@options[2].Value</Checkbox>
-    </Row>
-    <Row>
-        <Checkbox Class="mv-test-ant-checkbox" Value="@result[options[3].Label]" CheckedChange="@(() => result[options[3].Label] = !result[options[3].Label])">@options[3].Value</Checkbox>
-    </Row>
-    <Row Class="covered">
-        <Checkbox Class="mv-test-ant-checkbox" Value="@result[options[4].Label]" CheckedChange="@(() => result[options[4].Label] = !result[options[4].Label])">@options[4].Value</Checkbox>
-    </Row>
-</div>
 }
 
 <div class="mw-bottom">
@@ -79,9 +65,9 @@
         display: grid
     }
 
-    .mv-test-checkboxgroup span:first-child {
-        margin-right: 30px;
-    }
+        .mv-test-checkboxgroup span:first-child {
+            margin-right: 30px;
+        }
 </style>
 
 @code {
@@ -94,7 +80,7 @@
         new CheckboxOption { Label = "frog", Value = "Eat a frog" },
         new CheckboxOption { Label = "getting_done", Value = "Getting Things Done" },
         new CheckboxOption { Label = "none", Value = "None" }
-    };
+        };
 
     protected override async Task OnParametersSetAsync()
     {
@@ -108,7 +94,7 @@
 
     protected void NextPart()
     {
-        foreach(var o in result)
+        foreach (var o in result)
         {
             if (o.Value)
             {
