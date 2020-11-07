@@ -6,6 +6,22 @@
 
 ## Development
 
+### Pass secret values
+
+#### Google secret
+Fill file `RealityShiftLearning/motiwade-firebase.json` from `A service account JSON file`
+
+#### GitHub auth app
+Fill file `RealityShiftLearning/appsettings.Local.json` with ClientId and Secret like
+```json
+{
+  "GitHubOptions": {
+    "ClientId": "sime client id",
+    "Secret": "some secret"
+  }
+}
+```
+
 ### Run
 ```bash
 cd RealityShiftLearning

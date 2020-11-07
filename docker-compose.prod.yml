@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  app:
+    environment:
+      FireBaseAuthLocation: ${FIRE_BASE_AUTH_LOCATION?Specify A service account JSON file}
+      GitHubOptions__ClientId: ${GIT_HUB_CLIENT_ID?Specify github oauth app id}
+      GitHubOptions__Secret: ${GIT_HUB_SECRET?Specify github oauth secret}

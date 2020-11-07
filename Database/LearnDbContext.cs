@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Models;
 using System;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace Database
 {
-    public class LearnDbContext : DbContext
+    public class LearnDbContext : IdentityDbContext
     {
         public LearnDbContext(DbContextOptions<LearnDbContext> options) : base(options)
         {
