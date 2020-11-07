@@ -13,11 +13,11 @@
         <form method="post" action="controller/auth?returnUrl=%2Floginlogout">
             <Button HtmlType="submit">Logout</Button>
         </form>
-        @foreach (var claim in context.User.Claims)
+        @*@foreach (var claim in (context?.User?.Claims ?? new Claim[0]))
         {
             <p>@claim.Type : @claim.Value</p>
-        }
-        <Avatar Src="@context.User.Claims.FirstOrDefault(c => c.Type == "urn:github:avatar").Value"></Avatar>
+        }*@
+        @*<Avatar Src="@context.User.Claims.FirstOrDefault(c => c.Type == "urn:github:avatar").Value"></Avatar>*@
     </Authorized>
     <NotAuthorized>
         <p>Not authorized </p>
