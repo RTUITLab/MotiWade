@@ -24,6 +24,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Models;
 using RealityShiftLearning.Areas.Identity;
 using RealityShiftLearning.Options;
 using RealityShiftLearning.Services;
@@ -61,7 +62,7 @@ namespace RealityShiftLearning
                     break;
             }
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.AddIdentity<MotiWadeUser, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
             })
@@ -100,7 +101,6 @@ namespace RealityShiftLearning
                             response.EnsureSuccessStatusCode();
                             var jsonString = await response.Content.ReadAsStringAsync();
                             var json = JsonDocument.Parse(jsonString);
-                            Console.WriteLine(jsonString);
                             context.RunClaimActions(json.RootElement);
                         }
                         };

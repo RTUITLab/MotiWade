@@ -6,14 +6,14 @@
 }
 @code {
 
-    private GlobalTimer.TimerStateSnapshot state;
+    private TomatoTimer.TimerStateSnapshot state;
 
     private System.Threading.CancellationTokenSource cancSource = new System.Threading.CancellationTokenSource();
 
     [Parameter]
-    public RenderFragment<GlobalTimer.TimerStateSnapshot> ChildContent { get; set; }
+    public RenderFragment<TomatoTimer.TimerStateSnapshot> ChildContent { get; set; }
     [Parameter]
-    public GlobalTimer Timer { get; set; }
+    public TomatoTimer Timer { get; set; }
 
     protected override void OnParametersSet()
     {

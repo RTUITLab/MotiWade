@@ -2,7 +2,7 @@
 @layout AdminLayout
 
 <h3>Users list</h3>
-@inject Microsoft.AspNetCore.Identity.UserManager<Microsoft.AspNetCore.Identity.IdentityUser> userManager
+@inject Microsoft.AspNetCore.Identity.UserManager<MotiWadeUser> userManager
 <Table DataSource="@users"
        Total="_total"
        @bind-PageIndex="_pageIndex"
@@ -18,7 +18,7 @@
 
 @code {
 
-    private List<Microsoft.AspNetCore.Identity.IdentityUser> users;
+    private List<MotiWadeUser> users;
     int _pageIndex = 1;
     int _pageSize = 10;
     int _total = 0;

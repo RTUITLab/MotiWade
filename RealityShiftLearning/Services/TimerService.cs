@@ -10,21 +10,21 @@ namespace RealityShiftLearning.Services
     public class TimerService
     {
         private LearnDbContext dbContext;
-        private GlobalTimer Timer;
+        private TomatoTimer Timer;
         public TimerService(LearnDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
 
-        public GlobalTimer GetMyCurrentTimer()
+        public TomatoTimer GetMyCurrentTimer()
         {
             Timer = dbContext.GlobalTimers
                 .FirstOrDefault();
             return Timer;
         }
-        public async Task<GlobalTimer> CreateTimerForMe()
+        public async Task<TomatoTimer> CreateTimerForMe()
         {
-            var timer = new GlobalTimer
+            var timer = new TomatoTimer
             {
                 StartTime = DateTimeOffset.UtcNow
             };

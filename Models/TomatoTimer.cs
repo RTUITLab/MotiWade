@@ -4,13 +4,14 @@ using System.Text;
 
 namespace Models
 {
-    public class GlobalTimer
+    public class TomatoTimer
     {
         public int Id { get; set; }
         [Required]
         public DateTimeOffset StartTime { get; set; }
         public TimeSpan WorkTimeSpan { get; set; } = TimeSpan.FromMinutes(20);
         public TimeSpan FreeTimeSpan { get; set; } = TimeSpan.FromMinutes(5);
+
 
         public TimerStateSnapshot GetCurrentState()
         {

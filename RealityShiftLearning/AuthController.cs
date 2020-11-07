@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Models;
 using RealityShiftLearning.Areas.Identity.Pages.Account;
 
 namespace RealityShiftLearning
@@ -12,9 +13,9 @@ namespace RealityShiftLearning
     [Route("controller/auth")]
     public class AuthController : Controller
     {
-        private SignInManager<IdentityUser> _signInManager;
+        private SignInManager<MotiWadeUser> _signInManager;
         private ILogger<LogoutModel> _logger;
-        public AuthController(SignInManager<IdentityUser> signInManager, ILogger<LogoutModel> logger)
+        public AuthController(SignInManager<MotiWadeUser> signInManager, ILogger<LogoutModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;
