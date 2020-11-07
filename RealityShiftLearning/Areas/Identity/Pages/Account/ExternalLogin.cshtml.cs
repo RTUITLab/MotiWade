@@ -76,6 +76,8 @@ namespace RealityShiftLearning.Areas.Identity.Pages.Account
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
             if (result.Succeeded)
             {
+                var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+                await _signInManager.SignInWithClaimsAsync(user, false, info.Principal.Claims);
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
@@ -122,7 +124,7 @@ namespace RealityShiftLearning.Areas.Identity.Pages.Account
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
-                        await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
+                        await _signInManager.SignInWithClaimsAsync(user, isPersistent: false, info.Principal.Claims);
 
                         return LocalRedirect(returnUrl);
                     }

@@ -53,51 +53,59 @@ namespace RealityShiftLearning
             switch (Configuration.GetValue<DBType>("DbType"))
             {
                 case DBType.SQLite:
+                    Console.WriteLine("USING SQLITE");
                     services.RegisterSqliteDbContext(Configuration.GetConnectionString("SQLite"));
                     break;
                 case DBType.Postgres:
+                    Console.WriteLine("USING POSTGRES");
                     services.RegisterPostgresDbContext(Configuration.GetConnectionString("Postgres"));
                     break;
             }
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+            })
                 .AddEntityFrameworkStores<LearnDbContext>();
             services.AddRazorPages();
-            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+            //services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 
 
             var gitHubOptions = Configuration.GetSection(nameof(GitHubOptions)).Get<GitHubOptions>();
             services.AddAuthentication()
-                .AddOAuth("GitHub", "GitHub", options =>
-                {
-                    options.ClientId = gitHubOptions.ClientId;
-                    options.ClientSecret = gitHubOptions.Secret;
-                    options.AuthorizationEndpoint = "https://github.com/login/oauth/authorize";
-                    options.TokenEndpoint = "https://github.com/login/oauth/access_token";
-                    options.UserInformationEndpoint = "https://api.github.com/user";
-                    options.SaveTokens = true;
-                    options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
-                    options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
-                    options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
-                    options.ClaimActions.MapJsonKey("urn:github:login", "login");
-                    options.ClaimActions.MapJsonKey("urn:github:url", "html_url");
-                    options.ClaimActions.MapJsonKey("urn:github:avatar", "avatar_url");
-                    options.CallbackPath = new PathString("/github-oauth");
-                    options.Scope.Add("email");
-                    options.Events = new OAuthEvents
+                    .AddOAuth("GitHub", "GitHub", options =>
                     {
-                        OnCreatingTicket = async context =>
+                        options.ClientId = gitHubOptions.ClientId;
+                        options.ClientSecret = gitHubOptions.Secret;
+                        options.AuthorizationEndpoint = "https://github.com/login/oauth/authorize";
+                        options.TokenEndpoint = "https://github.com/login/oauth/access_token";
+                        options.UserInformationEndpoint = "https://api.github.com/user";
+                        options.SaveTokens = false;
+                        options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+                        options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+                        options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+                        options.ClaimActions.MapJsonKey("urn:github:login", "login");
+                        options.ClaimActions.MapJsonKey("urn:github:url", "html_url");
+                        options.ClaimActions.MapJsonKey("urn:github:avatar", "avatar_url");
+                        options.CallbackPath = new PathString("/github-oauth");
+                        options.Scope.Add("read:user");
+                        options.Scope.Add("read:email");
+                        options.Events = new OAuthEvents
+                        {
+                            OnCreatingTicket = async context =>
                         {
                             var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
                             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
                             var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
                             response.EnsureSuccessStatusCode();
-                            var json = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+                            var jsonString = await response.Content.ReadAsStringAsync();
+                            var json = JsonDocument.Parse(jsonString);
+                            Console.WriteLine(jsonString);
                             context.RunClaimActions(json.RootElement);
                         }
-                    };
-                });
+                        };
+                    });
 
             FirebaseApp.Create(new AppOptions
             {
