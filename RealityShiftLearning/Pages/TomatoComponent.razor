@@ -1,22 +1,36 @@
 ﻿@page "/tomato"
 @inject NavigationManager nav
 @inject RealityShiftLearning.Services.TimerService Timer
-@layout EmptyLayout
+
+
 
 <div class="mw-containter mw-tomato-working">
     <div class="mw-bg-waves">
         <img class="mw-bg-waves-img" />
     </div>
-    <div class="mw-tomatoPage-timer">15:12:13
-        <div class="mw-tomatoPage-timer-secondary">@Timer.GetTimeLeft()</div></div>
-    
+    <div class="mw-tomatoPage-timer">
+
+        <RealityShiftLearning.Components.CustomCountDown Timer="timer">
+            @context.TimerNumber | @context.State | @context.TimeToNextCheckpointString
+            <div class="mw-tomatoPage-timer-secondary">@context.TimerNumber | @context.State | @context.TimeToNextCheckpointString</div>
+        </RealityShiftLearning.Components.CustomCountDown>
+    </div>
+
 
     <img class="mw-tomatoPage-tomato" />
 
 
     <div class="mw-tomatoPage-footer">
         <div class="mw-tomatoPage-footer-item big">
-            <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large">Skip tomato</Button>
+            @if (timer == null)@*--- JUST FOR TESTS ---*@
+            {
+                <Button @onclick='CreateTimer' Type="primary" Size="large">Create Timer</Button>
+
+            }
+            else
+            {
+                <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large">Skip tomato</Button>
+            }
         </div>
 
     </div>
@@ -32,13 +46,13 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        
         overflow: hidden;
     }
 
         .mw-containter.mw-tomato-relax {
             background-image: linear-gradient(to bottom, #4cffdd, #be4ce3);
         }
+
         .mw-containter.mw-tomato-working {
             background-image: linear-gradient(to bottom, #09c5ca 1%, #ff876e 99%);
         }
@@ -61,6 +75,7 @@
         color: #ffffff;
         margin-bottom: 15px;
     }
+
     .mw-tomatoPage-timer-secondary {
         font-family: Helvetica;
         font-size: 90px;
@@ -71,7 +86,6 @@
         letter-spacing: normal;
         text-align: center;
         color: rgba(255, 255, 255, 0.14);
-
         position: absolute;
         left: -50%;
         right: -50%;
@@ -131,9 +145,22 @@
 
 @code {
 
+    DateTimeOffset deadline = DateTimeOffset.Now.AddSeconds(5);
+
+    GlobalTimer timer;
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        //Timer.GetLastTimerAsync();
+        timer = Timer.GetMyCurrentTimer();
+    }
+
+    private async Task CreateTimer()
+    {
+        timer = await Timer.CreateTimerForMe();
+    }
+
+    void OnFinish()
+    {
+        Console.WriteLine("finished!");
     }
 }

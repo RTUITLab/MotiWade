@@ -16,40 +16,21 @@ namespace RealityShiftLearning.Services
             this.dbContext = dbContext;
         }
 
-        public GlobalTimer GetLastTimerAsync()
+        public GlobalTimer GetMyCurrentTimer()
         {
-            Timer = dbContext.GlobalTimers.FirstOrDefault();
+            Timer = dbContext.GlobalTimers
+                .FirstOrDefault();
             return Timer;
         }
-
-        public string GetTimeLeft()
+        public async Task<GlobalTimer> CreateTimerForMe()
         {
-            if (Timer == null)
+            var timer = new GlobalTimer
             {
-                return "No timer";
-            }
-            TimeSpan time = (DateTimeOffset.Now - Timer.StartTime);
-            if (time.TotalSeconds < 1800 && Timer.StartTime.CompareTo(DateTimeOffset.Now) < 0)
-            {
-                if (time.TotalMilliseconds < 1500000)
-                {
-                    return $"S.{time.TotalMinutes}:{time.TotalSeconds}:{time.TotalMilliseconds}";
-                }
-                else
-                {
-                    return $"F.{time.TotalMinutes}:{time.TotalSeconds}:{time.TotalMilliseconds}";
-                }
-            }
-            else
-            {
-                if (Timer.StartTime.CompareTo(DateTimeOffset.Now) > 0)
-                {
-                    return "Not started";
-                } else
-                {
-                    return "Finished";
-                }
-            }
+                StartTime = DateTimeOffset.UtcNow
+            };
+            dbContext.GlobalTimers.Add(timer);
+            await dbContext.SaveChangesAsync();
+            return timer;
         }
     }
 }

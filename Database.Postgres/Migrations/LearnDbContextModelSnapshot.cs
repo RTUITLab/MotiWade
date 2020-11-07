@@ -220,8 +220,14 @@ namespace Database.Postgres.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<TimeSpan>("FreeTimeSpan")
+                        .HasColumnType("interval");
+
                     b.Property<DateTimeOffset>("StartTime")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<TimeSpan>("WorkTimeSpan")
+                        .HasColumnType("interval");
 
                     b.HasKey("Id");
 

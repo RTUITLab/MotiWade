@@ -214,7 +214,13 @@ namespace Database.SQLite.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<TimeSpan>("FreeTimeSpan")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTimeOffset>("StartTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<TimeSpan>("WorkTimeSpan")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
