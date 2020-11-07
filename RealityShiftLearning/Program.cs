@@ -25,7 +25,9 @@ namespace RealityShiftLearning
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.ConfigureAppConfiguration(conf => conf.AddJsonFile("appsettings.Local.json", optional: true));
+                    webBuilder.ConfigureAppConfiguration(conf => 
+                        conf.AddJsonFile("appsettings.Local.json", optional: true)
+                            .AddEnvironmentVariables());
                     webBuilder.UseStartup<Startup>();
                 });
     }
