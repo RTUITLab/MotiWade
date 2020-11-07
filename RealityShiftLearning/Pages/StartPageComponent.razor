@@ -11,10 +11,10 @@
     <div class="mw-startPage-header">Motivates you to care</div>
 
     <div class="mw-startPage-footer">
-        <div class="mw-startPage-footer-item">
-            <Button @onclick='() => { nav.NavigateTo("/onboarding/1"); }' Type="primary" Size="large">Start Journey</Button>
+        <div class="mw-startPage-footer-item big">
+            <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large">Start Journey</Button>
         </div>
-        <div class="mw-startPage-footer-item">
+        <div class="mw-startPage-footer-item tr">
             <Button Type="link" Size="large">Skip onboarding</Button>
         </div>
         
@@ -79,6 +79,13 @@
         color: white !important;
         opacity: .7;
     }
+
+    .mw-startPage-footer-item.big > * {
+        padding: 0px 40px;
+        font-size: 18px !important;
+        font-weight: 600;
+    }
+    
 
     .mw-bg-waves {
         position: absolute;
