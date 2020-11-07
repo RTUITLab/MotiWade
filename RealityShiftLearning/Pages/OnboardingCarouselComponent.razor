@@ -1,7 +1,7 @@
 ﻿@page "/onboarding"
 
 <div>
-    <Carousel>
+    <Carousel @ref="carousel">
         <CarouselSlick>
             <Onboarding1Component></Onboarding1Component>
         </CarouselSlick>
@@ -13,8 +13,24 @@
         </CarouselSlick>
     </Carousel>
 </div>
-
-
+<RealityShiftLearning.Components.GestureDetector OnLeft="() => Next()" OnRight="() => Previous()"/>
 @code {
-
+    private Carousel carousel;
+    private int index = 0;
+    private void Next()
+    {
+        if (index != 2)
+        {
+            carousel.Next();
+            index++;
+        }
+    }
+    private void Previous()
+    {
+        if (index != 0)
+        {
+            carousel.Previous();
+            index--;
+        }
+    }
 }
