@@ -1,4 +1,4 @@
-﻿@page "/tomato/{Id:int}/hardToStart"
+﻿@page "/tomato-result"
 @inject NavigationManager nav
 @inject RealityShiftLearning.Services.TimerService Timer
 @layout EmptyLayout
@@ -9,28 +9,28 @@
     </div>
 
     <div class="mw-tomatoPage-topper">
+
         <div class="mw-subheader"><img class="mw-backBtn" /> English Literature: Translation</div>
     </div>
 
     <div class="mw-tomatoPage-header">
-        Too hard to begin?
-        <div class="mw-text">
-            Take a minute to clean your workspace.
-            The cleaner the place you work in, the less distractions you’ll meet. Tidy workspace sustains your mind.
-        </div>
+        You've done a lot!<br>
+        <div class="mw-content-item-iconSquare met-t"></div>
+        <div class="mw-content-item-iconSquare met-t"></div>
+        <div class="mw-content-item-iconSquare met-t"></div>
+        <div class="mw-content-item-iconSquare met-flower"></div>
+
     </div>
 
-    <img class="mw-tomatoPage-cleaning" />
+    <img class="mw-tomatoPage-tomato" />
 
-    <div class="mw-tomatoPage-copyLink">
-        <div class="mw-tomatoPage-copyLink-label">
-            Fealing better now?
-        </div>
-    </div>
+
+
+
 
     <div class="mw-tomatoPage-footer">
         <div class="mw-tomatoPage-footer-item big">
-            <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large">Work a while</Button>
+            <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large">Move to Done</Button>
         </div>
     </div>
 
@@ -55,10 +55,12 @@
         padding: 0 30px;
         color: #6b6b6b;
         position: absolute;
+        text-align: center;
         left: 0;
         right: 0;
         top: 15vh;
     }
+
 
     .mw-tomatoPage-topper {
         font-size: 28px;
@@ -95,10 +97,10 @@
     }
 
 
-    .mw-tomatoPage-cleaning {
-        content: url(svg/Cleaning.svg);
+    .mw-tomatoPage-tomato {
+        content: url(svg/tomato.svg);
         margin: 0 22px;
-        margin-top: 230px;
+    
         height: 230px;
         z-index: 2;
     }
@@ -222,11 +224,17 @@
             background-image: url(svg/metodics-icons/t.svg);
             background-size: contain;
         }
+        .mw-content-item-iconSquare.met-flower {
+            background-image: url(svg/habits/flower.svg);
+            background-size: contain;
+        }
 
     .mw-backBtn {
+        position: absolute;
+        left: -20px;
         height: 0.8em;
-        vertical-align: revert;
-        display: inline-block;
+        top: 0.15em;
+        display: block;
         content: url(svg/back.svg);
     }
 
@@ -243,14 +251,11 @@
         line-height: normal;
         letter-spacing: normal;
         color: #6b6b6b;
-        text-align: center;
         margin-bottom: 10px;
     }
 </style>
 
 @code {
-    [Parameter]
-    public int Id { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
