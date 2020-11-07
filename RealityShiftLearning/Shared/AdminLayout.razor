@@ -1,12 +1,75 @@
 ﻿@inherits LayoutComponentBase
-    <Layout>
-        <Sider>Sider</Sider>
-        <Layout>
-            <Header>Header</Header>
-            <Content>@Body</Content>
-        </Layout>
-    </Layout>
 
-    @code {
+<Layout Class="mw-layout">
+   <Sider Class="mw-sider">
+       <div class="mw-admin-groups">
+           <div class="mw-group-header">Group management</div>
+           <div class="mw-admin-group">Group 12-11-13</div>
+           <div class="mw-admin-group">Group 12-11-13</div>
+       </div>
+   </Sider>
+   <Layout>
+       <Header Class="mw-header">
+           <Row Justify="end">
+                <Col>
+                    <Search></Search>
+               </Col>
+               <Col>
+                    <Icon Type="bell" Theme="outline" Class="mw-avatar" />
+               </Col>
+               <Col>
+                    <img class="mw-avatar" src="svg/Cleaning.svg" />
+               </Col>
+               <Col>
+                    <div class="">Avatar</div>
+               </Col>
+           </Row>
+       </Header>
+       <Content Class="mw-content">@Body</Content>
+   </Layout>
+</Layout>
 
+<style>
+    .mw-layout {
+        height: 100vh;
     }
+
+    .mw-admin-groups {
+        position: absolute;
+        font-size: 18px;
+        top: 80px;
+    }
+
+    .mw-group-header {
+        padding-bottom: 10px;
+    }
+
+    .mw-sider {
+        background-color: #ffffff;
+        padding: 20px;
+        z-index: 1;
+    }
+
+    .mw-header {
+        background-color: #ffffff;
+        box-shadow: 0 1px 4px 0 rgba(0, 21, 41, 0.12);
+        z-index: 3;
+        font-size: 18px;
+    }
+
+    .mw-avatar {
+        border-radius: 15px;
+        height: 30px;
+        width: 30px;
+        margin: 0 10px;
+    }
+    
+    .mw-content {
+        padding: 20px 40px;
+        z-index: 4;
+    }
+</style>
+
+@code {
+
+}
