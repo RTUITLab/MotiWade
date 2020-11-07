@@ -1,4 +1,5 @@
 ﻿@page "/test/page/2"
+@page "/test/page/2/test1/{test1}"
 @inject NavigationManager NavigationManager
 
 <div class="mw-body-grad">
@@ -23,10 +24,7 @@
             <div class="mw-test-footer-item tr">
                 <Button Type="link" Size="large">See more habits</Button>
             </div>
-
         </div>
-
-        
     </div>
 </div>
 
@@ -95,9 +93,9 @@
         display: grid
     }
 
-    .mv-test-checkboxgroup span:first-child {
-        margin-right: 30px;
-    }
+        .mv-test-checkboxgroup span:first-child {
+            margin-right: 30px;
+        }
 
     .mw-test-footer {
         position: absolute;
@@ -114,24 +112,25 @@
         margin-top: 25px;
     }
 
-    .mw-test-footer-item > * {
-        color: white !important;
-    }
+        .mw-test-footer-item > * {
+            color: white !important;
+        }
 
-    .mw-test-footer-item.tr > * {
-        color: white !important;
-        opacity: .7;
-    }
+        .mw-test-footer-item.tr > * {
+            color: white !important;
+            opacity: .7;
+        }
 
-    .mw-test-footer-item.big > * {
-        padding: 0px 40px;
-        font-size: 18px !important;
-        font-weight: 600;
-    }
-
+        .mw-test-footer-item.big > * {
+            padding: 0px 40px;
+            font-size: 18px !important;
+            font-weight: 600;
+        }
 </style>
 
 @code {
+    [Parameter]
+    public string test1 { get; set; }
     Dictionary<string, bool> result = new Dictionary<string, bool>();
 
     CheckboxOption[] options = new CheckboxOption[]
@@ -141,7 +140,7 @@
         new CheckboxOption { Label = "eye", Value = "Eye exercise" },
         new CheckboxOption { Label = "social", Value = "Reduce social networking" },
         new CheckboxOption { Label = "none", Value = "None" }
-    };
+        };
 
     protected void Toggle(string label)
     {
@@ -177,18 +176,25 @@
         result.Add("fitness", false);
         result.Add("eye", false);
         result.Add("social", false);
-        result.Add("none", false);
+        result.Add("none", true);
+
+        if (test1 == "" || test1 == null)
+        {
+            NavigationManager.NavigateTo("/test/page/1");
+        }
     }
 
     protected void NextPart()
     {
+        string answer = "";
         foreach (var o in result)
         {
             if (o.Value)
             {
-                Console.WriteLine(o.Key);
+                answer += o.Key + ",";
             }
         }
-        NavigationManager.NavigateTo("/test/page/3");
+        answer = answer.Remove(answer.Length - 1);
+        NavigationManager.NavigateTo($"/test/page/3/test1/{test1}/test2/{answer}");
     }
 }

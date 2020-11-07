@@ -23,13 +23,7 @@
             <div class="mw-test-footer-item tr">
                 <Button Type="link" Size="large">See more techniques</Button>
             </div>
-
         </div>
-
-        @*<div class="mw-bottom">
-            <Button Type="primary" Size="large" class="mw-test-button" @onclick="NextPart">Next</Button>
-            <div style="opacity: 0.66;">See more techniques</div>
-        </div>*@
     </div>
 </div>
 
@@ -153,7 +147,7 @@
         result.Add("10min", false);
         result.Add("frog", false);
         result.Add("getting_done", false);
-        result.Add("none", false);
+        result.Add("none", true);
     }
 
     protected void Toggle(string label)
@@ -184,13 +178,15 @@
 
     protected void NextPart()
     {
+        string answer = "";
         foreach (var o in result)
         {
             if (o.Value)
             {
-                Console.WriteLine(o.Key);
+                answer += o.Key + ",";
             }
         }
-        NavigationManager.NavigateTo("/test/page/2");
+        answer = answer.Remove(answer.Length - 1);
+        NavigationManager.NavigateTo($"/test/page/2/test1/{answer}");
     }
 }

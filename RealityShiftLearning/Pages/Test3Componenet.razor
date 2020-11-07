@@ -1,4 +1,6 @@
 ﻿@page "/test/page/3"
+@page "/test/page/3/test1/{test1}"
+@page "/test/page/3/test1/{test1}/test2/{test2}"
 @inject NavigationManager NavigationManager
 
 <div class="mw-body-grad">
@@ -93,6 +95,12 @@
 </style>
 
 @code {
+    [Parameter]
+    public string test1 { get; set; }
+
+    [Parameter]
+    public string test2 { get; set; }
+
     bool result = true;
 
     CheckboxOption[] options = new CheckboxOption[]
@@ -101,8 +109,21 @@
         new CheckboxOption { Label = "no", Value = "No" }
     };
 
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        if (test1 == "" || test1 == null)
+        {
+            NavigationManager.NavigateTo($"/test/page/1");
+        }
+        if (test2 == "" || test2 == null)
+        {
+            NavigationManager.NavigateTo($"/test/page/2/test1/{test1}");
+        }
+    }
+
     protected void NextPart()
     {
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo($"/login/test1/{test1}/test2/{test2}/test3/{result}");
     }
 }

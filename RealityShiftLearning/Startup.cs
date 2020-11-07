@@ -24,6 +24,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RealityShiftLearning.Areas.Identity;
 using RealityShiftLearning.Options;
 using RealityShiftLearning.Services;
 using RealityShiftLearning.Services.Configure;
