@@ -1,51 +1,69 @@
 ﻿@page "/test/page/2"
+@inject NavigationManager NavigationManager
 
-<div class="mv-test-header">
-    Which healthy habits do you want to practice?
-</div>
+<div class="mw-body-grad">
+    <div class="mv-body-waves">
+        <div class="mv-test-header">
+            Which time management techniques are you familiar with?
+        </div>
 
-@if (options.Length > 0)
-{
-<div class="mv-test-checkboxgroup">
-    <Row>
-        <Checkbox Class="mv-test-ant-checkbox" Value="@result[options[0].Label]" CheckedChange="@(() => result[options[0].Label] = !result[options[0].Label])">@options[0].Value</Checkbox>
-    </Row>
-    <Row>
-        <Checkbox Class="mv-test-ant-checkbox" Value="@result[options[1].Label]" CheckedChange="@(() => result[options[1].Label] = !result[options[1].Label])">@options[1].Value</Checkbox>
-    </Row>
-    <Row>
-        <Checkbox Class="mv-test-ant-checkbox" Value="@result[options[2].Label]" CheckedChange="@(() => result[options[2].Label] = !result[options[2].Label])">@options[2].Value</Checkbox>
-    </Row>
-    <Row>
-        <Checkbox Class="mv-test-ant-checkbox" Value="@result[options[3].Label]" CheckedChange="@(() => result[options[3].Label] = !result[options[3].Label])">@options[3].Value</Checkbox>
-    </Row>
-    <Row>
-        <Checkbox Class="mv-test-ant-checkbox" Value="@result[options[4].Label]" CheckedChange="@(() => result[options[4].Label] = !result[options[4].Label])">@options[4].Value</Checkbox>
-    </Row>
-</div>
-}
+        <div class="mv-test-checkboxgroup">
+            @foreach (var option in options.Select((option, index) => (option, index)))
+            {
+                <Row Class="@(option.index % 2 == 0 ? "covered" : null)">
+                    <Checkbox Class="mv-test-ant-checkbox" Value="@result[option.option.Label]" CheckedChange="@(() => result[option.option.Label] = !result[option.option.Label])">@option.option.Value</Checkbox>
+                </Row>
+            }
+        </div>
 
-<div class="mw-bottom">
-    <Button Type="primary" Size="large" class="mw-test-button" @onclick="NextPart">Next</Button>
-    <div style="opacity: 0.66;">See more techniques</div>
+        <div class="mw-bottom">
+            <Button Type="primary" Size="large" class="mw-test-button" @onclick="NextPart">Next</Button>
+            <div style="opacity: 0.66;">See more habits</div>
+        </div>
+    </div>
 </div>
 
 <style>
+    .mw-body-grad {
+        height: 100vh;
+        z-index: 1;
+        transition: 1s;
+        background-image: linear-gradient(to bottom, #5a63ff, #5ec9cc);
+    }
+
+    .mv-body-waves {
+        height: 100vh;
+        z-index: 2;
+        background-position-x: center;
+        background-position-y: 80%;
+        background-image: url('svg/waves3.svg');
+    }
+
+    .covered {
+        background-color: rgba(160, 178, 216, 0.7);
+    }
+
+    .ant-row {
+        border-bottom: 1px solid #fff;
+        border-top: 1px solid #fff;
+    }
+
     .mv-test-header {
         margin: 0 auto;
         padding: 15vh 0 5vh;
         font-size: 24px;
+        font-weight: 700;
         text-align: center;
         max-width: 285px;
+        color: #ffffff;
     }
 
     .mv-test-ant-checkbox {
         width: 100%;
         font-size: 18px !important;
         font-weight: 600;
+        color: #FFFFFF;
         margin: 1vh 0 1vh 20%;
-        border-bottom: 1px solid #fff;
-        border-top: 1px solid #fff;
     }
 
     .ant-checkbox-wrapper + .ant-checkbox-wrapper {
@@ -61,7 +79,7 @@
     }
 
     .mw-test-button {
-        padding: 0px 20px;
+        padding: 0px 40px;
         margin: 0 0 15px;
         font-size: 18px !important;
         font-weight: 600;
@@ -81,31 +99,32 @@
 
     CheckboxOption[] options = new CheckboxOption[]
     {
-        new CheckboxOption { Label = "tomato", Value = "Tomato" },
-        new CheckboxOption { Label = "10min", Value = "10 minutes" },
-        new CheckboxOption { Label = "frog", Value = "Eat a frog" },
-        new CheckboxOption { Label = "getting_done", Value = "Getting Things Done" },
+        new CheckboxOption { Label = "drinking", Value = "Drinking water" },
+        new CheckboxOption { Label = "fitness", Value = "5 minute fitness" },
+        new CheckboxOption { Label = "eye", Value = "Eye exercise" },
+        new CheckboxOption { Label = "social", Value = "Reduce social networking" },
         new CheckboxOption { Label = "none", Value = "None" }
-    };
+            };
 
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        result.Add("tomato", false);
-        result.Add("10min", false);
-        result.Add("frog", false);
-        result.Add("getting_done", false);
+        result.Add("drinking", false);
+        result.Add("fitness", false);
+        result.Add("eye", false);
+        result.Add("social", false);
         result.Add("none", false);
     }
 
     protected void NextPart()
     {
-        foreach(var o in result)
+        foreach (var o in result)
         {
             if (o.Value)
             {
                 Console.WriteLine(o.Key);
             }
         }
+        NavigationManager.NavigateTo("/test/page/3");
     }
 }
