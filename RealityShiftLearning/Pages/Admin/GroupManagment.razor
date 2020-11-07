@@ -59,6 +59,7 @@
 
     protected async Task FetchUsers(int index, int size)
     {
+        _total = await dbContext.UserToExercises.CountAsync();
         users = await dbContext.UserToExercises.Skip(size * (index - 1)).Take(size).Select(ute => new TableRow
         {
             Id = ute.UserId,
