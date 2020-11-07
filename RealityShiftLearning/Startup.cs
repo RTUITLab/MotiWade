@@ -143,5 +143,6 @@ namespace RealityShiftLearning
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
+
     }
 }
