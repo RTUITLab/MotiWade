@@ -1,0 +1,133 @@
+﻿@page "/tomato"
+@inject NavigationManager nav
+@layout EmptyLayout
+
+<div class="mw-containter mw-tomato-working">
+    <div class="mw-bg-waves">
+        <img class="mw-bg-waves-img" />
+    </div>
+    <div class="mw-tomatoPage-timer">15:12:13
+        <div class="mw-tomatoPage-timer-secondary">15:12:13</div></div>
+    
+
+    <img class="mw-tomatoPage-tomato" />
+
+
+    <div class="mw-tomatoPage-footer">
+        <div class="mw-tomatoPage-footer-item big">
+            <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large">Skip tomato</Button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+    .mw-containter {
+        position: relative;
+        width: 100%;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+        overflow: hidden;
+    }
+
+        .mw-containter.mw-tomato-relax {
+            background-image: linear-gradient(to bottom, #4cffdd, #be4ce3);
+        }
+        .mw-containter.mw-tomato-working {
+            background-image: linear-gradient(to bottom, #09c5ca 1%, #ff876e 99%);
+        }
+
+    .mw-tomatoPage-tomato {
+        content: url(svg/tomato.svg);
+        margin: 0 22px;
+        z-index: 2;
+    }
+
+    .mw-tomatoPage-timer {
+        font-family: Helvetica;
+        font-size: 50px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #ffffff;
+        margin-bottom: 15px;
+    }
+    .mw-tomatoPage-timer-secondary {
+        font-family: Helvetica;
+        font-size: 90px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.14);
+
+        position: absolute;
+        left: -50%;
+        right: -50%;
+        margin-top: -45px;
+        text-align: center;
+    }
+
+    .mw-tomatoPage-footer {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 65px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mw-tomatoPage-footer-item {
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
+    }
+
+        .mw-tomatoPage-footer-item > * {
+            color: white !important;
+        }
+
+        .mw-tomatoPage-footer-item.tr > * {
+            color: white !important;
+            opacity: .7;
+        }
+
+        .mw-tomatoPage-footer-item.big > * {
+            padding: 0px 40px;
+            font-size: 18px !important;
+            font-weight: 600;
+        }
+
+
+    .mw-bg-waves {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .mw-bg-waves-img {
+        content: url(svg/waves3.svg);
+        margin-right: 550px;
+        margin-top: 250px;
+        opacity: .5;
+    }
+</style>
+
+@code {
+
+}
