@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Database.SQLite.Migrations
+namespace Database.Postgres.Migrations
 {
-    public partial class Init_SQLite : Migration
+    public partial class Reinit_Postgres : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,11 +48,27 @@ namespace Database.SQLite.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Exercises",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(nullable: true),
+                    ResourceLink = table.Column<string>(nullable: true),
+                    Iterations = table.Column<int>(nullable: false),
+                    TimeTechType = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Exercises", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GlobalTimers",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     StartTime = table.Column<DateTimeOffset>(nullable: false),
                     WorkTimeSpan = table.Column<TimeSpan>(nullable: false),
                     FreeTimeSpan = table.Column<TimeSpan>(nullable: false)
@@ -66,7 +83,7 @@ namespace Database.SQLite.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Data = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -79,7 +96,7 @@ namespace Database.SQLite.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(nullable: true),
                     IsDone = table.Column<bool>(nullable: false)
                 },
@@ -93,7 +110,7 @@ namespace Database.SQLite.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -114,7 +131,7 @@ namespace Database.SQLite.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -194,6 +211,38 @@ namespace Database.SQLite.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserToExercises",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    ExerciseId = table.Column<int>(nullable: false),
+                    ExerciseProgress = table.Column<int>(nullable: false),
+                    TomatoTimerId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToExercises", x => new { x.UserId, x.ExerciseId });
+                    table.ForeignKey(
+                        name: "FK_UserToExercises_Exercises_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "Exercises",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToExercises_GlobalTimers_TomatoTimerId",
+                        column: x => x.TomatoTimerId,
+                        principalTable: "GlobalTimers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserToExercises_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -230,6 +279,16 @@ namespace Database.SQLite.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToExercises_ExerciseId",
+                table: "UserToExercises",
+                column: "ExerciseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToExercises_TomatoTimerId",
+                table: "UserToExercises",
+                column: "TomatoTimerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -250,16 +309,22 @@ namespace Database.SQLite.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "GlobalTimers");
-
-            migrationBuilder.DropTable(
                 name: "SampleModels");
 
             migrationBuilder.DropTable(
                 name: "ToDoItems");
 
             migrationBuilder.DropTable(
+                name: "UserToExercises");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Exercises");
+
+            migrationBuilder.DropTable(
+                name: "GlobalTimers");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
