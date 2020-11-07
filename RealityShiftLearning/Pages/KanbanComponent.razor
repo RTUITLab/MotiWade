@@ -1,0 +1,368 @@
+﻿@page "/kanban"
+
+<div class="mw-container">
+    
+
+    <div class="mw-content-body">
+
+        <div class="mw-bg-waves">
+            <img class="mw-bg-waves-img" />
+        </div>
+
+        <div class="mw-content-topbar">
+            <div class="mw-content-topbar-header">Tasks</div>
+            <div class="mw-content-topbar-avatar"><Avatar Class="mw-content-topbar-avatar-icon" Shape="square" Size="large" Icon="user" /></div>
+        </div>
+
+        <DatePicker TValue="DateTime?" Picker="@DatePickerType.Date" />
+
+        <Card Class="mw-content-item" Bordered="false" Size="small">
+            <TitleTemplate>
+                <div class="mw-content-item-iconSquare todo"></div> <span class="mw-content-item-title">To Do</span>
+            </TitleTemplate>
+            <Extra> <Icon Type="plus" Class="mw-content-item-iconBtn" Theme="outline" /> </Extra>
+            <Body>
+                <div class="mw-content-item-cardBody">
+
+                    <div class="mw-content-item-cardItem">
+                        <div class="mw-content-item-iconSquare met-t"></div>
+                        English Literature: Translation
+                    </div>
+                    <div class="mw-content-item-cardItem">
+                        <div class="mw-content-item-iconSquare met-10"></div>
+                        Russian Literature: Essay
+                    </div>
+                </div>
+
+            </Body>
+        </Card>
+
+        <Card Class="mw-content-item" Bordered="false" Size="small">
+            <TitleTemplate>
+                <div class="mw-content-item-iconSquare inProgress"></div> <span class="mw-content-item-title">In Progress</span>
+            </TitleTemplate>
+            <Extra> <Icon Type="plus" Class="mw-content-item-iconBtn" Theme="outline" /> </Extra>
+            <Body>
+                <div class="mw-content-item-cardBody">
+
+                    <div class="mw-content-item-cardItem">
+                        <div class="mw-content-item-iconSquare met-t"></div>
+                        Data Science: Practice
+                    </div>
+                </div>
+
+            </Body>
+        </Card>
+
+        <Card Class="mw-content-item" Bordered="false" Size="small">
+            <TitleTemplate>
+                <div class="mw-content-item-iconSquare done"></div> <span class="mw-content-item-title">Done</span>
+            </TitleTemplate>
+            <Extra> <Icon Type="plus" Class="mw-content-item-iconBtn" Theme="outline" /> </Extra>
+            <Body>
+                <div class="mw-content-item-cardBody">
+
+                    <div class="mw-content-item-cardItem">
+                        <div class="mw-content-item-iconSquare met-e"></div>
+                        UX/UI Design: Moodboard
+                    </div>
+                    <div class="mw-content-item-cardItem">
+                        <div class="mw-content-item-iconSquare met-10"></div>
+                        Python Programming
+                    </div>
+                </div>
+
+            </Body>
+        </Card>
+
+        <Card Class="mw-content-item" Bordered="false" Size="small">
+            <TitleTemplate>
+                <div class="mw-content-item-iconSquare habits"></div> <span class="mw-content-item-title">Habits</span>
+            </TitleTemplate>
+            <Extra> <Icon Type="plus" Class="mw-content-item-iconBtn" Theme="outline" /> </Extra>
+            <Body>
+                <div class="mw-content-item-cardIconBody">
+
+                    <div class="mw-content-item-cardIcon flower">
+                        <img class="mw-content-item-cardIcon-inner" />
+                    </div>
+                    <div class="mw-content-item-cardIcon water">
+                        <img class="mw-content-item-cardIcon-inner" />
+                    </div>
+
+                </div>
+
+            </Body>
+        </Card>
+
+
+
+
+
+    </div>
+
+</div>
+<div class="mw-content-navbar">
+    <div class="mw-content-navbar-item">
+        <img class="mw-content-navbar-item-icon bell" />
+        <div class="mw-content-navbar-item-label">Notifications</div>
+    </div>
+    <div class="mw-content-navbar-item active">
+        <img class="mw-content-navbar-item-icon clip" />
+        <div class="mw-content-navbar-item-label">Tasks</div>
+    </div>
+    <div class="mw-content-navbar-item">
+        <img class="mw-content-navbar-item-icon stat" />
+        <div class="mw-content-navbar-item-label">Progress</div>
+    </div>
+</div>
+
+
+<style>
+    .mw-bg-waves {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow:hidden;
+    }
+
+    .mw-bg-waves-img {
+        content: url(svg/waves3_black.svg);
+        margin-right: 550px;
+        margin-top: 250px;
+        opacity: 0.1;
+    }
+
+    .mw-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 63px;
+        overflow: scroll;
+    }
+
+    .mw-content-body {
+        width: 100%;
+        flex-grow: 1;
+        padding: 22px;
+        background-color: #f0f0f0;
+    }
+
+   
+    .mw-content-topbar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 14px 0;
+        align-items: flex-end;
+    }
+
+    .mw-content-topbar-header {
+        font-size: 28px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #6b6b6b;
+        flex-grow: 1;
+    }
+
+    .mw-content-topbar-avatar {
+        font-size: 28px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #6b6b6b;
+    }
+
+    .mw-content-topbar-avatar-icon {
+        background-color: rgba(0, 0, 0, 0.25);
+        color: rgba(0, 0, 0, 0.65);
+        font-size: 28px;
+    }
+
+        .mw-content-topbar-avatar-icon svg {
+            height: 28px;
+            width: 28px;
+            top: -4px;
+            position: relative;
+        }
+
+
+    .mw-content-body > :not(:last-child) {
+        margin-bottom: 18px;
+    }
+
+    .mw-content-item-title {
+        opacity: 0.7;
+        font-family: Helvetica;
+        font-size: 18px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #2d2d2d;
+    }
+
+    .mw-content-item-icon {
+        font-size: 24px;
+        color: #979797;
+    }
+
+    .mw-content-item-iconBtn {
+        font-size: 18px;
+        color: #979797;
+    }
+
+    .mw-content-item-iconSquare {
+        width: 22px;
+        height: 22px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        border-radius: 2px;
+    }
+
+        .mw-content-item-iconSquare.todo {
+            background-color: #cd5cff;
+        }
+
+        .mw-content-item-iconSquare.inProgress {
+            background-color: #5cb7ff;
+        }
+
+        .mw-content-item-iconSquare.done {
+            background-color: #5cffc7;
+        }
+
+        .mw-content-item-iconSquare.habits {
+            background-color: #ffbe5c;
+        }
+        .mw-content-item-iconSquare.met-10 {
+            background-color: #ffbe5c;
+            background-image: url(svg/metodics-icons/10.svg);
+            background-size: contain;
+        }
+        .mw-content-item-iconSquare.met-e {
+            background-color: #ffbe5c;
+            background-image: url(svg/metodics-icons/e.svg);
+            background-size: contain;
+        }
+        .mw-content-item-iconSquare.met-t {
+            background-color: #ffbe5c;
+            background-image: url(svg/metodics-icons/t.svg);
+            background-size: contain;
+        }
+
+
+    .mw-content-item-cardItem:not(:last-child) {
+        margin-bottom: 16px;
+    }
+
+    .mw-content-item-cardBody {
+        min-height: 104px;
+    }
+
+
+
+    .mw-content-navbar {
+        position: fixed;
+        height: 63px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #f9f9f9;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+
+
+    .mw-content-navbar-item {
+        flex-grow:1;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center
+    }
+
+    .mw-content-navbar-item-label {
+        font-family: Helvetica;
+        font-size: 14px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #adadad;
+    }
+
+    .mw-content-navbar-item.active .mw-content-navbar-item-label {
+        color: #56c6ff;
+    }
+
+    .mw-content-navbar-item-icon {
+        width: 22px;
+        height: 22px;
+    }
+    .mw-content-navbar-item-icon.bell {
+        content: url(svg/navbar-icons/bell_grey.svg);
+    }
+    .mw-content-navbar-item.active .mw-content-navbar-item-icon.bell {
+        content: url(svg/navbar-icons/bell_blue.svg);
+    }
+    .mw-content-navbar-item-icon.stat {
+        content: url(svg/navbar-icons/statistics_grey.svg);
+    }
+    .mw-content-navbar-item.active .mw-content-navbar-item-icon.stat {
+        content: url(svg/navbar-icons/statistics_blue.svg);
+    }
+    .mw-content-navbar-item-icon.clip {
+        content: url(svg/navbar-icons/clipboard_grey.svg);
+    }
+    .mw-content-navbar-item.active .mw-content-navbar-item-icon.clip {
+        content: url(svg/navbar-icons/clipboard_blue.svg);
+    }
+
+    .mw-content-item-cardIconBody {
+        display: flex;
+        flex-direction: row;
+
+    }
+
+    .mw-content-item-cardIcon:not(:last-child) {
+        margin-right: 10px;
+    }
+
+    .mw-content-item-cardIcon-inner {
+        width: 32px;
+        height: 32px;
+        border-radius: 2px;
+    }
+    .mw-content-item-cardIcon.flower .mw-content-item-cardIcon-inner {
+        content: url(svg/habits/flower.svg);
+    }
+    .mw-content-item-cardIcon.water .mw-content-item-cardIcon-inner {
+        content: url(svg/habits/water.svg);
+    }
+
+</style>
+
+
+@code {
+
+}
