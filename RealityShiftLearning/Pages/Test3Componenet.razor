@@ -1,24 +1,42 @@
 ﻿@page "/test/page/3"
 @inject NavigationManager NavigationManager
 
-<div class="mv-test-header">
-    Do you want to share progress with your friends?
-</div>
+<div class="mw-body-grad">
+    <div class="mv-body-waves">
+        <div class="mv-test-header">
+            Do you want to share progress with your friends?
+        </div>
 
-<div class="mv-test-checkboxgroup">
-    @foreach (var option in options.Select((option, index) => (option, index)))
-    {
-        <Row Class="@(option.index % 2 == 0 ? "covered" : null)">
-            <Checkbox Class="mv-test-ant-checkbox" Value="@(option.option.Label == "yes" && result || option.option.Label == "no" && !result)" CheckedChange="@(() => result = option.option.Label == "yes" ? true : false)">@option.option.Value</Checkbox>
-        </Row>
-    }
-</div>
+        <div class="mv-test-checkboxgroup">
+            @foreach (var option in options.Select((option, index) => (option, index)))
+            {
+                <Row Class="@(option.index % 2 == 0 ? "covered" : null)">
+                    <Checkbox Class="mv-test-ant-checkbox" Value="@(option.option.Label == "yes" && result || option.option.Label == "no" && !result)" CheckedChange="@(() => result = option.option.Label == "yes" ? true : false)">@option.option.Value</Checkbox>
+                </Row>
+            }
+        </div>
 
-<div class="mw-bottom">
-    <Button Type="primary" Size="large" class="mw-test-button" @onclick="NextPart">Finish</Button>
+        <div class="mw-bottom">
+            <Button Type="primary" Size="large" class="mw-test-button" @onclick="NextPart">Finish</Button>
+        </div>
+    </div>
 </div>
 
 <style>
+    .mw-body-grad {
+        height: 100vh;
+        z-index: 1;
+        background-image: linear-gradient(to bottom, #aa5aff, #6ea4ff);
+    }
+
+    .mv-body-waves {
+        height: 100vh;
+        z-index: 2;
+        background-position-x: center;
+        background-position-y: 80%;
+        background-image: url('svg/waves3.svg');
+    }
+
     .covered {
         background-color: rgba(160, 178, 216, 0.7);
     }
@@ -32,14 +50,17 @@
         margin: 0 auto;
         padding: 15vh 0 5vh;
         font-size: 24px;
+        font-weight: 700;
         text-align: center;
         max-width: 285px;
+        color: #ffffff;
     }
 
     .mv-test-ant-checkbox {
         width: 100%;
         font-size: 18px !important;
         font-weight: 600;
+        color: #ffffff;
         margin: 1vh 0 1vh 20%;
     }
 
@@ -56,7 +77,7 @@
     }
 
     .mw-test-button {
-        padding: 0px 20px;
+        padding: 0px 40px;
         margin: 0 0 15px;
         font-size: 18px !important;
         font-weight: 600;
