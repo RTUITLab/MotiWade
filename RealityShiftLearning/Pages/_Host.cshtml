@@ -47,7 +47,7 @@
                 }
                 observer.disconnect();
                 attemptReload();
-                setInterval(attemptReload, 10);
+                setInterval(attemptReload, 1000);
             }
         }).observe(document.body, { childList: true, subtree: true });
     </script>
