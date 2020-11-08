@@ -7,8 +7,7 @@
         @Body
     </Content>
     <Footer Class="mw-footer">
-        <Menu
-              Mode="MenuMode.Horizontal"
+        <Menu Mode="MenuMode.Horizontal"
               Theme="MenuTheme.Light">
             <MenuItem Class="mw-menu-item" Key="1" @onclick="ToNotifications">
                 <Icon Style="display: block; margin: 0; font-size: 18px" Type="bell" Theme="outline"></Icon>
@@ -18,7 +17,7 @@
                 <Icon Style="display: block; margin: 0; font-size: 18px" Type="file-done" Theme="outline"></Icon>
                 <span Style="display: block; text-align: center">Tasks</span>
             </MenuItem>
-            <MenuItem Class="mw-menu-item" Key="3">
+            <MenuItem Class="mw-menu-item" Key="3" @onclick="ToProgress">
                 <Icon Style="display: block; margin: 0; font-size: 18px" Type="line-chart" Theme="outline"></Icon>
                 <span Style="display: block; text-align: center">Progress</span>
             </MenuItem>
@@ -61,4 +60,10 @@
     {
         NavigationManager.NavigateTo("/notifications");
     }
+
+    void ToProgress()
+    {
+        NavigationManager.NavigateTo("/progress");
+    }
+}
 }
