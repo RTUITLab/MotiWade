@@ -23,9 +23,11 @@
         var auth = await authenticationStateTask;
         if (auth.User.Identity.IsAuthenticated)
         {
+            //await js.InvokeVoidAsync("console.log", auth.User.UserId());
             await js.InvokeVoidAsync("document.mobileAppInterop.setAuthState", true, auth.User.UserId());
         } else
         {
+            //await js.InvokeVoidAsync("console.log", false);
             await js.InvokeVoidAsync("document.mobileAppInterop.setAuthState", false);
         }
     }
