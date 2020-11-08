@@ -31,7 +31,15 @@
             </form>
         </div>
         <div class="mw-tomatoPage-footer-item tr">
-            <Button @onclick='() => { nav.NavigateTo("/demoMode"); }' Type="link" Size="large">Demo mode</Button>
+            <form id="external-account" action="@($"/Identity/Account/ExternalLogin?returnUrl=%2F{nav.ToBaseRelativePath(nav.Uri)}")" method="post" class="form-horizontal">
+                <div>
+                    <p>
+                        <input type="hidden" name="provider" value="GitHub" />
+                        <input type="hidden" name="isDemo" value="demo" />
+                        <Button HtmlType="submit" Type="link" Size="large">Demo mode</Button>
+                    </p>
+                </div>
+            </form>
         </div>
     </div>
 
