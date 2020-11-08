@@ -11,15 +11,15 @@
               Mode="MenuMode.Horizontal"
               Theme="MenuTheme.Light">
             <MenuItem Class="mw-menu-item" Key="1" @onclick="ToNotifications">
-                <Icon Style="display: block; margin: 0" Type="bell" Theme="outline"></Icon>
+                <Icon Style="display: block; margin: 0; font-size: 18px" Type="bell" Theme="outline"></Icon>
                 <span Style="display: block; text-align: center">Notifications</span>
             </MenuItem>
             <MenuItem Class="mw-menu-item" Key="2" @onclick="ToTasks">
-                <Icon Style="display: block; margin: 0" Type="file-done" Theme="outline"></Icon>
+                <Icon Style="display: block; margin: 0; font-size: 18px" Type="file-done" Theme="outline"></Icon>
                 <span Style="display: block; text-align: center">Tasks</span>
             </MenuItem>
             <MenuItem Class="mw-menu-item" Key="3">
-                <Icon Style="display: block; margin: 0" Type="line-chart" Theme="outline"></Icon>
+                <Icon Style="display: block; margin: 0; font-size: 18px" Type="line-chart" Theme="outline"></Icon>
                 <span Style="display: block; text-align: center">Progress</span>
             </MenuItem>
         </Menu>
@@ -37,13 +37,17 @@
     }
 
         .mw-footer > ul {
-            padding: 10px 0 20px;
+            padding: 10px 0 22px;
             display: grid;
             grid-template-columns: 33% 33% 33%;
         }
 
     .mw-menu-item {
         grid-row: 1;
+    }
+
+    .icon {
+        font-size: 18px;
     }
 </style>
 
