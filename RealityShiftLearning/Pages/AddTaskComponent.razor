@@ -4,16 +4,6 @@
 @inject LearnDbContext dbContext
 
 <div class="mw-container">
-    <AuthorizeView>
-
-        <Modal Title="@context.User.Login()"
-               Visible="@userModelVisible"
-               OnOk="@(() => userModelVisible = false)">
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-        </Modal>
-    </AuthorizeView>
     <div class="mw-content-body">
 
         <div class="mw-bg-waves">

@@ -9,9 +9,9 @@
         <Modal Title="@context.User.Login()"
                Visible="@userModelVisible"
                OnOk="@(() => userModelVisible = false)">
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
+            <form method="post" action="controller/auth?returnUrl=%2F">
+                <Button HtmlType="submit">Logout</Button>
+            </form>
         </Modal>
     </AuthorizeView>
     <div class="mw-content-body">
@@ -96,11 +96,6 @@
 
             </Body>
         </Card>
-
-
-
-
-
     </div>
 
 </div>
