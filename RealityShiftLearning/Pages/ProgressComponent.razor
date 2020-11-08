@@ -1,7 +1,7 @@
 ﻿@page "/Progress"
 @inject NavigationManager nav
 @inject RealityShiftLearning.Services.TimerService Timer
-@layout EmptyLayout
+@layout WorkLayout
 
 @inject LearnDbContext dbContext
 
@@ -33,11 +33,7 @@
 
 
 
-    <div class="mw-tomatoPage-footer">
-        <div class="mw-tomatoPage-footer-item big">
-            <Button @onclick='() => { nav.NavigateTo("/kanban"); }' Type="primary" Size="large">Move to Done</Button>
-        </div>
-    </div>
+ 
 
 </div>
 
@@ -103,9 +99,10 @@
 
 
     .mw-tomatoPage-tomato {
-        content: url(svg/tomato.svg);
+        content: url(svg/onboarding_1.svg);
         margin: 0 22px;
-        height: 230px;
+        height: 260px;
+        margin-top: 100px;
         z-index: 2;
     }
 
@@ -268,6 +265,6 @@
         await base.OnParametersSetAsync();
     }
 
- 
+
 
 }
