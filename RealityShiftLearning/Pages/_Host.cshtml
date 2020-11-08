@@ -130,6 +130,18 @@
         }
 
     </script>
+    <script>
+        window.clipboardCopy = {
+            copyText: function (text) {
+                navigator.clipboard.writeText(text).then(function () {
+                    alert("Copied to clipboard!");
+                })
+                    .catch(function (error) {
+                        alert(error);
+                    });
+            }
+        };
+    </script>
     <style>
         app {
             width: 100%;

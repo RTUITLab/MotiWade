@@ -3,6 +3,8 @@
 @inject RealityShiftLearning.Services.TimerService Timer
 
 @inject LearnDbContext dbContext
+@inject MessageService antMessageService
+
 
 
 <div class="mw-containter mw-tomato-working">
@@ -17,7 +19,10 @@
 
     <div class="mw-tomatoPage-timer">
 
-        <RealityShiftLearning.Components.CustomCountDown Timer="timer">
+        <RealityShiftLearning.Components.CustomCountDown 
+                                                         OnWorkEnd="@(() => antMessageService.Info("Work end"))"
+                                                         OnFreeEnd="@(() => antMessageService.Info("Free end"))"
+                                                         Timer="timer">
             @context.TimeToNextCheckpointString
             <div class="mw-tomatoPage-timer-secondary">@context.TimeToNextCheckpointString</div>
         </RealityShiftLearning.Components.CustomCountDown>

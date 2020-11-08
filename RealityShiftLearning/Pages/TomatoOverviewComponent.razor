@@ -4,6 +4,8 @@
 @layout EmptyLayout
 
 @inject LearnDbContext dbContext
+@inject RealityShiftLearning.Services.TimerService timerService
+@inject IJSRuntime JSRuntime
 
 <div class="mw-containter mw-tomato-working">
     <div class="mw-bg-waves">
@@ -33,7 +35,7 @@
         <div class="mw-tomatoPage-copyLink-label">
             Open task page in browser:
         </div>
-        <Search Value="@exercise.ResourceLink" Size="@InputSize.Default" EnterButton="@("Copy link")" />
+        <Search Value="@exercise.ResourceLink" Size="@InputSize.Default" EnterButton="@("Copy link")" OnSearch='async () => { await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", exercise.ResourceLink); }' />
     </div>
 
 
@@ -42,7 +44,12 @@
 
     <div class="mw-tomatoPage-footer">
         <div class="mw-tomatoPage-footer-item big">
-            <Button @onclick='() => { nav.NavigateTo($"/tomato/{exercise.Id}/working"); }' Type="primary" Size="large">Begin tomato</Button>
+            <Button @onclick='async () => {
+                                  await timerService.CreateTimerForMe(Id);
+                                  nav.NavigateTo($"/tomato/{exercise.Id}/working");
+                              }' Type="primary" Size="large">
+                Begin tomato
+            </Button>
         </div>
         <div class="mw-tomatoPage-footer-item tr">
             <Button @onclick='() => { nav.NavigateTo($"/tomato/{exercise.Id}/hardToStart"); }' Type="link" Size="large">Too hard to begin?</Button>
