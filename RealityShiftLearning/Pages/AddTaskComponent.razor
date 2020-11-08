@@ -1,7 +1,9 @@
 ﻿@page "/addTask"
+@page "/addTask/{status}"
 @attribute [Authorize]
 
 @inject LearnDbContext dbContext
+@inject NavigationManager NavigationManager
 
 <div class="mw-container">
     <div class="mw-content-body">
@@ -282,6 +284,8 @@
 </style>
 
 @code {
+    [Parameter]
+    public string status { get; set; }
 
     private bool userModelVisible = false;
     private bool loading = true;
@@ -302,12 +306,22 @@
         await Task.Delay(1000);
         saving = false;
         exercise.TimeTechType = TimeTechType.Tomato;
+        ExerciseProgress progress = ExerciseProgress.ToDo;
+        if (status == "inprogress")
+        {
+            progress = ExerciseProgress.InProgress;
+        }
+        if (status == "done")
+        {
+            progress = ExerciseProgress.Done;
+        }
         try
         {
             await dbContext.Exercises.AddAsync(exercise);
             var userIds = await dbContext.Users.Select(u => u.Id).ToListAsync();
             var links = userIds.Select(id => new UserToExercise
             {
+                ExerciseProgress = progress,
                 Exercise = exercise,
                 UserId = id
             }).ToList();
@@ -317,6 +331,16 @@
         finally
         {
             saving = false;
+            NavigationManager.NavigateTo("/kanban");
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        if (status != "" && status != "todo" && status != "inprogress" && status != "done")
+        {
+            NavigationManager.NavigateTo("/kanban");
         }
     }
 
