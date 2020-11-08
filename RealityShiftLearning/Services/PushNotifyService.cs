@@ -20,7 +20,7 @@ namespace RealityShiftLearning.Services
         {
             var result = await FirebaseMessaging.DefaultInstance.SendAllAsync(new List<Message> {
                 new Message{
-                    Topic = "test",
+                    Topic = "all",
                     Notification = new Notification
                     {
                         Title = title,
