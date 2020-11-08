@@ -1,0 +1,273 @@
+﻿@page "/Progress"
+@inject NavigationManager nav
+@inject RealityShiftLearning.Services.TimerService Timer
+@layout EmptyLayout
+
+@inject LearnDbContext dbContext
+
+<div class="mw-containter mw-tomato-working">
+    <div class="mw-bg-waves">
+        <img class="mw-bg-waves-img" />
+    </div>
+
+    <div class="mw-tomatoPage-topper" @onclick='() => nav.NavigateTo($"/kanban")'>
+
+        <div class="mw-subheader"><img class="mw-backBtn" /> Tasks</div>
+    </div>
+
+    <div class="mw-tomatoPage-header">
+        You've done a lot!<br>
+        <div class="mw-content-item-iconSquare met-t"></div>
+        <div class="mw-content-item-iconSquare met-e"></div>
+        <div class="mw-content-item-iconSquare met-10"></div>
+        <div class="mw-content-item-iconSquare met-t"></div>
+        <div class="mw-content-item-iconSquare met-10"></div>
+        <div class="mw-content-item-iconSquare met-t"></div>
+        <div class="mw-content-item-iconSquare met-e"></div>
+
+    </div>
+
+    <img class="mw-tomatoPage-tomato" />
+
+
+
+
+
+    <div class="mw-tomatoPage-footer">
+        <div class="mw-tomatoPage-footer-item big">
+            <Button @onclick='() => { nav.NavigateTo("/kanban"); }' Type="primary" Size="large">Move to Done</Button>
+        </div>
+    </div>
+
+</div>
+
+
+<style>
+    .mw-containter {
+        position: relative;
+        width: 100%;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        background-color: #f0f0f0;
+    }
+
+    .mw-tomatoPage-header {
+        font-size: 28px;
+        font-weight: 700;
+        padding: 0 30px;
+        color: #6b6b6b;
+        position: absolute;
+        text-align: center;
+        left: 0;
+        right: 0;
+        top: 15vh;
+    }
+
+
+    .mw-tomatoPage-topper {
+        font-size: 28px;
+        font-weight: 700;
+        padding: 0 30px;
+        color: #6b6b6b;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 5vh;
+    }
+
+        .mw-tomatoPage-topper .mw-subheader {
+            font-size: 18px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #6b6b6b;
+            position: relative;
+        }
+
+    .mw-text {
+        font-family: Helvetica;
+        font-size: 18px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #6b6b6b;
+        margin-top: 19px;
+    }
+
+
+    .mw-tomatoPage-tomato {
+        content: url(svg/tomato.svg);
+        margin: 0 22px;
+        height: 230px;
+        z-index: 2;
+    }
+
+    .mw-tomatoPage-timer {
+        font-family: Helvetica;
+        font-size: 50px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #ffffff;
+        margin-bottom: 15px;
+    }
+
+    .mw-tomatoPage-timer-secondary {
+        font-family: Helvetica;
+        font-size: 90px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.14);
+        position: absolute;
+        left: -50%;
+        right: -50%;
+        margin-top: -45px;
+        text-align: center;
+    }
+
+    .mw-tomatoPage-footer {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 45px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mw-tomatoPage-footer-item {
+        display: flex;
+        justify-content: center;
+        margin-top: 5px;
+    }
+
+        .mw-tomatoPage-footer-item > * {
+            color: white !important;
+        }
+
+        .mw-tomatoPage-footer-item.tr > * {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1890ff !important;
+        }
+
+        .mw-tomatoPage-footer-item.big > * {
+            padding: 0px 40px;
+            font-size: 18px !important;
+            font-weight: 600;
+        }
+
+
+    .mw-bg-waves {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .mw-bg-waves-img {
+        content: url(svg/waves3_black.svg);
+        margin-right: 550px;
+        margin-top: 250px;
+        opacity: .1;
+    }
+
+    .mw-content-item-iconSquare {
+        width: 28px;
+        height: 28px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 6px;
+        border-radius: 2px;
+    }
+
+        .mw-content-item-iconSquare.todo {
+            background-color: #cd5cff;
+        }
+
+        .mw-content-item-iconSquare.inProgress {
+            background-color: #5cb7ff;
+        }
+
+        .mw-content-item-iconSquare.done {
+            background-color: #5cffc7;
+        }
+
+        .mw-content-item-iconSquare.habits {
+            background-color: #ffbe5c;
+        }
+
+        .mw-content-item-iconSquare.met-10 {
+            background-image: url(svg/metodics-icons/10.svg);
+            background-size: contain;
+        }
+
+        .mw-content-item-iconSquare.met-e {
+            background-image: url(svg/metodics-icons/e.svg);
+            background-size: contain;
+        }
+
+        .mw-content-item-iconSquare.met-t {
+            background-image: url(svg/metodics-icons/t.svg);
+            background-size: contain;
+        }
+
+        .mw-content-item-iconSquare.met-flower {
+            background-image: url(svg/habits/flower.svg);
+            background-size: contain;
+        }
+
+    .mw-backBtn {
+        position: absolute;
+        left: -20px;
+        height: 0.8em;
+        top: 0.15em;
+        display: block;
+        content: url(svg/back.svg);
+    }
+
+    .mw-tomatoPage-copyLink {
+        padding: 0 30px;
+        margin-top: 40px;
+    }
+
+    .mw-tomatoPage-copyLink-label {
+        font-size: 18px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #6b6b6b;
+        margin-bottom: 10px;
+    }
+</style>
+
+@code {
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+    }
+
+ 
+
+}
