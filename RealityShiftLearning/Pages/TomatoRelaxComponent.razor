@@ -1,6 +1,7 @@
 ﻿@page "/tomato/{Id:int}/relax"
 @inject NavigationManager nav
 @inject RealityShiftLearning.Services.TimerService Timer
+@inject RealityShiftLearning.Services.TimerService timerService
 
 @inject LearnDbContext dbContext
 
@@ -9,14 +10,15 @@
         <img class="mw-bg-waves-img" />
     </div>
 
-    <div class="mw-tomatoPage-topper">
+    <div class="mw-tomatoPage-topper" @onclick='() => nav.NavigateTo($"/tomato/{Id}/overview")'>
 
-        <div class="mw-subheader"><img class="mw-backBtn" /> English Literature: Translation</div>
+        <div class="mw-subheader"><img class="mw-backBtn" /> @exercise.Title</div>
     </div>
 
     <div class="mw-tomatoPage-timer">
 
-        <RealityShiftLearning.Components.CustomCountDown Timer="timer">
+        <RealityShiftLearning.Components.CustomCountDown OnFreeEnd='() => nav.NavigateTo($"/tomato/{Id}/working")'
+                                                         Timer="timer">
             @context.TimeToNextCheckpointString
             <div class="mw-tomatoPage-timer-secondary">@context.TimeToNextCheckpointString</div>
         </RealityShiftLearning.Components.CustomCountDown>
@@ -35,11 +37,11 @@
 
     <div class="mw-tomatoPage-footer">
         <div class="mw-tomatoPage-footer-item big">
-            <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large">Skip rest</Button>
+            <Button @onclick='async () => { await timerService.SkipWork(timer); }' Type="primary" Size="large">Skip rest</Button>
         </div>
 
         <div class="mw-tomatoPage-footer-item tr">
-            <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="link" Size="large">Finish for today</Button>
+            <Button @onclick='async () => { await timerService.DoneExercise(timer); nav.NavigateTo("/kanban"); }' Type="link" Size="large">Finish for today</Button>
         </div>
 
     </div>
@@ -246,6 +248,10 @@
     {
         await base.OnParametersSetAsync();
         timer = await Timer.GetMyCurrentTimer();
+        if (timer.GetCurrentState().State == TomatoTimer.TimerState.Work)
+        {
+            nav.NavigateTo($"/tomato/{Id}/working");
+        }
     }
 
 
