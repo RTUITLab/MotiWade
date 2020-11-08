@@ -10,7 +10,7 @@
         <Menu
               Mode="MenuMode.Horizontal"
               Theme="MenuTheme.Light">
-            <MenuItem Class="mw-menu-item" Key="1">
+            <MenuItem Class="mw-menu-item" Key="1" @onclick="ToNotifications">
                 <Icon Style="display: block; margin: 0" Type="bell" Theme="outline"></Icon>
                 <span Style="display: block; text-align: center">Notifications</span>
             </MenuItem>
@@ -51,5 +51,10 @@
     void ToTasks()
     {
         NavigationManager.NavigateTo("/kanban");
+    }
+
+    void ToNotifications()
+    {
+        NavigationManager.NavigateTo("/notifications");
     }
 }

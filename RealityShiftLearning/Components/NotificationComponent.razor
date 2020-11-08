@@ -1,0 +1,24 @@
+﻿
+
+<Card Class="mw-content-item" Bordered="false" Size="small">
+    <TitleTemplate>
+        <span class="mw-content-item-title">@Title</span>
+    </TitleTemplate>
+    <Extra>@time.ToString("h:mm tt")</Extra>
+    <Body>
+        @Description
+
+    </Body>
+</Card>
+
+@code {
+
+    private RenderFragment avatarTemplate =@<Avatar src="/img/avatar.png"></Avatar>;
+
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public string Description { get; set; }
+    [Parameter]
+    public DateTimeOffset time { get; set; }
+}
