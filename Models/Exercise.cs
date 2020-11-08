@@ -17,6 +17,7 @@ namespace Models
         public DateTime Deadline { get; set; }
         public List<UserToExercise> UserToExercises { get; set; }
         public int Score { get; set; }
-
+        public int WorkTime { get; set; }
+        public int FreeTime { get; set; }
     }
 }

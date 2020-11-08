@@ -21,8 +21,7 @@
             </AuthorizeView>
         </div>
 
-        <Form 
-              Loading="loading"
+        <Form Loading="loading"
               Model="exercise"
               OnFinish="OnFinish">
             <span class="mw-content-item-title">Deadline</span>
@@ -49,6 +48,14 @@
             <div class="mw-content-item-lable">Score</div>
             <FormItem Style="width: 100%; margin: 0;" WrapperCol="new ColLayoutParam() { Span = 24 }">
                 <AntDesign.InputNumber Style="width: 100%" @bind-Value="@context.Score"></AntDesign.InputNumber>
+            </FormItem>
+            <div class="mw-content-item-lable">Work time</div>
+            <FormItem Style="width: 100%; margin: 0;" WrapperCol="new ColLayoutParam() { Span = 24 }">
+                <AntDesign.InputNumber Style="width: 100%" @bind-Value="@context.WorkTime"></AntDesign.InputNumber>
+            </FormItem>
+            <div class="mw-content-item-lable">Break time</div>
+            <FormItem Style="width: 100%; margin: 0;" WrapperCol="new ColLayoutParam() { Span = 24 }">
+                <AntDesign.InputNumber Style="width: 100%" @bind-Value="@context.FreeTime"></AntDesign.InputNumber>
             </FormItem>
 
             <Button Style="margin: 30px 0" Type="primary" HtmlType="submit">Add</Button>

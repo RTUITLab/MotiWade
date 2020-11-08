@@ -159,6 +159,9 @@ namespace Database.Postgres.Migrations
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<int>("FreeTime")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Iterations")
                         .HasColumnType("integer");
 
@@ -173,6 +176,9 @@ namespace Database.Postgres.Migrations
 
                     b.Property<string>("Title")
                         .HasColumnType("text");
+
+                    b.Property<int>("WorkTime")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
