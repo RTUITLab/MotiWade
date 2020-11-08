@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.SQLite.Migrations
 {
     [DbContext(typeof(LearnDbContext))]
-    [Migration("20201108014546__SQLite")]
+    [Migration("20201108021710__SQLite")]
     partial class _SQLite
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,11 +152,17 @@ namespace Database.SQLite.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("Deadline")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Iterations")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ResourceLink")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("TimeTechType")
                         .HasColumnType("INTEGER");

@@ -55,7 +55,9 @@ namespace Database.SQLite.Migrations
                     Title = table.Column<string>(nullable: true),
                     ResourceLink = table.Column<string>(nullable: true),
                     Iterations = table.Column<int>(nullable: false),
-                    TimeTechType = table.Column<int>(nullable: false)
+                    TimeTechType = table.Column<int>(nullable: false),
+                    Deadline = table.Column<DateTime>(nullable: false),
+                    Score = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
