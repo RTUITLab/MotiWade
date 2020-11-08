@@ -57,5 +57,29 @@ namespace RealityShiftLearning.Services
             await dbContext.SaveChangesAsync();
             return timer;
         }
+
+        public async Task DoneExercise(TomatoTimer timer)
+        {
+            var state = await authenticationStateProvider.GetAuthenticationStateAsync();
+            var userToExercise = await dbContext.UserToExercises
+                .Where(ute => ute.TomatoTimerId == timer.Id)
+                .Where(ute => ute.UserId == state.User.UserId())
+                .FirstOrDefaultAsync();
+            userToExercise.FinishTime = DateTimeOffset.UtcNow;
+            userToExercise.ExerciseProgress = ExerciseProgress.Done;
+            await dbContext.SaveChangesAsync();
+        }
+
+        public Task<TomatoTimer> SkipWork(TomatoTimer timer) => SkipCheckPoint(timer);
+        public Task<TomatoTimer> SkipFree(TomatoTimer timer) => SkipCheckPoint(timer);
+
+        private async Task<TomatoTimer> SkipCheckPoint(TomatoTimer timer)
+        {
+            var state = timer.GetCurrentState();
+            timer.StartTime -= state.TimeToNextCheckpoint;
+            dbContext.GlobalTimers.Update(timer);
+            await dbContext.SaveChangesAsync();
+            return timer;
+        }
     }
 }

@@ -9,8 +9,8 @@ namespace Models
         public int Id { get; set; }
         [Required]
         public DateTimeOffset StartTime { get; set; }
-        public TimeSpan WorkTimeSpan { get; set; } = TimeSpan.FromMinutes(20);
-        public TimeSpan FreeTimeSpan { get; set; } = TimeSpan.FromMinutes(5);
+        public TimeSpan WorkTimeSpan { get; set; } = TimeSpan.FromMinutes(1);
+        public TimeSpan FreeTimeSpan { get; set; } = TimeSpan.FromMinutes(1);
 
         public int UserToExerciseId { get; set; }
         public UserToExercise UserToExercise { get; set; }

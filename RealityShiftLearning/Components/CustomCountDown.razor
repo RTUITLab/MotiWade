@@ -4,6 +4,10 @@
 {
     @ChildContent(state)
 }
+else
+{
+    <p>No timer</p>
+}
 @code {
 
     private TomatoTimer.TimerStateSnapshot state;
@@ -21,8 +25,12 @@
     [Parameter]
     public EventCallback OnFreeEnd { get; set; }
 
-    protected override void OnParametersSet()
+    protected override void OnAfterRender(bool firstRender)
     {
+        if (!firstRender)
+        {
+            return;
+        }
 #pragma warning disable CS4014
         TickTask(); // Must be not awaited
 #pragma warning restore CS4014
@@ -39,15 +47,15 @@
             }
             var oldState = state;
             state = Timer.GetCurrentState();
-            if (oldState.State == TomatoTimer.TimerState.Work
+            if (oldState?.State == TomatoTimer.TimerState.Work
                 && state.State == TomatoTimer.TimerState.Free
                 && OnWorkEnd.HasDelegate)
             {
                 await OnWorkEnd.InvokeAsync(null);
             }
-            if (oldState.State == TomatoTimer.TimerState.Free
+            if (oldState?.State == TomatoTimer.TimerState.Free
                 && state.State == TomatoTimer.TimerState.Work
-                && OnWorkEnd.HasDelegate)
+                && OnFreeEnd.HasDelegate)
             {
                 await OnFreeEnd.InvokeAsync(null);
             }
