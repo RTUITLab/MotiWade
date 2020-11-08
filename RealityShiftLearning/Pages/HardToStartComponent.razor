@@ -3,13 +3,16 @@
 @inject RealityShiftLearning.Services.TimerService Timer
 @layout EmptyLayout
 
+@inject LearnDbContext dbContext
+
 <div class="mw-containter mw-tomato-working">
     <div class="mw-bg-waves">
         <img class="mw-bg-waves-img" />
     </div>
 
-    <div class="mw-tomatoPage-topper">
-        <div class="mw-subheader"><img class="mw-backBtn" /> English Literature: Translation</div>
+    <div class="mw-tomatoPage-topper" @onclick='() => nav.NavigateTo($"/tomato/{Id}/overview")'>
+
+        <div class="mw-subheader"><img class="mw-backBtn" /> @exercise.Title</div>
     </div>
 
     <div class="mw-tomatoPage-header">
@@ -223,9 +226,11 @@
         }
 
     .mw-backBtn {
+        position: absolute;
+        left: -20px;
         height: 0.8em;
-        vertical-align: revert;
-        display: inline-block;
+        top: 0.15em;
+        display: block;
         content: url(svg/back.svg);
     }
 
@@ -248,12 +253,27 @@
 </style>
 
 @code {
-    [Parameter]
+    [ParameterAttribute]
     public int Id { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private Exercise exercise = new Exercise();
 
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
         //Timer.GetLastTimerAsync();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var auth = await authenticationStateTask;
+
+        exercise = await dbContext.Exercises.SingleOrDefaultAsync(e => e.Id == Id);
+
+        StateHasChanged();
     }
 }

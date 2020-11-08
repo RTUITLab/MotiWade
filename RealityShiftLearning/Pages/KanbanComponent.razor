@@ -1,4 +1,5 @@
 ﻿@page "/kanban"
+@inject NavigationManager nav
 @attribute [Authorize]
 
 @inject LearnDbContext dbContext
@@ -42,7 +43,8 @@
                 <div class="mw-content-item-cardBody">
                     @foreach (var item in works.Where(w => w.ExerciseProgress == ExerciseProgress.ToDo))
                     {
-                        <RealityShiftLearning.Components.UsersExerciseKanbanLine TimeTechType="item.Exercise.TimeTechType" Title="@item.Exercise.Title" />
+                        <RealityShiftLearning.Components.UsersExerciseKanbanLine OnClick='() => { nav.NavigateTo($"/tomato/{item.Exercise.Id}/overview"); }' TimeTechType="item.Exercise.TimeTechType" Title="@item.Exercise.Title" />
+                        
                     }
                 </div>
 

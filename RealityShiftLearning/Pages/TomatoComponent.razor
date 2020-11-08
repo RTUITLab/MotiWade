@@ -1,7 +1,8 @@
-﻿@page "/tomato"
+﻿@page "/tomato/{Id:int}/working"
 @inject NavigationManager nav
 @inject RealityShiftLearning.Services.TimerService Timer
 
+@inject LearnDbContext dbContext
 
 
 <div class="mw-containter mw-tomato-working">
@@ -9,16 +10,16 @@
         <img class="mw-bg-waves-img" />
     </div>
 
-    <div class="mw-tomatoPage-topper">
+    <div class="mw-tomatoPage-topper" @onclick='() => nav.NavigateTo($"/tomato/{Id}/overview")'>
 
-        <div class="mw-subheader"><img class="mw-backBtn" /> English Literature: Translation</div>
+        <div class="mw-subheader"><img class="mw-backBtn" /> @exercise.Title</div>
     </div>
 
     <div class="mw-tomatoPage-timer">
 
         <RealityShiftLearning.Components.CustomCountDown Timer="timer">
-            @context.TimerNumber | @context.State | @context.TimeToNextCheckpointString
-            <div class="mw-tomatoPage-timer-secondary">@context.TimerNumber | @context.State | @context.TimeToNextCheckpointString</div>
+            @context.TimeToNextCheckpointString
+            <div class="mw-tomatoPage-timer-secondary">@context.TimeToNextCheckpointString</div>
         </RealityShiftLearning.Components.CustomCountDown>
     </div>
 
@@ -176,6 +177,11 @@
 
 @code {
 
+
+    [ParameterAttribute]
+    public int Id { get; set; }
+
+
     DateTimeOffset deadline = DateTimeOffset.Now.AddSeconds(5);
 
     TomatoTimer timer;
@@ -189,5 +195,20 @@
     void OnFinish()
     {
         Console.WriteLine("finished!");
+    }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private Exercise exercise = new Exercise();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var auth = await authenticationStateTask;
+
+        exercise = await dbContext.Exercises.SingleOrDefaultAsync(e => e.Id == Id);
+
+        StateHasChanged();
     }
 }
