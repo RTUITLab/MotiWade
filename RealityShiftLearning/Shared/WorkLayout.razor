@@ -8,7 +8,7 @@
     </Content>
     <Footer Class="mw-footer">
         <Menu Mode="MenuMode.Horizontal"
-              Theme="MenuTheme.Light">
+              Theme="MenuTheme.Light" @ref="menu">
             <MenuItem Class="mw-menu-item" Key="1" @onclick="ToNotifications">
                 <Icon Style="display: block; margin: 0; font-size: 18px" Type="bell" Theme="outline"></Icon>
                 <span Style="display: block; text-align: center">Notifications</span>
@@ -51,6 +51,29 @@
 </style>
 
 @code {
+
+    Menu menu;
+    private IEnumerable<string> Pathes()
+    {
+        if (NavigationManager.ToBaseRelativePath(NavigationManager.Uri).StartsWith("notifications"))
+            yield return "1";
+        if (NavigationManager.ToBaseRelativePath(NavigationManager.Uri).StartsWith("kanban"))
+            yield return "2";
+        if (NavigationManager.ToBaseRelativePath(NavigationManager.Uri).StartsWith("progress"))
+            yield return "3";
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (NavigationManager.ToBaseRelativePath(NavigationManager.Uri).StartsWith("notifications"))
+            menu.SelectItem(menu.MenuItems[0]);
+        if (NavigationManager.ToBaseRelativePath(NavigationManager.Uri).StartsWith("kanban"))
+            menu.SelectItem(menu.MenuItems[1]);
+        if (NavigationManager.ToBaseRelativePath(NavigationManager.Uri).StartsWith("progress"))
+            menu.SelectItem(menu.MenuItems[2]);
+    }
+
     void ToTasks()
     {
         NavigationManager.NavigateTo("/kanban");
