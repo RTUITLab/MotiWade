@@ -13,6 +13,8 @@ A mobile web app, which helps students to proceed education tasks without losing
 
 ## [IOS App in TestFlight](https://testflight.apple.com/join/2Y2jajhm)
 
+![screenshot](RealityShift_MotiWade.jpg)
+
 ## Development
 
 ### Pass secret values
