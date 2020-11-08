@@ -6,6 +6,7 @@ namespace Models
 {
     public class UserToExercise
     {
+        public int Id { get; set; }
         public string UserId { get; set; }
         public MotiWadeUser User { get; set; }
 

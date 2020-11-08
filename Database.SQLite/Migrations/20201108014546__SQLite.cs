@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Database.SQLite.Migrations
 {
-    public partial class Reinit_SQLite : Migration
+    public partial class _SQLite : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -60,21 +60,6 @@ namespace Database.SQLite.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Exercises", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GlobalTimers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    StartTime = table.Column<DateTimeOffset>(nullable: false),
-                    WorkTimeSpan = table.Column<TimeSpan>(nullable: false),
-                    FreeTimeSpan = table.Column<TimeSpan>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GlobalTimers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -214,6 +199,8 @@ namespace Database.SQLite.Migrations
                 name: "UserToExercises",
                 columns: table => new
                 {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<string>(nullable: false),
                     ExerciseId = table.Column<int>(nullable: false),
                     ExerciseProgress = table.Column<int>(nullable: false),
@@ -221,7 +208,7 @@ namespace Database.SQLite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserToExercises", x => new { x.UserId, x.ExerciseId });
+                    table.PrimaryKey("PK_UserToExercises", x => x.Id);
                     table.ForeignKey(
                         name: "FK_UserToExercises_Exercises_ExerciseId",
                         column: x => x.ExerciseId,
@@ -229,15 +216,31 @@ namespace Database.SQLite.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserToExercises_GlobalTimers_TomatoTimerId",
-                        column: x => x.TomatoTimerId,
-                        principalTable: "GlobalTimers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_UserToExercises_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GlobalTimers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    StartTime = table.Column<DateTimeOffset>(nullable: false),
+                    WorkTimeSpan = table.Column<TimeSpan>(nullable: false),
+                    FreeTimeSpan = table.Column<TimeSpan>(nullable: false),
+                    UserToExerciseId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GlobalTimers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GlobalTimers_UserToExercises_UserToExerciseId",
+                        column: x => x.UserToExerciseId,
+                        principalTable: "UserToExercises",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -280,14 +283,21 @@ namespace Database.SQLite.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_GlobalTimers_UserToExerciseId",
+                table: "GlobalTimers",
+                column: "UserToExerciseId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserToExercises_ExerciseId",
                 table: "UserToExercises",
                 column: "ExerciseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserToExercises_TomatoTimerId",
+                name: "IX_UserToExercises_UserId_ExerciseId",
                 table: "UserToExercises",
-                column: "TomatoTimerId");
+                columns: new[] { "UserId", "ExerciseId" },
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -308,22 +318,22 @@ namespace Database.SQLite.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "GlobalTimers");
+
+            migrationBuilder.DropTable(
                 name: "SampleModels");
 
             migrationBuilder.DropTable(
                 name: "ToDoItems");
 
             migrationBuilder.DropTable(
-                name: "UserToExercises");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Exercises");
+                name: "UserToExercises");
 
             migrationBuilder.DropTable(
-                name: "GlobalTimers");
+                name: "Exercises");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

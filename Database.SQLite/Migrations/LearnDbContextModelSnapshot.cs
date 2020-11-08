@@ -274,18 +274,25 @@ namespace Database.SQLite.Migrations
                     b.Property<DateTimeOffset>("StartTime")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("UserToExerciseId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<TimeSpan>("WorkTimeSpan")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserToExerciseId")
+                        .IsUnique();
 
                     b.ToTable("GlobalTimers");
                 });
 
             modelBuilder.Entity("Models.UserToExercise", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ExerciseId")
                         .HasColumnType("INTEGER");
@@ -296,11 +303,16 @@ namespace Database.SQLite.Migrations
                     b.Property<int?>("TomatoTimerId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("UserId", "ExerciseId");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ExerciseId");
 
-                    b.HasIndex("TomatoTimerId");
+                    b.HasIndex("UserId", "ExerciseId")
+                        .IsUnique();
 
                     b.ToTable("UserToExercises");
                 });
@@ -356,6 +368,15 @@ namespace Database.SQLite.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Models.TomatoTimer", b =>
+                {
+                    b.HasOne("Models.UserToExercise", "UserToExercise")
+                        .WithOne("TomatoTimer")
+                        .HasForeignKey("Models.TomatoTimer", "UserToExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Models.UserToExercise", b =>
                 {
                     b.HasOne("Models.Exercise", "Exercise")
@@ -363,10 +384,6 @@ namespace Database.SQLite.Migrations
                         .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Models.TomatoTimer", "TomatoTimer")
-                        .WithMany()
-                        .HasForeignKey("TomatoTimerId");
 
                     b.HasOne("Models.MotiWadeUser", "User")
                         .WithMany("UserToExercises")

@@ -12,7 +12,8 @@ namespace Models
         public TimeSpan WorkTimeSpan { get; set; } = TimeSpan.FromMinutes(20);
         public TimeSpan FreeTimeSpan { get; set; } = TimeSpan.FromMinutes(5);
 
-
+        public int UserToExerciseId { get; set; }
+        public UserToExercise UserToExercise { get; set; }
         public TimerStateSnapshot GetCurrentState()
         {
             var left = DateTimeOffset.UtcNow - StartTime;

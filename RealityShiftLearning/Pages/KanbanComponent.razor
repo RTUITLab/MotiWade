@@ -8,6 +8,7 @@
 
         <Modal Title="@context.User.Login()"
                Visible="@userModelVisible"
+               Closable="false"
                OnOk="@(() => userModelVisible = false)"
                OnCancel="@(() => userModelVisible = false)"
                CancelText="@("Close")">

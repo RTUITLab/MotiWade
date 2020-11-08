@@ -1,5 +1,9 @@
 ﻿using Database;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Models;
+using RealityShiftLearning.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,24 +14,45 @@ namespace RealityShiftLearning.Services
     public class TimerService
     {
         private LearnDbContext dbContext;
+        private readonly AuthenticationStateProvider authenticationStateProvider;
+        private readonly ILogger<TimerService> logger;
         private TomatoTimer Timer;
-        public TimerService(LearnDbContext dbContext)
+        public TimerService(
+            LearnDbContext dbContext,
+            AuthenticationStateProvider authenticationStateProvider,
+            ILogger<TimerService> logger)
         {
             this.dbContext = dbContext;
+            this.authenticationStateProvider = authenticationStateProvider;
+            this.logger = logger;
         }
 
-        public TomatoTimer GetMyCurrentTimer()
+        public async Task<TomatoTimer> GetMyCurrentTimer()
         {
+            var state = await authenticationStateProvider.GetAuthenticationStateAsync();
             Timer = dbContext.GlobalTimers
+                .Where(t => t.UserToExercise.UserId == state.User.UserId())
                 .FirstOrDefault();
             return Timer;
         }
-        public async Task<TomatoTimer> CreateTimerForMe()
+        // TODO check existing timers
+        public async Task<TomatoTimer> CreateTimerForMe(int exerciseId)
         {
+            logger.LogWarning("existing timers don't checked");
+            var state = await authenticationStateProvider.GetAuthenticationStateAsync();
+            var userToExercise = await dbContext.UserToExercises
+                .Where(ute => ute.ExerciseId == exerciseId)
+                .Where(ute => ute.UserId == state.User.UserId())
+                .FirstOrDefaultAsync();
+
+            userToExercise.ExerciseProgress = ExerciseProgress.InProgress;
+
             var timer = new TomatoTimer
             {
-                StartTime = DateTimeOffset.UtcNow
+                StartTime = DateTimeOffset.UtcNow,
+                UserToExerciseId = userToExercise.Id
             };
+
             dbContext.GlobalTimers.Add(timer);
             await dbContext.SaveChangesAsync();
             return timer;

@@ -1,12 +1,14 @@
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Models;
+using RealityShiftLearning.Services;
 
 namespace RealityShiftLearning.Areas.Identity.Pages.Account
 {
@@ -16,15 +18,21 @@ namespace RealityShiftLearning.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<MotiWadeUser> _signInManager;
         private readonly UserManager<MotiWadeUser> _userManager;
+        private readonly RandomTasksService randomTasksService;
+        private readonly LearnDbContext dbContext;
         private readonly ILogger<ExternalLoginModel> _logger;
 
         public ExternalLoginModel(
             SignInManager<MotiWadeUser> signInManager,
             UserManager<MotiWadeUser> userManager,
+            RandomTasksService randomTasksService,
+            LearnDbContext dbContext,
             ILogger<ExternalLoginModel> logger)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            this.randomTasksService = randomTasksService;
+            this.dbContext = dbContext;
             _logger = logger;
         }
 
@@ -58,6 +66,14 @@ namespace RealityShiftLearning.Areas.Identity.Pages.Account
             {
                 var user = await _userManager.FindByEmailAsync("demo@motiwade.rtuitlab.dev");
                 var claims = await _userManager.GetClaimsAsync(user);
+                var helloExercise = this.randomTasksService.GetRandomExercise();
+                dbContext.Exercises.Add(helloExercise);
+                dbContext.UserToExercises.Add(new UserToExercise
+                {
+                    Exercise = helloExercise,
+                    User = user
+                });
+                await dbContext.SaveChangesAsync();
                 await _signInManager.SignInWithClaimsAsync(user, isPersistent: true, claims);
                 return LocalRedirect(returnUrl);
             }
@@ -135,6 +151,15 @@ namespace RealityShiftLearning.Areas.Identity.Pages.Account
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
+
+                        var helloExercise = this.randomTasksService.GetRandomExercise();
+                        dbContext.Exercises.Add(helloExercise);
+                        dbContext.UserToExercises.Add(new UserToExercise
+                        {
+                            Exercise = helloExercise,
+                            User = user
+                        });
+                        await dbContext.SaveChangesAsync();
                         await _signInManager.SignInWithClaimsAsync(user, isPersistent: true, info.Principal.Claims);
 
                         return LocalRedirect(returnUrl);

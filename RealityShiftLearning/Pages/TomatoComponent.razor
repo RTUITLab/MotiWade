@@ -28,15 +28,7 @@
 
     <div class="mw-tomatoPage-footer">
         <div class="mw-tomatoPage-footer-item big">
-            @if (timer == null)@*--- JUST FOR TESTS ---*@
-            {
-                <Button @onclick='CreateTimer' Type="primary" Size="large">Create Timer</Button>
-
-            }
-            else
-            {
-                <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large">Skip tomato</Button>
-            }
+            <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large">Skip tomato</Button>
         </div>
 
     </div>
@@ -190,13 +182,9 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        timer = Timer.GetMyCurrentTimer();
+        timer = await Timer.GetMyCurrentTimer();
     }
 
-    private async Task CreateTimer()
-    {
-        timer = await Timer.CreateTimerForMe();
-    }
 
     void OnFinish()
     {

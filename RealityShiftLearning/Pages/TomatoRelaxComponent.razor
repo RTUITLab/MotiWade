@@ -30,20 +30,12 @@
     </div>
 
     <Row Class="covered">
-        <Checkbox Class="mv-test-ant-checkbox" Value="false" >Опция 1</Checkbox>
+        <Checkbox Class="mv-test-ant-checkbox" Value="false">Опция 1</Checkbox>
     </Row>
 
     <div class="mw-tomatoPage-footer">
         <div class="mw-tomatoPage-footer-item big">
-            @if (timer == null)@*--- JUST FOR TESTS ---*@
-            {
-                <Button @onclick='CreateTimer' Type="primary" Size="large">Create Timer</Button>
-
-            }
-            else
-            {
-                <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large">Skip rest</Button>
-            }
+            <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large">Skip rest</Button>
         </div>
 
         <div class="mw-tomatoPage-footer-item tr">
@@ -64,6 +56,7 @@
         font-weight: 600;
         margin: 1vh 0 1vh 20%;
     }
+
     .covered {
         background-color: rgba(160, 178, 216, 0.7);
     }
@@ -249,13 +242,9 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        timer = Timer.GetMyCurrentTimer();
+        timer = await Timer.GetMyCurrentTimer();
     }
 
-    private async Task CreateTimer()
-    {
-        timer = await Timer.CreateTimerForMe();
-    }
 
     void OnFinish()
     {

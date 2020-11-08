@@ -24,18 +24,19 @@ namespace Database
             base.OnModelCreating(builder);
             builder.Entity<UserToExercise>(model =>
             {
-                model.HasKey(ute => new { ute.UserId, ute.ExerciseId });
-
+                model.HasIndex(ute => new { ute.UserId, ute.ExerciseId }).IsUnique(true);
+                model.Property(ute => ute.UserId).IsRequired(true);
                 model.HasOne(ute => ute.User)
                     .WithMany(u => u.UserToExercises)
                     .HasForeignKey(ute => ute.UserId);
-
 
                 model.HasOne(ute => ute.Exercise)
                     .WithMany(u => u.UserToExercises)
                     .HasForeignKey(ute => ute.ExerciseId);
 
-                model.HasOne(ute => ute.TomatoTimer);
+                model.HasOne(ute => ute.TomatoTimer)
+                    .WithOne(t => t.UserToExercise)
+                    .HasForeignKey<TomatoTimer>(t => t.UserToExerciseId);
             });
 
         }
