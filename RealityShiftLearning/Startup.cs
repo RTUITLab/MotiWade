@@ -114,7 +114,8 @@ namespace RealityShiftLearning
 
             services.AddAntDesign();
             services.AddWebAppConfigure()
-                .AddTransientConfigure<AutoMigration>(0);
+                .AddTransientConfigure<AutoMigration>(0)
+                .AddTransientConfigure<DemoUserGeneration>(1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

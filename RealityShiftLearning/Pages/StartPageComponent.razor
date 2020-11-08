@@ -15,12 +15,11 @@
 
     <div class="mw-startPage-footer">
         <div class="mw-startPage-footer-item big">
-            <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large">Start Journey</Button>
+            <Button @onclick='() => { nav.NavigateTo("onboarding"); }' Type="primary" Size="large">Start Journey</Button>
         </div>
         <div class="mw-startPage-footer-item tr">
-            <Button Type="link" Size="large">Skip onboarding</Button>
+            <Button @onclick='() => { nav.NavigateTo("test/page/1"); }'  Type="link" Size="large">Skip onboarding</Button>
         </div>
-
     </div>
 
 </div>

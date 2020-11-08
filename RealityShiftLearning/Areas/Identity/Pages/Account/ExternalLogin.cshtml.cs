@@ -45,12 +45,22 @@ namespace RealityShiftLearning.Areas.Identity.Pages.Account
             public string Email { get; set; }
         }
 
-        public IActionResult OnPost(string provider, string returnUrl = null)
+        public async Task<IActionResult> OnPost(string provider, string isDemo = null, string returnUrl = null)
         {
-            // Request a redirect to the external login provider.
-            var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-            return new ChallengeResult(provider, properties);
+            if (string.IsNullOrEmpty(isDemo))
+            {
+                // Request a redirect to the external login provider.
+                var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
+                var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+                return new ChallengeResult(provider, properties);
+            }
+            else
+            {
+                var user = await _userManager.FindByEmailAsync("demo@motiwade.rtuitlab.dev");
+                var claims = await _userManager.GetClaimsAsync(user);
+                await _signInManager.SignInWithClaimsAsync(user, isPersistent: true, claims);
+                return LocalRedirect(returnUrl);
+            }
         }
 
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
@@ -69,7 +79,7 @@ namespace RealityShiftLearning.Areas.Identity.Pages.Account
             }
 
             // Sign in the user with this external login provider if the user already has a login.
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: true, bypassTwoFactor: true);
             if (result.Succeeded)
             {
                 var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
@@ -125,7 +135,7 @@ namespace RealityShiftLearning.Areas.Identity.Pages.Account
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
-                        await _signInManager.SignInWithClaimsAsync(user, isPersistent: false, info.Principal.Claims);
+                        await _signInManager.SignInWithClaimsAsync(user, isPersistent: true, info.Principal.Claims);
 
                         return LocalRedirect(returnUrl);
                     }

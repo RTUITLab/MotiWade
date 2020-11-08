@@ -8,10 +8,12 @@
 
         <Modal Title="@context.User.Login()"
                Visible="@userModelVisible"
-               OnOk="@(() => userModelVisible = false)">
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
+               OnOk="@(() => userModelVisible = false)"
+               OnCancel="@(() => userModelVisible = false)"
+               CancelText="@("Close")">
+            <form method="post" action="controller/auth?returnUrl=%2F">
+                <Button HtmlType="submit">Logout</Button>
+            </form>
         </Modal>
     </AuthorizeView>
     <div class="mw-content-body">
@@ -96,28 +98,26 @@
 
             </Body>
         </Card>
-
-
-
-
-
     </div>
 
 </div>
-<div class="mw-content-navbar">
-    <div class="mw-content-navbar-item">
-        <img class="mw-content-navbar-item-icon bell" />
-        <div class="mw-content-navbar-item-label">Notifications</div>
+@*DELETE POPOVER // TODO*@
+<Popover Title="In development" Placement="PlacementType.Top" Trigger="@(new AntDesign.TriggerType[] { AntDesign.TriggerType.Hover})">
+    <div class="mw-content-navbar">
+        <div class="mw-content-navbar-item" >
+            <img class="mw-content-navbar-item-icon bell" />
+            <div class="mw-content-navbar-item-label">Notifications</div>
+        </div>
+        <div class="mw-content-navbar-item active">
+            <img class="mw-content-navbar-item-icon clip" />
+            <div class="mw-content-navbar-item-label">Tasks</div>
+        </div>
+        <div class="mw-content-navbar-item">
+            <img class="mw-content-navbar-item-icon stat" />
+            <div class="mw-content-navbar-item-label">Progress</div>
+        </div>
     </div>
-    <div class="mw-content-navbar-item active">
-        <img class="mw-content-navbar-item-icon clip" />
-        <div class="mw-content-navbar-item-label">Tasks</div>
-    </div>
-    <div class="mw-content-navbar-item">
-        <img class="mw-content-navbar-item-icon stat" />
-        <div class="mw-content-navbar-item-label">Progress</div>
-    </div>
-</div>
+</Popover>
 
 
 <style>
@@ -145,7 +145,7 @@
         top: 0;
         left: 0;
         right: 0;
-        bottom: 63px;
+        bottom: calc(63px + 20pt);
         overflow: scroll;
     }
 
@@ -283,7 +283,7 @@
 
     .mw-content-navbar {
         position: fixed;
-        height: 63px;
+        height: calc(63px + 20pt);
         bottom: 0;
         left: 0;
         right: 0;
@@ -291,6 +291,7 @@
         display: flex;
         justify-content: space-evenly;
         align-items: center;
+        padding-bottom: 20pt;
     }
 
 
@@ -375,24 +376,24 @@
 
 @code {
 
-    private bool userModelVisible = false;
-    private bool loading = true;
+private bool userModelVisible = false;
+private bool loading = true;
 
-    private List<UserToExercise> works = new List<UserToExercise>();
+private List<UserToExercise> works = new List<UserToExercise>();
 
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
+[CascadingParameter]
+private Task<AuthenticationState> authenticationStateTask { get; set; }
 
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        var auth = await authenticationStateTask;
-        works = await dbContext.UserToExercises
-            .Include(ute => ute.Exercise)
-            .Where(ute => ute.UserId == auth.User.UserId())
-            .ToListAsync();
-        loading = false;
-        StateHasChanged();
-    }
+protected override async Task OnInitializedAsync()
+{
+  await base.OnInitializedAsync();
+  var auth = await authenticationStateTask;
+  works = await dbContext.UserToExercises
+      .Include(ute => ute.Exercise)
+      .Where(ute => ute.UserId == auth.User.UserId())
+      .ToListAsync();
+  loading = false;
+  StateHasChanged();
+}
 }

@@ -4,16 +4,6 @@
 @inject LearnDbContext dbContext
 
 <div class="mw-container">
-    <AuthorizeView>
-
-        <Modal Title="@context.User.Login()"
-               Visible="@userModelVisible"
-               OnOk="@(() => userModelVisible = false)">
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-        </Modal>
-    </AuthorizeView>
     <div class="mw-content-body">
 
         <div class="mw-bg-waves">
@@ -108,6 +98,7 @@
         top: 0;
         left: 0;
         right: 0;
+        bottom: calc(63px + 20pt);
         overflow: scroll;
     }
 
@@ -200,7 +191,7 @@
 
     .mw-content-navbar {
         position: fixed;
-        height: 63px;
+        height: calc(63px + 20pt);
         bottom: 0;
         left: 0;
         right: 0;
@@ -208,6 +199,7 @@
         display: flex;
         justify-content: space-evenly;
         align-items: center;
+        padding-bottom: 20pt;
     }
 
 
