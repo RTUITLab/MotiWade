@@ -4,6 +4,7 @@
 @layout EmptyLayout
 
 @inject LearnDbContext dbContext
+@inject MessageService antMessageService
 @inject RealityShiftLearning.Services.TimerService timerService
 @inject IJSRuntime JSRuntime
 
@@ -35,7 +36,7 @@
         <div class="mw-tomatoPage-copyLink-label">
             Open task page in browser:
         </div>
-        <Search Value="@exercise.ResourceLink" Size="@InputSize.Default" EnterButton="@("Copy link")" OnSearch='async () => { await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", exercise.ResourceLink); }' />
+        <Search Value="@exercise.ResourceLink" Size="@InputSize.Default" EnterButton="@("Copy link")" OnSearch='CopyLink' />
     </div>
 
 
@@ -285,7 +286,6 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        //Timer.GetLastTimerAsync();
     }
 
     protected override async Task OnInitializedAsync()
@@ -296,5 +296,36 @@
         exercise = await dbContext.Exercises.SingleOrDefaultAsync(e => e.Id == Id);
 
         StateHasChanged();
+    }
+
+    private async Task CopyLink()
+    {
+        var helper = DotNetObjectReference.Create(new CopyResultHelper(
+            () => antMessageService.Success("Copied"),
+            () => antMessageService.Error("Can't copy")));
+        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", exercise.ResourceLink, helper);
+    }
+
+    class CopyResultHelper
+    {
+        private Func<Task> Success;
+        private Func<Task> Error;
+        public CopyResultHelper(Func<Task> Success, Func<Task> Error)
+        {
+            this.Success = Success;
+            this.Error = Error;
+        }
+
+        [JSInvokable]
+        public async Task OnSuccess()
+        {
+            await Success.Invoke();
+        }
+
+        [JSInvokable]
+        public async Task OnError()
+        {
+            await Error.Invoke();
+        }
     }
 }

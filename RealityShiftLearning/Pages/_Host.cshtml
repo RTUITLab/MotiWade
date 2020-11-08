@@ -132,13 +132,21 @@
     </script>
     <script>
         window.clipboardCopy = {
-            copyText: function (text) {
-                navigator.clipboard.writeText(text).then(function () {
-                    alert("Copied to clipboard!");
-                })
-                    .catch(function (error) {
-                        alert(error);
-                    });
+            copyText: function (text, callbackObject) {
+                if (document.mobileAppInterop.isIosApp) {
+                    webkit.messageHandlers.copy.postMessage({ text: text });
+                    callbackObject.invokeMethodAsync("OnSuccess");
+                }
+                else {
+                    navigator.clipboard.writeText(text).then(function () {
+                        callbackObject.invokeMethodAsync("OnSuccess");
+                        })
+                        .catch(function (error) {
+                            callbackObject.invokeMethodAsync("OnError");
+                            webkit.messageHandlers.auth.postMessage(error);
+
+                        });
+                }
             }
         };
     </script>
