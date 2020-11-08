@@ -31,7 +31,7 @@
               OnFinish="OnFinish">
             <span class="mw-content-item-title">Deadline</span>
             <FormItem style="display: inline-block; margin: 0;">
-                <DatePicker @bind-Value="@context.Deadline" Picker="@DatePickerType.Date" />
+                <DatePicker @bind-Value="@context.Deadline" TValue="DateTime" Picker="@DatePickerType.Date" />
             </FormItem>
             <div class="mw-content-item-lable">Title</div>
             <FormItem Style="width: 100%; margin: 0;">
@@ -39,7 +39,7 @@
             </FormItem>
             <div class="mw-content-item-lable">Link to materials</div>
             <FormItem Style="width: 100%; margin: 0;" WrapperCol="new ColLayoutParam() { Span = 24 }">
-                <InputText @bind-Value="@context.MaterialsLink" Placeholder="www.universitymoodle.com/maths/sp1"></InputText>
+                <InputText @bind-Value="@context.ResourceLink" Placeholder="www.universitymoodle.com/maths/sp1"></InputText>
             </FormItem>
             <div class="mw-content-item-lable">Time management technique</div>
             <FormItem Style="width: 100%; margin: 0;" WrapperCol="new ColLayoutParam() { Span = 24 }">
@@ -79,6 +79,7 @@
     .disclaimer {
         color: #6b6b6b
     }
+
     .mw-bg-waves {
         position: absolute;
         top: 0;
@@ -294,28 +295,37 @@
     private bool loading = true;
 
     private string timeTechType = "Tomato";
-    private NewExercise exercise = new NewExercise();
+    private Exercise exercise = new Exercise();
 
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     private List<UserToExercise> works = new List<UserToExercise>();
 
-    private void OnFinish()
-    {
-        exercise.timeTechType = TimeTechType.Tomato;
-        Console.WriteLine(exercise);
-    }
+    bool saving = false;
 
-    public class NewExercise
+    private async Task OnFinish()
     {
-        public int Id { get; set; }
-        public DateTimeOffset? Deadline { get; set; }
-        public string Title { get; set; }
-        public TimeTechType timeTechType { get; set; }
-        public string MaterialsLink { get; set; }
-        public int Iterations { get; set; }
-        public int Score { get; set; }
+        saving = true;
+        await Task.Delay(1000);
+        saving = false;
+        exercise.TimeTechType = TimeTechType.Tomato;
+        try
+        {
+            await dbContext.Exercises.AddAsync(exercise);
+            var userIds = await dbContext.Users.Select(u => u.Id).ToListAsync();
+            var links = userIds.Select(id => new UserToExercise
+            {
+                Exercise = exercise,
+                UserId = id
+            }).ToList();
+            dbContext.UserToExercises.AddRange(links);
+            await dbContext.SaveChangesAsync();
+        }
+        finally
+        {
+            saving = false;
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

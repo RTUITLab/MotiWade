@@ -14,8 +14,9 @@ namespace Models
         [Required]
         public int Iterations { get; set; }
         public TimeTechType TimeTechType { get; set; }
-
+        public DateTime Deadline { get; set; }
         public List<UserToExercise> UserToExercises { get; set; }
+        public int Score { get; set; }
 
     }
 }

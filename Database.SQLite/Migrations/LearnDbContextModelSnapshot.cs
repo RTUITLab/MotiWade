@@ -150,11 +150,17 @@ namespace Database.SQLite.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("Deadline")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Iterations")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ResourceLink")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("TimeTechType")
                         .HasColumnType("INTEGER");
