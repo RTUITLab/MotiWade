@@ -8,7 +8,9 @@
 
         <Modal Title="@context.User.Login()"
                Visible="@userModelVisible"
-               OnOk="@(() => userModelVisible = false)">
+               OnOk="@(() => userModelVisible = false)"
+               OnCancel="@(() => userModelVisible = false)"
+               CancelText="@("Close")">
             <form method="post" action="controller/auth?returnUrl=%2F">
                 <Button HtmlType="submit">Logout</Button>
             </form>
