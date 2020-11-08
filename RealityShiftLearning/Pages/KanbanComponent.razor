@@ -60,7 +60,7 @@
                 <div class="mw-content-item-cardBody">
                     @foreach (var item in works.Where(w => w.ExerciseProgress == ExerciseProgress.InProgress))
                     {
-                        <RealityShiftLearning.Components.UsersExerciseKanbanLine TimeTechType="item.Exercise.TimeTechType" Title="@item.Exercise.Title" />
+                        <RealityShiftLearning.Components.UsersExerciseKanbanLine OnClick='() => { nav.NavigateTo($"/tomato/{item.Exercise.Id}/overview"); }' TimeTechType="item.Exercise.TimeTechType" Title="@item.Exercise.Title" />
                     }
                 </div>
 
@@ -76,7 +76,7 @@
                 <div class="mw-content-item-cardBody">
                     @foreach (var item in works.Where(w => w.ExerciseProgress == ExerciseProgress.Done))
                     {
-                        <RealityShiftLearning.Components.UsersExerciseKanbanLine TimeTechType="item.Exercise.TimeTechType" Title="@item.Exercise.Title" />
+                        <RealityShiftLearning.Components.UsersExerciseKanbanLine OnClick='() => { nav.NavigateTo($"/tomato/{item.Exercise.Id}/overview"); }' TimeTechType="item.Exercise.TimeTechType" Title="@item.Exercise.Title" />
                     }
                 </div>
 
