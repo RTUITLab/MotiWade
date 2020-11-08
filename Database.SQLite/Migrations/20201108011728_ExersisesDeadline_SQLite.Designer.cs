@@ -3,14 +3,16 @@ using System;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Database.SQLite.Migrations
 {
     [DbContext(typeof(LearnDbContext))]
-    partial class LearnDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201108011728_ExersisesDeadline_SQLite")]
+    partial class ExersisesDeadline_SQLite
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -280,25 +282,18 @@ namespace Database.SQLite.Migrations
                     b.Property<DateTimeOffset>("StartTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserToExerciseId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<TimeSpan>("WorkTimeSpan")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserToExerciseId")
-                        .IsUnique();
 
                     b.ToTable("GlobalTimers");
                 });
 
             modelBuilder.Entity("Models.UserToExercise", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ExerciseId")
                         .HasColumnType("INTEGER");
@@ -309,16 +304,11 @@ namespace Database.SQLite.Migrations
                     b.Property<int?>("TomatoTimerId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "ExerciseId");
 
                     b.HasIndex("ExerciseId");
 
-                    b.HasIndex("UserId", "ExerciseId")
-                        .IsUnique();
+                    b.HasIndex("TomatoTimerId");
 
                     b.ToTable("UserToExercises");
                 });
@@ -374,15 +364,6 @@ namespace Database.SQLite.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Models.TomatoTimer", b =>
-                {
-                    b.HasOne("Models.UserToExercise", "UserToExercise")
-                        .WithOne("TomatoTimer")
-                        .HasForeignKey("Models.TomatoTimer", "UserToExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Models.UserToExercise", b =>
                 {
                     b.HasOne("Models.Exercise", "Exercise")
@@ -390,6 +371,10 @@ namespace Database.SQLite.Migrations
                         .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Models.TomatoTimer", "TomatoTimer")
+                        .WithMany()
+                        .HasForeignKey("TomatoTimerId");
 
                     b.HasOne("Models.MotiWadeUser", "User")
                         .WithMany("UserToExercises")

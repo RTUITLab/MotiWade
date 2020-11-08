@@ -2,6 +2,7 @@
 @attribute [Authorize]
 
 @inject LearnDbContext dbContext
+@inject NavigationManager NavigationManager
 
 <div class="mw-container">
     <AuthorizeView>
@@ -36,7 +37,7 @@
             <TitleTemplate>
                 <div class="mw-content-item-iconSquare todo"></div> <span class="mw-content-item-title">To Do</span>
             </TitleTemplate>
-            <Extra> <Icon Type="plus" Class="mw-content-item-iconBtn" Theme="outline" /> </Extra>
+            <Extra> <Icon Type="plus" Class="mw-content-item-iconBtn" Theme="outline" @onclick="@(() => CreateTask("todo"))" /> </Extra>
             <Body>
                 <div class="mw-content-item-cardBody">
                     @foreach (var item in works.Where(w => w.ExerciseProgress == ExerciseProgress.ToDo))
@@ -52,7 +53,7 @@
             <TitleTemplate>
                 <div class="mw-content-item-iconSquare inProgress"></div> <span class="mw-content-item-title">In Progress</span>
             </TitleTemplate>
-            <Extra> <Icon Type="plus" Class="mw-content-item-iconBtn" Theme="outline" /> </Extra>
+            <Extra> <Icon Type="plus" Class="mw-content-item-iconBtn" Theme="outline" @onclick="@(() => CreateTask("inprogress"))" /> </Extra>
             <Body>
                 <div class="mw-content-item-cardBody">
                     @foreach (var item in works.Where(w => w.ExerciseProgress == ExerciseProgress.InProgress))
@@ -68,7 +69,7 @@
             <TitleTemplate>
                 <div class="mw-content-item-iconSquare done"></div> <span class="mw-content-item-title">Done</span>
             </TitleTemplate>
-            <Extra> <Icon Type="plus" Class="mw-content-item-iconBtn" Theme="outline" /> </Extra>
+            <Extra> <Icon Type="plus" Class="mw-content-item-iconBtn" Theme="outline" @onclick="@(() => CreateTask("done"))" /> </Extra>
             <Body>
                 <div class="mw-content-item-cardBody">
                     @foreach (var item in works.Where(w => w.ExerciseProgress == ExerciseProgress.Done))
@@ -146,7 +147,7 @@
         top: 0;
         left: 0;
         right: 0;
-        bottom: calc(63px + 44pt);
+        bottom: calc(63px + 20pt);
         overflow: scroll;
     }
 
@@ -224,6 +225,7 @@
     }
 
     .mw-content-item-iconBtn {
+        cursor: pointer;
         font-size: 18px;
         color: #979797;
     }
@@ -284,7 +286,7 @@
 
     .mw-content-navbar {
         position: fixed;
-        height: calc(63px + 44pt);
+        height: calc(63px + 20pt);
         bottom: 0;
         left: 0;
         right: 0;
@@ -292,7 +294,7 @@
         display: flex;
         justify-content: space-evenly;
         align-items: center;
-        padding-bottom: 44pt;
+        padding-bottom: 20pt;
     }
 
 
@@ -377,24 +379,29 @@
 
 @code {
 
-private bool userModelVisible = false;
-private bool loading = true;
+    private bool userModelVisible = false;
+    private bool loading = true;
 
-private List<UserToExercise> works = new List<UserToExercise>();
+    private List<UserToExercise> works = new List<UserToExercise>();
 
-[CascadingParameter]
-private Task<AuthenticationState> authenticationStateTask { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
 
-protected override async Task OnInitializedAsync()
-{
-  await base.OnInitializedAsync();
-  var auth = await authenticationStateTask;
-  works = await dbContext.UserToExercises
-      .Include(ute => ute.Exercise)
-      .Where(ute => ute.UserId == auth.User.UserId())
-      .ToListAsync();
-  loading = false;
-  StateHasChanged();
-}
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var auth = await authenticationStateTask;
+        works = await dbContext.UserToExercises
+            .Include(ute => ute.Exercise)
+            .Where(ute => ute.UserId == auth.User.UserId())
+            .ToListAsync();
+        loading = false;
+        StateHasChanged();
+    }
+
+    protected void CreateTask(string status)
+    {
+        NavigationManager.NavigateTo($"/addTask/{status}");
+    }
 }

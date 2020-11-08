@@ -156,11 +156,17 @@ namespace Database.Postgres.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<DateTime>("Deadline")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<int>("Iterations")
                         .HasColumnType("integer");
 
                     b.Property<string>("ResourceLink")
                         .HasColumnType("text");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("integer");
 
                     b.Property<int>("TimeTechType")
                         .HasColumnType("integer");
