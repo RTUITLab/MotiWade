@@ -41,7 +41,7 @@
         </div>
 
         <div class="mw-tomatoPage-footer-item tr">
-            <Button @onclick='async () => { await timerService.DoneExercise(timer); nav.NavigateTo("/kanban"); }' Type="link" Size="large">Finish for today</Button>
+            <Button @onclick='async () => { await timerService.DoneExercise(Id); nav.NavigateTo($"/emotion/{Id}"); }' Type="link" Size="large">Finish for today</Button>
         </div>
 
     </div>

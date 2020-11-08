@@ -1,4 +1,4 @@
-﻿@page "/emotion"
+﻿@page "/emotion/{ExerciseId}"
 @inject NavigationManager nav
 @layout EmptyLayout
 
@@ -156,5 +156,8 @@
     }
 </style>
 @code {
+
+    [Parameter]
+    public int ExerciseId { get; set; }
 
 }

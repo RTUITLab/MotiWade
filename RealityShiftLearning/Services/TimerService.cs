@@ -58,11 +58,11 @@ namespace RealityShiftLearning.Services
             return timer;
         }
 
-        public async Task DoneExercise(TomatoTimer timer)
+        public async Task DoneExercise(int exerciseId)
         {
             var state = await authenticationStateProvider.GetAuthenticationStateAsync();
             var userToExercise = await dbContext.UserToExercises
-                .Where(ute => ute.TomatoTimerId == timer.Id)
+                .Where(ute => ute.ExerciseId == exerciseId)
                 .Where(ute => ute.UserId == state.User.UserId())
                 .FirstOrDefaultAsync();
             userToExercise.FinishTime = DateTimeOffset.UtcNow;
