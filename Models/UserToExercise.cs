@@ -17,5 +17,7 @@ namespace Models
 
         public int? TomatoTimerId { get; set; }
         public TomatoTimer TomatoTimer { get; set; }
+        public DateTimeOffset? FinishTime { get; set; }
+        public string Emotion { get; set; }
     }
 }

@@ -310,11 +310,17 @@ namespace Database.Postgres.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<string>("Emotion")
+                        .HasColumnType("text");
+
                     b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ExerciseProgress")
                         .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset?>("FinishTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("TomatoTimerId")
                         .HasColumnType("integer");
