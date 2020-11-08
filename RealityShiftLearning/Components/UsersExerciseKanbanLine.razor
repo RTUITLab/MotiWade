@@ -1,7 +1,9 @@
-﻿<div class="mw-content-item-cardItem">
+﻿<div @onclick="() => OnClick.InvokeAsync(null) " class="mw-content-item-cardItem">
     <div class="mw-content-item-iconSquare @timeTeachClasses[TimeTechType]"></div>
     @Title
 </div>
+
+
 @code {
     private Dictionary<TimeTechType, string> timeTeachClasses = new Dictionary<TimeTechType, string>
     {
@@ -13,4 +15,6 @@
 
     [Parameter]
     public string Title { get; set; }
+    [Parameter]
+    public EventCallback OnClick { get; set; }
 }

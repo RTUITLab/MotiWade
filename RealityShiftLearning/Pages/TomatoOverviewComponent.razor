@@ -1,16 +1,18 @@
-﻿@page "/tomato-overview"
+﻿@page "/tomato/{Id:int}/overview"
 @inject NavigationManager nav
 @inject RealityShiftLearning.Services.TimerService Timer
 @layout EmptyLayout
+
+@inject LearnDbContext dbContext
 
 <div class="mw-containter mw-tomato-working">
     <div class="mw-bg-waves">
         <img class="mw-bg-waves-img" />
     </div>
 
-    <div class="mw-tomatoPage-topper">
-        
-        <div class="mw-subheader"><img class="mw-backBtn" /> English Literature: Translation</div>
+    <div class="mw-tomatoPage-topper" @onclick='() => nav.NavigateTo($"/kanban")'>
+
+        <div class="mw-subheader"><img class="mw-backBtn" /> Tasks</div>
     </div>
 
     <div class="mw-tomatoPage-header">
@@ -31,19 +33,19 @@
         <div class="mw-tomatoPage-copyLink-label">
             Open task page in browser:
         </div>
-        <Search Placeholder="https://mysite.ru/" Size="@InputSize.Default" EnterButton="@("Copy link")" />
+        <Search Value="@exercise.ResourceLink" Size="@InputSize.Default" EnterButton="@("Copy link")" />
     </div>
 
 
-    
+
 
 
     <div class="mw-tomatoPage-footer">
         <div class="mw-tomatoPage-footer-item big">
-            <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large">Begin tomato</Button>
+            <Button @onclick='() => { nav.NavigateTo($"/tomato/{exercise.Id}/working"); }' Type="primary" Size="large">Begin tomato</Button>
         </div>
         <div class="mw-tomatoPage-footer-item tr">
-            <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="link" Size="large">Too hard to begin?</Button>
+            <Button @onclick='() => { nav.NavigateTo($"/tomato/{exercise.Id}/hardToStart"); }' Type="link" Size="large">Too hard to begin?</Button>
         </div>
     </div>
 
@@ -265,9 +267,27 @@
 
 @code {
 
+    [ParameterAttribute]
+    public int Id { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private Exercise exercise = new Exercise();
+
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
         //Timer.GetLastTimerAsync();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var auth = await authenticationStateTask;
+
+        exercise = await dbContext.Exercises.SingleOrDefaultAsync(e => e.Id == Id);
+
+        StateHasChanged();
     }
 }
