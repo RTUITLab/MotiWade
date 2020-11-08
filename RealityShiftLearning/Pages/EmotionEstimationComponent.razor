@@ -178,6 +178,6 @@
 
         userToExercise.Emotion = emotion;
         await dbContext.SaveChangesAsync();
-        nav.NavigateTo("/kanban");
+        nav.NavigateTo($"/tomato/{ExerciseId}/result");
     }
 }

@@ -2,7 +2,7 @@
 @inject NavigationManager nav
 @inject RealityShiftLearning.Services.TimerService Timer
 @layout EmptyLayout
-
+@inject RealityShiftLearning.Services.TimerService timerService
 @inject LearnDbContext dbContext
 
 <div class="mw-containter mw-tomato-working">
@@ -27,13 +27,18 @@
 
     <div class="mw-tomatoPage-copyLink">
         <div class="mw-tomatoPage-copyLink-label">
-            Fealing better now?
+            Feeling better now?
         </div>
     </div>
 
     <div class="mw-tomatoPage-footer">
         <div class="mw-tomatoPage-footer-item big">
-            <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large">Work a while</Button>
+            <Button @onclick='async () => {
+                                  await timerService.CreateTimerForMe(Id);
+                                  nav.NavigateTo($"/tomato/{exercise.Id}/working");
+                              }' Type="primary" Size="large">
+                Work a while
+            </Button>
         </div>
     </div>
 
