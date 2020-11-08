@@ -1,6 +1,7 @@
 ﻿@page "/tomato/{Id:int}/working"
 @inject NavigationManager nav
 @inject RealityShiftLearning.Services.TimerService Timer
+@inject RealityShiftLearning.Services.TimerService timerService
 
 @inject LearnDbContext dbContext
 @inject MessageService antMessageService
@@ -19,8 +20,7 @@
 
     <div class="mw-tomatoPage-timer">
 
-        <RealityShiftLearning.Components.CustomCountDown 
-                                                         OnWorkEnd='() => nav.NavigateTo($"/tomato/{Id}/relax")'
+        <RealityShiftLearning.Components.CustomCountDown OnWorkEnd='() => nav.NavigateTo($"/tomato/{Id}/relax")'
                                                          Timer="timer">
             @context.TimeToNextCheckpointString
             <div class="mw-tomatoPage-timer-secondary">@context.TimeToNextCheckpointString</div>
@@ -33,7 +33,7 @@
 
     <div class="mw-tomatoPage-footer">
         <div class="mw-tomatoPage-footer-item big">
-            <Button @onclick='() => { nav.NavigateTo("/onboarding"); }' Type="primary" Size="large">Skip tomato</Button>
+            <Button @onclick='async () => { await timerService.SkipWork(timer); }' Type="primary" Size="large">Skip tomato</Button>
         </div>
 
     </div>
@@ -193,7 +193,12 @@
     {
         await base.OnParametersSetAsync();
         timer = await Timer.GetMyCurrentTimer();
-        
+
+        if (timer.GetCurrentState().State == TomatoTimer.TimerState.Free)
+        {
+            nav.NavigateTo($"/tomato/{Id}/relax");
+        }
+
     }
 
 
