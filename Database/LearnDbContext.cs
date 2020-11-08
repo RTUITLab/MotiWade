@@ -18,7 +18,7 @@ namespace Database
         public DbSet<TomatoTimer> GlobalTimers { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<UserToExercise> UserToExercises { get; set; }
-
+        public DbSet<NotifyMessage> NotifyMessages { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

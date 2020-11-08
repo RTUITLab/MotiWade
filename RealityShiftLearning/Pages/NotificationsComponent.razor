@@ -35,8 +35,13 @@
         </div>
 
         <DatePicker TValue="DateTime?" Picker="@DatePickerType.Date" />
-
-        <RealityShiftLearning.Components.NotificationComponent Title="Heh" Description="Ololo" time="DateTimeOffset.Now"></RealityShiftLearning.Components.NotificationComponent>
+        @foreach (var item in notifyMessages)
+        {
+            <RealityShiftLearning.Components.NotificationComponent 
+                                                                   Title="@item.Title" 
+                                                                   Description="@item.Description" 
+                                                                   time="item.DateTimeOffset"></RealityShiftLearning.Components.NotificationComponent>
+        }
 
 
     </div>
@@ -302,31 +307,23 @@
 
 @code {
 
-    
+    private bool userModelVisible = false;
+    private bool loading = true;
 
-private bool userModelVisible = false;
-private bool loading = true;
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
-private List<UserToExercise> works = new List<UserToExercise>();
+    private List<NotifyMessage> notifyMessages = new List<NotifyMessage>();
 
-[CascadingParameter]
-private Task<AuthenticationState> authenticationStateTask { get; set; }
-
-
-protected override async Task OnInitializedAsync()
-{
-await base.OnInitializedAsync();
-var auth = await authenticationStateTask;
-works = await dbContext.UserToExercises
-.Include(ute => ute.Exercise)
-.Where(ute => ute.UserId == auth.User.UserId())
-.ToListAsync();
-loading = false;
-StateHasChanged();
-}
-
-protected void CreateTask(string status)
-{
-NavigationManager.NavigateTo($"/addTask/{status}");
-}
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var auth = await authenticationStateTask;
+        notifyMessages = await dbContext.NotifyMessages
+            .Where(ute => ute.Topic == auth.User.UserId() || ute.Topic == "all")
+            .OrderByDescending(ute => ute.Id)
+            .ToListAsync();
+        loading = false;
+        StateHasChanged();
+    }
 }

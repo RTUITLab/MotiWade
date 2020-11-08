@@ -237,6 +237,29 @@ namespace Database.SQLite.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Models.NotifyMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset>("DateTimeOffset")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Topic")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NotifyMessages");
+                });
+
             modelBuilder.Entity("Models.SampleModel", b =>
                 {
                     b.Property<int>("Id")
