@@ -29,6 +29,7 @@ using RealityShiftLearning.Areas.Identity;
 using RealityShiftLearning.Options;
 using RealityShiftLearning.Services;
 using RealityShiftLearning.Services.Configure;
+using RealityShiftLearning.Services.Hosted;
 using RTUITLab.AspNetCore.Configure.Configure;
 
 namespace RealityShiftLearning
@@ -112,6 +113,8 @@ namespace RealityShiftLearning
             });
             services.AddScoped<PushNotifyService>();
             services.AddTransient<RandomTasksService>();
+
+            services.AddHostedService<TomatoCheckPointPushUpdater>();
 
             services.AddAntDesign();
             services.AddWebAppConfigure()
