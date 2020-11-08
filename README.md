@@ -1,8 +1,17 @@
-# MotiWake
+# MotiWade
 
 [![Build Status](https://dev.azure.com/rtuitlab/RTU%20IT%20Lab/_apis/build/status/RTUITLab.MotiWade?branchName=master)](https://dev.azure.com/rtuitlab/RTU%20IT%20Lab/_build/latest?definitionId=137&branchName=master)
 
-[Demo](https://motiwade.rtuitlab.dev/)
+## IOS App repo: https://github.com/RTUITLab/MotiWade-iOS
+
+A mobile web app, which helps students to proceed education tasks without losing concentration, and university representatives to monitor student’s mental health and velocity.
+
+## [Youtube Demo](https://www.youtube.com/watch?v=u0pHURiYnIs&ab_channel=RTUITLab) 
+
+## [Live Demo](https://motiwade.rtuitlab.dev/)
+## [Live Demo Admin](https://motiwade.rtuitlab.dev/admin/groupmanagment)
+
+## [IOS App in TestFlight](https://testflight.apple.com/join/2Y2jajhm)
 
 ## Development
 
