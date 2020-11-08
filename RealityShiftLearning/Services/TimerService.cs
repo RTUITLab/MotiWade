@@ -32,6 +32,7 @@ namespace RealityShiftLearning.Services
             var state = await authenticationStateProvider.GetAuthenticationStateAsync();
             Timer = dbContext.GlobalTimers
                 .Where(t => t.UserToExercise.UserId == state.User.UserId())
+                .Where(t => t.UserToExercise.ExerciseProgress == ExerciseProgress.InProgress)
                 .FirstOrDefault();
             return Timer;
         }
@@ -43,6 +44,7 @@ namespace RealityShiftLearning.Services
             var userToExercise = await dbContext.UserToExercises
                 .Where(ute => ute.ExerciseId == exerciseId)
                 .Where(ute => ute.UserId == state.User.UserId())
+                .Include(ute => ute.Exercise)
                 .FirstOrDefaultAsync();
 
             userToExercise.ExerciseProgress = ExerciseProgress.InProgress;
@@ -50,7 +52,9 @@ namespace RealityShiftLearning.Services
             var timer = new TomatoTimer
             {
                 StartTime = DateTimeOffset.UtcNow,
-                UserToExerciseId = userToExercise.Id
+                UserToExerciseId = userToExercise.Id,
+                WorkTimeSpan = TimeSpan.FromMinutes(userToExercise.Exercise.WorkTime),
+                FreeTimeSpan = TimeSpan.FromMinutes(userToExercise.Exercise.FreeTime),
             };
 
             dbContext.GlobalTimers.Add(timer);
