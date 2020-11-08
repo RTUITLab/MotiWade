@@ -1,5 +1,7 @@
-﻿@page "/emotion/{ExerciseId}"
+﻿@page "/emotion/{ExerciseId:int}"
 @inject NavigationManager nav
+@inject LearnDbContext dbContext
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @layout EmptyLayout
 
 <div class="mw-containter ">
@@ -13,12 +15,12 @@
 
 
     <div class="mw-emotionPage-emoticonsRow">
-        <img class="mw-emotionPage-emoticon happy" />
-        <img class="mw-emotionPage-emoticon sleepy" />
+        <img class="mw-emotionPage-emoticon happy" @onclick="@(() => SetEmotion("happy"))"/>
+        <img class="mw-emotionPage-emoticon sleepy" @onclick="@(() => SetEmotion("sleepy"))" />
     </div>
     <div class="mw-emotionPage-emoticonsRow">
-        <img class="mw-emotionPage-emoticon exhausted" />
-        <img class="mw-emotionPage-emoticon crying" />
+        <img class="mw-emotionPage-emoticon exhausted" @onclick="@(() => SetEmotion("exhausted"))" />
+        <img class="mw-emotionPage-emoticon crying" @onclick="@(() => SetEmotion("crying"))" />
     </div>
 
     <div class="mw-text">
@@ -160,4 +162,22 @@
     [Parameter]
     public int ExerciseId { get; set; }
 
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected async Task SetEmotion(string emotion)
+    {
+        await base.OnInitializedAsync();
+        var auth = await authenticationStateTask;
+        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+        var userToExercise = await dbContext.UserToExercises
+            .Where(ute => ute.ExerciseId == ExerciseId)
+            .Where(ute => ute.UserId == state.User.UserId())
+            .FirstOrDefaultAsync();
+
+        userToExercise.Emotion = emotion;
+        await dbContext.SaveChangesAsync();
+        nav.NavigateTo("/kanban");
+    }
 }
