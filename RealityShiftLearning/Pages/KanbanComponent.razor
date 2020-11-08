@@ -2,6 +2,8 @@
 @inject NavigationManager nav
 @attribute [Authorize]
 
+@layout WorkLayout
+
 @inject LearnDbContext dbContext
 @inject NavigationManager NavigationManager
 
@@ -106,23 +108,6 @@
 
 </div>
 @*DELETE POPOVER // TODO*@
-<Popover Title="In development" Placement="PlacementType.Top" Trigger="@(new AntDesign.TriggerType[] { AntDesign.TriggerType.Hover})">
-    <div class="mw-content-navbar">
-        <div class="mw-content-navbar-item" >
-            <img class="mw-content-navbar-item-icon bell" />
-            <div class="mw-content-navbar-item-label">Notifications</div>
-        </div>
-        <div class="mw-content-navbar-item active">
-            <img class="mw-content-navbar-item-icon clip" />
-            <div class="mw-content-navbar-item-label">Tasks</div>
-        </div>
-        <div class="mw-content-navbar-item">
-            <img class="mw-content-navbar-item-icon stat" />
-            <div class="mw-content-navbar-item-label">Progress</div>
-        </div>
-    </div>
-</Popover>
-
 
 <style>
     .mw-bg-waves {
