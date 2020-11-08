@@ -59,9 +59,12 @@
     @*<Selection Key="@(context.Id.ToString())" />*@
     <Column Title="StudentId" @bind-Field="@context.Id" Sortable />
     <Column @bind-Field="@context.Email" Sortable />
-    <Column Title="Exercise" @bind-Field="@context.ExerciseName" Sortable>
+    <Column @bind-Field="@context.Score" Sortable />
+    <Column Title="Task" @bind-Field="@context.ExerciseName" Sortable>
         <div class="@($"mw-status-circle mv-status-{context.ExerciseProgress}")"></div>@context.ExerciseName
     </Column>
+    <Column @bind-Field="@context.Done" Sortable />
+    <Column @bind-Field="@context.Emotion" Sortable />
 </Table>
 
 <style>
@@ -136,7 +139,10 @@
             Id = ute.UserId,
             Email = ute.User.Email,
             ExerciseName = ute.Exercise.Title,
-            ExerciseProgress = ute.ExerciseProgress
+            ExerciseProgress = ute.ExerciseProgress,
+            Score = ute.Exercise.Score,
+            Done = ute.FinishTime,
+            Emotion = ute.Emotion
         }).ToListAsync();
     }
     bool saving = false;
@@ -169,5 +175,8 @@
         public string Email { get; set; }
         public string ExerciseName { get; set; }
         public ExerciseProgress ExerciseProgress { get; set; }
+        public int Score { get; set; }
+        public DateTimeOffset? Done { get; set; }
+        public string Emotion { get; set; }
     }
 }

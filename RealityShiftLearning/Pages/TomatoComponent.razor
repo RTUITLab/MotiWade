@@ -20,8 +20,7 @@
     <div class="mw-tomatoPage-timer">
 
         <RealityShiftLearning.Components.CustomCountDown 
-                                                         OnWorkEnd="@(() => antMessageService.Info("Work end"))"
-                                                         OnFreeEnd="@(() => antMessageService.Info("Free end"))"
+                                                         OnWorkEnd='() => nav.NavigateTo($"/tomato/{Id}/relax")'
                                                          Timer="timer">
             @context.TimeToNextCheckpointString
             <div class="mw-tomatoPage-timer-secondary">@context.TimeToNextCheckpointString</div>
@@ -194,6 +193,7 @@
     {
         await base.OnParametersSetAsync();
         timer = await Timer.GetMyCurrentTimer();
+        
     }
 
 

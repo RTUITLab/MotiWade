@@ -47,7 +47,7 @@
             }
             if (oldState.State == TomatoTimer.TimerState.Free
                 && state.State == TomatoTimer.TimerState.Work
-                && OnWorkEnd.HasDelegate)
+                && OnFreeEnd.HasDelegate)
             {
                 await OnFreeEnd.InvokeAsync(null);
             }
