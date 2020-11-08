@@ -19,7 +19,9 @@
             </AuthorizeView>
         </div>
 
-        <Form Model="exercise"
+        <Form 
+              Loading="loading"
+              Model="exercise"
               OnFinish="OnFinish">
             <span class="mw-content-item-title">Deadline</span>
             <FormItem style="display: inline-block; margin: 0;">
@@ -296,15 +298,10 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
-    private List<UserToExercise> works = new List<UserToExercise>();
-
-    bool saving = false;
 
     private async Task OnFinish()
     {
-        saving = true;
-        await Task.Delay(1000);
-        saving = false;
+        loading = true;
         exercise.TimeTechType = TimeTechType.Tomato;
         ExerciseProgress progress = ExerciseProgress.ToDo;
         if (status == "inprogress")
@@ -330,7 +327,6 @@
         }
         finally
         {
-            saving = false;
             NavigationManager.NavigateTo("/kanban");
         }
     }
@@ -342,17 +338,5 @@
         {
             NavigationManager.NavigateTo("/kanban");
         }
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        var auth = await authenticationStateTask;
-        works = await dbContext.UserToExercises
-            .Include(ute => ute.Exercise)
-            .Where(ute => ute.UserId == auth.User.UserId())
-            .ToListAsync();
-        loading = false;
-        StateHasChanged();
     }
 }

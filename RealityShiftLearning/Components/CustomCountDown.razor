@@ -17,7 +17,9 @@
 
     protected override void OnParametersSet()
     {
+#pragma warning disable CS4014
         TickTask(); // Must be not awaited
+#pragma warning restore CS4014
     }
 
     private async Task TickTask()
